@@ -1,0 +1,177 @@
+{
+  "categories": [
+    {
+      "id": "skin",
+      "name": "Skin & Phenotype",
+      "attributes": [
+        {
+          "id": "skin_tone",
+          "name": "Skin Tone",
+          "type": "exclusive",
+          "values": [
+            {"id": "pale_pinkish", "name": "Pale Pinkish Cool Undertones", "steers": "porcelain pale pinkish skin with cool pink undertones, natural tonal variation"},
+            {"id": "porcelain", "name": "Porcelain", "steers": "very pale porcelain skin with subtle pink cast"},
+            {"id": "fair_warm", "name": "Fair Warm", "steers": "light fair skin with warm undertones"}
+          ]
+        },
+        {
+          "id": "freckles",
+          "name": "Freckles",
+          "type": "boolean",
+          "values": [
+            {"id": "on", "name": "Visible Freckles", "steers": "faint freckles with uneven distribution on nose, cheeks, shoulders and chest"},
+            {"id": "off", "name": "No Freckles", "steers": "clear skin without freckles"}
+          ]
+        },
+        {
+          "id": "micro_texture",
+          "name": "Micro-Texture Lock",
+          "type": "boolean",
+          "values": [
+            {"id": "on", "name": "Full Micro-Texture", "steers": "clearly visible individual pores of natural varying density (denser on nose and cheeks), natural micro-texture, slight peach fuzz and vellus hair catching the light on jawline upper lip and cheeks, natural tonal variation and subsurface scattering at ears nose tip and eyelids, slight natural oiliness only in T-zone, micro-asymmetry in facial features, unretouched RAW skin"},
+            {"id": "off", "name": "Standard", "steers": "natural skin"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hair",
+      "name": "Hair",
+      "attributes": [
+        {
+          "id": "hair_color",
+          "name": "Hair Color",
+          "type": "exclusive",
+          "values": [
+            {"id": "golden_blonde", "name": "Golden Blonde", "steers": "long golden blonde hair in messy waves with individual strands and soft flyaways"},
+            {"id": "light_auburn_copper", "name": "Muted Light Auburn Copper", "steers": "really light auburn copper red hair (muted copper-auburn with warm brown undertones, not bright orange), long messy waves with individual strands and soft flyaways"},
+            {"id": "platinum", "name": "Platinum", "steers": "long platinum blonde hair in soft waves with individual strands"},
+            {"id": "ash_blonde", "name": "Ash Blonde", "steers": "long ash blonde hair with soft waves"}
+          ]
+        },
+        {
+          "id": "hair_style",
+          "name": "Hair Style",
+          "type": "exclusive",
+          "values": [
+            {"id": "messy_waves", "name": "Messy Waves", "steers": "long messy waves with individual strands and soft flyaways"},
+            {"id": "soft_waves", "name": "Soft Waves", "steers": "long soft waves"},
+            {"id": "straight", "name": "Straight", "steers": "long straight hair with natural flyaways"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outfit",
+      "name": "Outfit & Fabric",
+      "attributes": [
+        {
+          "id": "fabric_color",
+          "name": "Satin Color",
+          "type": "exclusive",
+          "values": [
+            {"id": "pale_pink", "name": "Pale Pink", "steers": "pale pink satin"},
+            {"id": "emerald", "name": "Emerald Green", "steers": "emerald green satin"},
+            {"id": "deep_red", "name": "Deep Red", "steers": "deep red satin"},
+            {"id": "ivory", "name": "Ivory", "steers": "ivory satin"},
+            {"id": "champagne", "name": "Champagne", "steers": "champagne satin"},
+            {"id": "black", "name": "Black", "steers": "black satin"},
+            {"id": "sage", "name": "Sage Green", "steers": "sage green satin"}
+          ]
+        },
+        {
+          "id": "drape_effect",
+          "name": "Natural Fabric Drape (Contour)",
+          "type": "boolean",
+          "values": [
+            {"id": "on", "name": "Enable Drape", "steers": "form-fitting opaque satin dress with soft controlled sheen, natural folds and wrinkles, realistic fabric drape that follows the body’s natural curves and shape across the torso"},
+            {"id": "off", "name": "Standard Drape", "steers": "form-fitting opaque satin dress with soft controlled sheen and natural folds"}
+          ]
+        },
+        {
+          "id": "high_slit",
+          "name": "High Slit",
+          "type": "boolean",
+          "values": [
+            {"id": "on", "name": "High Thigh Slit", "steers": "high thigh slit"},
+            {"id": "off", "name": "No Slit", "steers": "no high slit"}
+          ]
+        },
+        {
+          "id": "dress_style",
+          "name": "Dress Style",
+          "type": "exclusive",
+          "values": [
+            {"id": "slip", "name": "Satin Slip with Thin Straps", "steers": "satin slip dress with thin straps, one slightly off the shoulder"},
+            {"id": "bodycon", "name": "Bodycon Mini", "steers": "form-fitting bodycon mini dress"},
+            {"id": "off_shoulder", "name": "Off-Shoulder", "steers": "off-shoulder satin dress"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pose",
+      "name": "Pose",
+      "attributes": [
+        {
+          "id": "pose",
+          "name": "Pose",
+          "type": "multi",
+          "values": [
+            {"id": "hands_on_hips", "name": "Hands on Hips", "steers": "standing with both hands resting on her hips, slight weight shift"},
+            {"id": "weight_shift", "name": "Weight Shift", "steers": "candid standing pose with slight weight shift"},
+            {"id": "over_shoulder", "name": "Over-Shoulder Glance", "steers": "over-the-shoulder glance with one hand in hair"},
+            {"id": "adjusting_strap", "name": "Adjusting Strap", "steers": "one hand adjusting a strap"},
+            {"id": "finger_near_lips", "name": "Finger Near Lips", "steers": "finger gently near lips"},
+            {"id": "seated", "name": "Seated Crossed Legs", "steers": "seated with legs crossed"},
+            {"id": "three_quarter", "name": "Three-Quarter Lean", "steers": "three-quarter pose with slight lean"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scenery",
+      "name": "Scenery & Environment",
+      "attributes": [
+        {
+          "id": "scenery",
+          "name": "Scenery",
+          "type": "multi",
+          "values": [
+            {"id": "window_left", "name": "Soft Window Light Left", "steers": "soft natural daylight from left window through sheer curtains, gentle realistic shadows and falloff"},
+            {"id": "garden_path", "name": "Golden Hour Garden Path", "steers": "golden hour light on a garden path"},
+            {"id": "balcony", "name": "Overcast Balcony", "steers": "soft overcast light on a balcony"},
+            {"id": "meadow", "name": "Wildflower Meadow Edge", "steers": "soft light at the edge of a wildflower meadow"},
+            {"id": "apartment", "name": "Apartment Window", "steers": "soft daylight in a modern apartment with window"},
+            {"id": "terrace", "name": "Hotel Terrace", "steers": "sunlit hotel terrace"},
+            {"id": "library", "name": "Library Soft Daylight", "steers": "soft daylight in a library"},
+            {"id": "rainy_window", "name": "Rainy Window Interior", "steers": "soft light by a rainy window"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "technical",
+      "name": "Technical & Realism",
+      "attributes": [
+        {
+          "id": "camera",
+          "name": "Camera Style",
+          "type": "boolean",
+          "values": [
+            {"id": "on", "name": "Sony A7IV Raw", "steers": "Shot on Sony A7IV 50mm f/2, shallow depth of field, natural bokeh, subtle film grain, candid everyday photography look, imperfect framing"}
+          ]
+        },
+        {
+          "id": "age",
+          "name": "Age Lock",
+          "type": "exclusive",
+          "values": [
+            {"id": "24", "name": "Age 24", "steers": "young adult woman (age 24)"}
+          ]
+        }
+      ]
+    }
+  ],
+  "base_locks": "Photorealistic raw unretouched candid photograph of a young adult woman. Negative: plastic skin, poreless, airbrushed, over-smoothed, CGI, bright orange hair, metallic sheen, liquid fabric, perfect symmetry, doll-like, flawless, beauty filter, waxy skin, AI-generated look, sheer fabric, lingerie."
+}

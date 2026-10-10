@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grok Attribute Image Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 1200px; margin: auto; padding: 20px; }
+    .category { margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; }
+    .attribute { margin: 10px 0; }
+    .value { display: inline-block; margin: 5px; padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; }
+    .selected { background: #e0f0ff; border-color: #007bff; }
+    #prompt { width: 100%; height: 100px; }
+    #results img { max-width: 300px; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Grok Attribute Image Generator</h1>
+  <label>API Key: <input type="password" id="apiKey" placeholder="xai-..." style="width:300px"></label>
+  <div id="library"></div>
+  <button onclick="generateSingle()">Generate Single</button>
+  <button onclick="generateVariations()">Generate Variations (up to 4)</button>
+  <h3>Assembled Prompt</h3>
+  <textarea id="prompt"></textarea>
+  <div id="results"></div>
+
+  <script>
+    let library = null;
+    let selections = {};
+
+    async function loadLibrary() {
+      const res = await fetch('library.json');
+      library = await res.json();
+      renderLibrary();
+    }
+
+    function renderLibrary() {
+      const container = document.getElementById('library');
+      library.categories.forEach(cat => {
+        const div = document.createElement('div');
+        div.className = 'category';
+        div.innerHTML = `<h2>${cat.name}</h2>`;
+        cat.attributes.forEach(attr => {
+          const attrDiv = document.createElement('div');
+          attrDiv.className = 'attribute';
+          attrDiv.innerHTML = `<h3>${attr.name} (${attr.type})</h3>`;
+          attr.values.forEach(val => {
+            const btn = document.createElement('span');
+            btn.className = 'value';
+            btn.textContent = val.name;
+            btn.title = val.steers;
+            btn.onclick = () => selectValue(attr, val, btn);
+            attrDiv.appendChild(btn);
+          });
+          div.appendChild(attrDiv);
+        });
+        container.appendChild(div);
+      });
+      updatePrompt();
+    }
+
+    function selectValue(attr, val, btn) {
+      if (attr.type === 'exclusive') {
+        selections[attr.id] = val.id;
+        // deselect others visually
+        btn.parentElement.querySelectorAll('.value').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      } else if (attr.type === 'boolean') {
+        selections[attr.id] = val.id;
+        btn.parentElement.querySelectorAll('.value').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      } else if (attr.type === 'multi') {
+        if (!selections[attr.id]) selections[attr.id] = [];
+        const idx = selections[attr.id].indexOf(val.id);
+        if (idx > -1) {
+          selections[attr.id].splice(idx, 1);
+          btn.classList.remove('selected');
+        } else {
+          selections[attr.id].push(val.id);
+          btn.classList.add('selected');
+        }
+      }
+      updatePrompt();
+    }
+
+    function buildPrompt(customSelections = selections) {
+      let parts = [library.base_locks];
+      library.categories.forEach(cat => {
+        cat.attributes.forEach(attr => {
+          const sel = customSelections[attr.id];
+          if (!sel) return;
+          const values = Array.isArray(sel) ? sel : [sel];
+          values.forEach(vid => {
+            const val = attr.values.find(v => v.id === vid);
+            if (val) parts.push(val.steers);
+          });
+        });
+      });
+      return parts.join('. ') + '.';
+    }
+
+    function updatePrompt() {
+      document.getElementById('prompt').value = buildPrompt();
+    }
+
+    async function callAPI(prompt, n = 1) {
+      const apiKey = document.getElementById('apiKey').value;
+      if (!apiKey) return alert('Enter API key');
+      const res = await fetch('https://api.x.ai/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey
+        },
+        body: JSON.stringify({
+          model: 'grok-imagine-image-2.0',
+          prompt: prompt,
+          n: n,
+          aspect_ratio: '3:4',
+          resolution: '1k',
+          response_format: 'url'
+        })
+      });
+      const data = await res.json();
+      return data.data || [];
+    }
+
+    async function generateSingle() {
+      const prompt = document.getElementById('prompt').value;
+      const images = await callAPI(prompt, 1);
+      displayResults(images);
+    }
+
+    async function generateVariations() {
+      // Simple: generate 4 with the current prompt (API supports n up to 10)
+      const prompt = document.getElementById('prompt').value;
+      const images = await callAPI(prompt, 4);
+      displayResults(images);
+    }
+
+    function displayResults(images) {
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+      images.forEach(img => {
+        const el = document.createElement('img');
+        el.src = img.url;
+        container.appendChild(el);
+      });
+    }
+
+    loadLibrary();
+  </script>
+</body>
+</html>
