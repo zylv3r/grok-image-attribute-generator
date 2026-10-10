@@ -2,23 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Grok Attribute Image Generator</title>
+  <title>Grok Attribute Image Generator (Hardened)</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 1200px; margin: auto; padding: 20px; }
-    .category { margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; }
-    .attribute { margin: 10px 0; }
-    .value { display: inline-block; margin: 5px; padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; }
-    .selected { background: #e0f0ff; border-color: #007bff; }
-    #prompt { width: 100%; height: 100px; }
-    #results img { max-width: 300px; margin: 10px; }
+    body { font-family: system-ui, Arial, sans-serif; max-width: 1100px; margin: auto; padding: 20px; background: #f8f9fa; }
+    .category { background: white; margin-bottom: 16px; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .attribute { margin: 12px 0; }
+    .value { display: inline-block; margin: 4px; padding: 6px 12px; border: 1px solid #ccc; border-radius: 16px; cursor: pointer; font-size: 14px; }
+    .value:hover { background: #f0f0f0; }
+    .selected { background: #dbeafe; border-color: #3b82f6; color: #1e40af; }
+    #prompt { width: 100%; height: 120px; font-family: monospace; font-size: 13px; }
+    #results { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+    #results img { max-width: 280px; border-radius: 8px; }
+    .status { margin: 10px 0; padding: 8px; border-radius: 4px; }
+    .error { background: #fee2e2; color: #991b1b; }
+    .loading { background: #fef3c7; }
+    button { padding: 8px 16px; margin: 4px; border: none; border-radius: 6px; background: #3b82f6; color: white; cursor: pointer; }
+    button:hover { background: #2563eb; }
   </style>
 </head>
 <body>
   <h1>Grok Attribute Image Generator</h1>
-  <label>API Key: <input type="password" id="apiKey" placeholder="xai-..." style="width:300px"></label>
+  <p style="color:#666;font-size:14px;">API key stays in your browser only. For production use a backend proxy. Serve this folder locally to avoid CORS issues.</p>
+  <label>API Key: <input type="password" id="apiKey" placeholder="xai-..." style="width:320px"></label>
+  <div id="status"></div>
   <div id="library"></div>
   <button onclick="generateSingle()">Generate Single</button>
-  <button onclick="generateVariations()">Generate Variations (up to 4)</button>
+  <button onclick="generateVariations()">Generate Variations (4)</button>
   <h3>Assembled Prompt</h3>
   <textarea id="prompt"></textarea>
   <div id="results"></div>
@@ -28,13 +37,26 @@
     let selections = {};
 
     async function loadLibrary() {
-      const res = await fetch('library.json');
-      library = await res.json();
-      renderLibrary();
+      try {
+        const res = await fetch('library.json');
+        if (!res.ok) throw new Error('Failed to load library');
+        library = await res.json();
+        renderLibrary();
+        loadSaved();
+      } catch (e) {
+        setStatus('Error loading library.json — serve the folder locally', 'error');
+      }
+    }
+
+    function setStatus(msg, type = '') {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = 'status ' + type;
     }
 
     function renderLibrary() {
       const container = document.getElementById('library');
+      container.innerHTML = '';
       library.categories.forEach(cat => {
         const div = document.createElement('div');
         div.className = 'category';
@@ -42,12 +64,14 @@
         cat.attributes.forEach(attr => {
           const attrDiv = document.createElement('div');
           attrDiv.className = 'attribute';
-          attrDiv.innerHTML = `<h3>${attr.name} (${attr.type})</h3>`;
+          attrDiv.innerHTML = `<h3>${attr.name} <small>(${attr.type})</small></h3>`;
           attr.values.forEach(val => {
             const btn = document.createElement('span');
             btn.className = 'value';
             btn.textContent = val.name;
-            btn.title = val.steers;
+            btn.title = val.steers || '';
+            btn.dataset.attr = attr.id;
+            btn.dataset.val = val.id;
             btn.onclick = () => selectValue(attr, val, btn);
             attrDiv.appendChild(btn);
           });
@@ -59,12 +83,7 @@
     }
 
     function selectValue(attr, val, btn) {
-      if (attr.type === 'exclusive') {
-        selections[attr.id] = val.id;
-        // deselect others visually
-        btn.parentElement.querySelectorAll('.value').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-      } else if (attr.type === 'boolean') {
+      if (attr.type === 'exclusive' || attr.type === 'boolean') {
         selections[attr.id] = val.id;
         btn.parentElement.querySelectorAll('.value').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
@@ -79,49 +98,84 @@
           btn.classList.add('selected');
         }
       }
+      saveSelections();
       updatePrompt();
     }
 
-    function buildPrompt(customSelections = selections) {
-      let parts = [library.base_locks];
+    function buildPrompt(sel = selections) {
+      const parts = [library.base_locks];
+      if (library.always_on) parts.push(library.always_on);
       library.categories.forEach(cat => {
         cat.attributes.forEach(attr => {
-          const sel = customSelections[attr.id];
-          if (!sel) return;
-          const values = Array.isArray(sel) ? sel : [sel];
-          values.forEach(vid => {
-            const val = attr.values.find(v => v.id === vid);
-            if (val) parts.push(val.steers);
+          const chosen = sel[attr.id];
+          if (!chosen) return;
+          const ids = Array.isArray(chosen) ? chosen : [chosen];
+          ids.forEach(id => {
+            const val = attr.values.find(v => v.id === id);
+            if (val && val.steers) parts.push(val.steers);
           });
         });
       });
-      return parts.join('. ') + '.';
+      return parts.filter(Boolean).join('. ').replace(/\.\./g, '.') + '.';
     }
 
     function updatePrompt() {
       document.getElementById('prompt').value = buildPrompt();
     }
 
+    function saveSelections() {
+      localStorage.setItem('grokSelections', JSON.stringify(selections));
+    }
+
+    function loadSaved() {
+      const key = localStorage.getItem('grokApiKey');
+      if (key) document.getElementById('apiKey').value = key;
+      const saved = localStorage.getItem('grokSelections');
+      if (saved) {
+        selections = JSON.parse(saved);
+        // re-render selected state would require more code; simple version reloads on refresh
+      }
+    }
+
+    document.getElementById('apiKey').addEventListener('change', e => {
+      localStorage.setItem('grokApiKey', e.target.value);
+    });
+
     async function callAPI(prompt, n = 1) {
-      const apiKey = document.getElementById('apiKey').value;
-      if (!apiKey) return alert('Enter API key');
-      const res = await fetch('https://api.x.ai/v1/images/generations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + apiKey
-        },
-        body: JSON.stringify({
-          model: 'grok-imagine-image-2.0',
-          prompt: prompt,
-          n: n,
-          aspect_ratio: '3:4',
-          resolution: '1k',
-          response_format: 'url'
-        })
-      });
-      const data = await res.json();
-      return data.data || [];
+      const apiKey = document.getElementById('apiKey').value.trim();
+      if (!apiKey) {
+        setStatus('Please enter your xAI API key', 'error');
+        return [];
+      }
+      setStatus('Generating...', 'loading');
+      try {
+        const res = await fetch('https://api.x.ai/v1/images/generations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+          },
+          body: JSON.stringify({
+            model: 'grok-imagine-image-2.0',
+            prompt,
+            n,
+            aspect_ratio: '3:4',
+            resolution: '1k',
+            response_format: 'url'
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          const msg = data.error?.message || res.statusText || 'API error';
+          setStatus('API error: ' + msg, 'error');
+          return [];
+        }
+        setStatus('Done', '');
+        return data.data || [];
+      } catch (err) {
+        setStatus('Network or CORS error. Serve the folder locally (e.g. python -m http.server)', 'error');
+        return [];
+      }
     }
 
     async function generateSingle() {
@@ -131,7 +185,6 @@
     }
 
     async function generateVariations() {
-      // Simple: generate 4 with the current prompt (API supports n up to 10)
       const prompt = document.getElementById('prompt').value;
       const images = await callAPI(prompt, 4);
       displayResults(images);
@@ -140,9 +193,12 @@
     function displayResults(images) {
       const container = document.getElementById('results');
       container.innerHTML = '';
+      if (!images.length) return;
       images.forEach(img => {
+        if (!img.url) return;
         const el = document.createElement('img');
         el.src = img.url;
+        el.alt = 'Generated image';
         container.appendChild(el);
       });
     }
