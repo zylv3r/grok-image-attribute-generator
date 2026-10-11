@@ -1,0 +1,23 @@
+## VERDICT
+
+**CHANGES-REQUESTED.** No demonstrated CRITICAL damage or false-success path remains. Two noncritical round-one controls are incomplete.
+
+**Verification:** 42 tests passed using `/home/renriquez/.hermes/hermes-agent/venv/bin/python -B`, with filesystem writes and SQLite redirected to memory. Additional adversarial probes exercised the real HTTP parser and native generation path with mocked credentials/config/network.
+
+| Round-one finding / disposition | Current result |
+|---|---|
+| Invalid-image success | Fixed: strict decoding, pixel verification, byte/pixel limits and measured ratio checks. Invalid native output fails. [gallery.py:33](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/gallery.py:33) |
+| Cross-origin spending | Tested Host/Origin/fetch-site negatives reject before provider invocation. [server.py:419](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/server.py:419) |
+| Source exposure / sensitive errors | GET/HEAD source, database, traversal and escaping-symlink probes reject; provider errors are sanitized. [server.py:500](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/server.py:500) |
+| Concurrency / malformed bodies | Four provider slots and 24 unfinished images verified; malformed-body rejection passes except the framing residual below. [test_server.py:433](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/test_server.py:433) |
+| Selection authority / variation semantics | Typed IDs, locks, whitelist membership, distinct combinations, conflicts and seeded planning pass, including every current library value. [test_server.py:51](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/test_server.py:51) |
+| Partial results / interruptions / provenance | Transactional partial results, snapshots, migration and recovery pass. Interrupted plans fail without provider retry. [test_server.py:470](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/test_server.py:470) |
+| Gallery / thumbnail safety | AND/OR, deduplication, FTS and pagination pass. All 990 checked-in SVGs pass structural safety checks; runtime SVG enforcement remains incomplete. [test_library.py:126](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/test_library.py:126) |
+
+**Remaining R1 #4 — MEDIUM framing gap.** `_body()` checks only the first `Transfer-Encoding` value. An empty first header followed by `Transfer-Encoding: chunked` returned **202 and invoked the mocked provider once**. This defeats the claimed framing rejection. Reject header presence using `get_all()`, including empty/duplicate values, and require zero provider calls in regression coverage. [Source](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/server.py:442), [verification output](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/image-app-work/technical-astra-r2.log:5230).
+
+**Remaining R1 #7 — MEDIUM SVG boundary gap.** A registered SVG containing script, an event handler and an external reference returned **200 with its bytes unchanged**, without CSP. Current assets passed the census, but the server does not enforce the requested inert-content boundary. Validate bounded SVG content before serving and reject active/external constructs; test GET and HEAD. [Source](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/server.py:561), [verification output](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/image-app-work/technical-astra-r2.log:5229).
+
+The parent’s [real variation evidence](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/acceptance-output/real-variations-job.json) matched two fully decoded **720×1280 JPEGs**, distinct whitelist selections, preserved locks and **180×320 thumbnails**. The 10,000-record benchmark also passed again in memory; its metadata is explicitly synthetic.
+
+Limitations: this run does not establish disk WAL/fsync durability, real socket timeouts or the currently running service’s code version. Native HTTP responses are buffered before image-size validation ([server.py:249](/home/renriquez/.local/share/hermes-owner/home/cache/scratch/grok-image-attribute-generator/server.py:249)). K=2 sampling, bounded-search approximation, scoped conflicts and shifting offset pages remain disclosed limitations. Frontend hardening and thumbnail visual quality were excluded. No filesystem writes, real credential/config reads, paid requests or restart were performed.
