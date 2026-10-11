@@ -123,7 +123,7 @@ export function Thumb({
       className={`thumb ${photographic ? "photographic-thumb" : ""} ${className}`}
       src={url}
       alt={alt}
-      loading="lazy"
+      loading={photographic ? "eager" : "lazy"}
       onError={() => setFailedUrl(url)}
     />
   ) : photographic ? (

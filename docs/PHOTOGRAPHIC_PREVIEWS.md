@@ -55,3 +55,9 @@ The frontend polls status every ten seconds while running and replaces only the 
 - Production proof uses actual generated records plus the live authenticated phone/browser path; it is distinct from these mocked-provider fixtures.
 
 Inspect live status and the manifest before declaring the complete batch delivered. A completion notification or a generated source file is not itself proof of 893 verified photographs.
+
+## Verified rollout checkpoint
+
+The completed batch produced **892 of 893 value photographs** and **97 contact sheets**. Independent verification decoded every original and thumbnail, matched catalog hashes and gallery tags, confirmed 1024×1024 originals, and found 892 unique photo IDs and byte hashes with no duplicates. The single `scenery:salt_flat` job failed without a stored result. Its slot remains pending; approval for an additional potentially billed attempt was unanswered, so no blind retry was made.
+
+The current interface passed 21 browser tests, 73 Python tests and the existing state checks. A real authenticated HTTPS phone/desktop check verified decoded nonblank photograph pixels, rendered versioned contact sheets, zero diagram images, no tested WCAG violations, no overflow and no page errors. Runtime receipts are under ignored `acceptance-output/`. This checkpoint is not a claim of perfect semantic compliance for every generated scene, nor full 893-photo completion.

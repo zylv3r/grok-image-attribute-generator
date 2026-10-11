@@ -21,7 +21,7 @@ function photographicLibrary(state: ThumbnailProgress): Library {
     for (const value of attr.values) { value.thumbnail_status = "pending"; value.thumbnail_kind = "pending"; }
   }
   const tone = result.categories[0].attributes[0];
-  tone.thumbnail_url = "/preview-atlases/skin_tone.jpg";
+  tone.thumbnail_url = `/preview-atlases/skin_tone.jpg?v=${state.version}`;
   tone.thumbnail_status = "ready";
   tone.thumbnail_kind = "contact_sheet";
   Object.assign(tone.values[0], {
@@ -56,7 +56,7 @@ async function photographicAPI(page: Page, initial = progress) {
   // Context routing also covers the popup's initial navigation.
   await page.context().route("**/generated/*.jpg", (route) => route.fulfill({ contentType: "image/jpeg", body: jpeg }));
   await page.route("**/generated/*.jpg", (route) => route.fulfill({ contentType: "image/jpeg", body: jpeg }));
-  await page.route("**/preview-atlases/*.jpg", (route) => route.fulfill({ contentType: "image/jpeg", body: jpeg }));
+  await page.route("**/preview-atlases/*.jpg*", (route) => route.fulfill({ contentType: "image/jpeg", body: jpeg }));
   await page.route("**/api/library", (route) => {
     state.libraryCalls++;
     if (state.failLibrary) return route.fulfill({ status: 503, json: { error: "Simulated library refresh failure" } });
@@ -91,7 +91,8 @@ test.describe("Photographic library — simulated API, no provider calls", () =>
     await expect(pending).toContainText("Photograph pending");
     await expect(pending.locator("img, svg, .thumb-fallback")).toHaveCount(0);
     await expect(main.locator('img[src*="svg"], .thumb-fallback')).toHaveCount(0);
-    await expect(tone.getByRole("img", { name: "Skin Tone: representative examples" })).toHaveAttribute("src", "/preview-atlases/skin_tone.jpg");
+    await expect(tone.getByRole("img", { name: "Skin Tone: representative examples" })).toHaveAttribute("src", "/preview-atlases/skin_tone.jpg?v=1");
+    await expect(photo).toHaveAttribute("loading", "eager");
     await expect(tone.getByText("Representative examples", { exact: true })).toBeVisible();
     const original = tone.getByRole("link", { name: "Open original generated example: Porcelain" });
     await expect(original).toHaveAttribute("href", `/generated/${imageId}.jpg`);

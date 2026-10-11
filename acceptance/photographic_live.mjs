@@ -16,6 +16,9 @@ try{
  const images=page.locator('#studio-content img[src*="/generated/"]');assert.ok(await images.count()>0);
  assert.equal(await page.locator('#studio-content img[src*="/thumbnails/"]').count(),0);
  const first=images.first();await first.scrollIntoViewIfNeeded();await first.evaluate(async image=>{await image.decode();if(!image.naturalWidth)throw Error('Photograph did not decode');});
+ const pixelProof=await first.evaluate(image=>{const canvas=document.createElement('canvas');canvas.width=canvas.height=32;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,32,32);const data=ctx.getImageData(0,0,32,32).data;let lo=255,hi=0;for(let i=0;i<data.length;i+=4){lo=Math.min(lo,data[i],data[i+1],data[i+2]);hi=Math.max(hi,data[i],data[i+1],data[i+2]);}const style=getComputedStyle(image);return {pixelRange:hi-lo,opacity:style.opacity,visibility:style.visibility,width:image.getBoundingClientRect().width,height:image.getBoundingClientRect().height};});
+ assert.ok(pixelProof.pixelRange>16);assert.equal(pixelProof.opacity,'1');assert.equal(pixelProof.visibility,'visible');assert.ok(pixelProof.width>0&&pixelProof.height>0);
+ assert.ok(await page.locator('#studio-content img[src*="/preview-atlases/"]').count()>0,'Versioned contact sheets must actually render');
  const library=await(await page.request.get(base+'/api/library')).json();const status=await(await page.request.get(base+'/api/thumbnail-status')).json();
  assert.equal(status.mode,'photographic');assert.equal(status.total,893);assert.ok(status.value_completed>=6);
  assert.equal(library.thumbnail_mode,'photographic');

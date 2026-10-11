@@ -8,7 +8,7 @@ import { Thumb } from "./UI";
 const pageSize = 12;
 const photoThumbnail = /^\/generated\/[a-f0-9]{32}-thumb\.jpg$/;
 const photoOriginal = /^\/generated\/[a-f0-9]{32}\.jpg$/;
-const contactSheet = /^\/preview-atlases\/[a-zA-Z0-9_-]+\.jpg$/;
+const contactSheet = /^\/preview-atlases\/[a-zA-Z0-9_-]+\.jpg(?:\?v=\d+)?$/;
 function AttributeEditor({ attr, draft, change, query, open, setOpen, photographic }: {
   attr: Attribute; draft: Draft; change: (d: Draft) => void; query: string;
   open: boolean; setOpen: (open: boolean) => void;
