@@ -1,24 +1,43 @@
 export type Choices = Record<string, string[]>;
-export type Value = {
+export type ThumbnailMode = "illustrative" | "photographic";
+export type ThumbnailFields = {
+  thumbnail?: string;
+  thumbnail_url?: string;
+  thumbnail_mode?: ThumbnailMode;
+  thumbnail_kind?: "illustrative" | "photographic" | "contact_sheet" | "pending";
+  thumbnail_status?: "ready" | "pending" | "failed";
+  status?: "ready" | "pending" | "failed";
+  example_url?: string;
+  image_id?: string;
+  illustration_url?: string;
+};
+export type ThumbnailProgress = {
+  version: number;
+  total: number;
+  status: "running" | "completed" | "paused" | "failed";
+  value_completed: number;
+  attribute_completed: number;
+  failed: number;
+};
+export type ThumbnailStatus = ThumbnailProgress & { mode: ThumbnailMode };
+export type Value = ThumbnailFields & {
   id: string;
   name: string;
   steers: string;
   description?: string;
-  thumbnail?: string;
-  thumbnail_url?: string;
 };
-export type Attribute = {
+export type Attribute = ThumbnailFields & {
   id: string;
   name: string;
   type: "exclusive" | "boolean" | "multi";
   description?: string;
-  thumbnail?: string;
-  thumbnail_url?: string;
   values: Value[];
 };
 export type Category = { id: string; name: string; attributes: Attribute[] };
 export type Library = {
   categories: Category[];
+  thumbnail_mode?: ThumbnailMode;
+  thumbnail_progress?: ThumbnailProgress;
   base_locks?: string;
   always_on?: string;
 };

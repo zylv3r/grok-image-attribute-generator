@@ -6,9 +6,13 @@ import { Attribute, Category, Draft } from "../types";
 import { matchingValues, setAttribute } from "../lib";
 import { Thumb } from "./UI";
 const pageSize = 12;
-function AttributeEditor({ attr, draft, change, query, open, setOpen }: {
+const photoThumbnail = /^\/generated\/[a-f0-9]{32}-thumb\.jpg$/;
+const photoOriginal = /^\/generated\/[a-f0-9]{32}\.jpg$/;
+const contactSheet = /^\/preview-atlases\/[a-zA-Z0-9_-]+\.jpg$/;
+function AttributeEditor({ attr, draft, change, query, open, setOpen, photographic }: {
   attr: Attribute; draft: Draft; change: (d: Draft) => void; query: string;
   open: boolean; setOpen: (open: boolean) => void;
+  photographic: boolean;
 }) {
   const [limit, setLimit] = useState(pageSize);
   const [lastQuery, setLastQuery] = useState(query);
@@ -48,20 +52,30 @@ function AttributeEditor({ attr, draft, change, query, open, setOpen }: {
   }
   const contents = shown.map((v) => {
     const valueDescription = `value-description-${attr.id}-${v.id}`;
+    const isPhoto = photographic || v.thumbnail_mode === "photographic" || v.thumbnail_kind === "photographic";
+    const candidate = v.thumbnail_url || v.thumbnail;
+    const status = v.thumbnail_status || v.status;
+    const url = isPhoto ? (status !== "pending" && status !== "failed" && photoThumbnail.test(candidate || "") ? candidate : undefined) : candidate;
+    const exampleUrl = url && photoOriginal.test(v.example_url || "") ? v.example_url : undefined;
+    const exampleDescription = `value-example-${attr.id}-${v.id}`;
     const inner = <>
-      <Thumb url={v.thumbnail_url || v.thumbnail} name={v.name} />
-      <span className="value-copy"><strong>{v.name}</strong><span id={valueDescription}>{v.description || v.steers}</span></span>
+      <Thumb url={url} name={v.name} photographic={isPhoto} alt={isPhoto && url ? `Generated example: ${v.name}` : ""} />
+      <span className="value-copy"><strong>{v.name}</strong>{isPhoto && <span id={exampleDescription} className="example-label">{url ? "Generated example" : "Photograph pending"}</span>}<span id={valueDescription}>{v.description || v.steers}</span></span>
       <span className={`value-indicator ${isCheck ? "square" : ""}`} aria-hidden="true">{ids.includes(v.id) && <Check size={12} />}</span>
     </>;
-    const describedBy = `${valueDescription} ${behaviorId}`;
-    return isCheck ? <Checkbox.Root key={v.id} className="value-card" aria-label={v.name} aria-describedby={describedBy} checked={ids.includes(v.id)} onCheckedChange={(checked) => change(setAttribute(draft, attr, target, checked === true ? [...ids, v.id] : ids.filter((id) => id !== v.id)))}>{inner}</Checkbox.Root>
+    const describedBy = `${valueDescription} ${behaviorId}${isPhoto ? ` ${exampleDescription}` : ""}`;
+    const control = isCheck ? <Checkbox.Root key={v.id} className="value-card" aria-label={v.name} aria-describedby={describedBy} checked={ids.includes(v.id)} onCheckedChange={(checked) => change(setAttribute(draft, attr, target, checked === true ? [...ids, v.id] : ids.filter((id) => id !== v.id)))}>{inner}</Checkbox.Root>
       : <button key={v.id} type="button" role="radio" className="value-card" data-value={v.id} data-state={ids.includes(v.id) ? "checked" : "unchecked"} aria-label={v.name} aria-describedby={describedBy} aria-checked={ids.includes(v.id)} tabIndex={ids[0] === v.id ? 0 : -1} onClick={() => select(v.id)}>{inner}</button>;
+    return isPhoto ? <div key={v.id} className="photographic-value">{control}{exampleUrl && <a className="example-link" href={exampleUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open original generated example: ${v.name}`}>Open original</a>}</div> : control;
   });
+  const attrCandidate = attr.thumbnail_url || attr.thumbnail;
+  const attrStatus = attr.thumbnail_status || attr.status;
+  const attrUrl = photographic ? (attrStatus !== "pending" && attrStatus !== "failed" && contactSheet.test(attrCandidate || "") ? attrCandidate : undefined) : attrCandidate;
   const summary = ids.length ? `${target === "whitelist" ? "Vary" : "Locked"}: ${attr.values.filter((v) => ids.includes(v.id)).map((v) => v.name).join(", ")}` : `${target === "whitelist" ? "Vary" : "Lock"} · None / unset`;
   return <section className="attribute" aria-label={attr.name} id={`attribute-${attr.id}`} onClick={() => { if (!open) setOpen(true); }}>
     <h3><button type="button" className="attribute-heading attribute-toggle" aria-label={`Edit ${attr.name}`} aria-describedby={`attribute-summary-${attr.id}`} aria-expanded={open} aria-controls={`attribute-values-${attr.id}`} onClick={(event) => { event.stopPropagation(); setOpen(!open); }}>
-      <Thumb url={attr.thumbnail_url || attr.thumbnail} name={attr.name} className="attribute-thumb" />
-      <span className="attribute-title"><strong>{attr.name}</strong><span className="attribute-summary" id={`attribute-summary-${attr.id}`}>{summary}</span></span>
+      <Thumb url={attrUrl} name={attr.name} className="attribute-thumb" photographic={photographic} pendingLabel="Contact sheet pending" alt={photographic && attrUrl ? `${attr.name}: representative examples` : ""} />
+      <span className="attribute-title"><strong>{attr.name}</strong>{photographic && <span className="representative-label">{attrUrl ? "Representative examples" : "Representative examples pending"}</span>}<span className="attribute-summary" id={`attribute-summary-${attr.id}`}>{summary}</span></span>
       <span className="type-label">{attr.values.length} values · {attr.type === "multi" ? "Multiple" : attr.type === "boolean" ? "Explicit choice" : "Choose one"}</span>
       <ChevronDown size={16} className={open ? "expanded-chevron" : ""} aria-hidden="true" />
     </button></h3>
@@ -87,7 +101,7 @@ function AttributeEditor({ attr, draft, change, query, open, setOpen }: {
     </div>
   </section>;
 }
-export function LibraryPanel({ category, draft, change, query }: { category: Category; draft: Draft; change: (d: Draft) => void; query: string }) {
+export function LibraryPanel({ category, draft, change, query, photographic = false }: { category: Category; draft: Draft; change: (d: Draft) => void; query: string; photographic?: boolean }) {
   const normalized = query.trim().toLowerCase();
   const [opened, setOpened] = useState<Record<string, boolean>>({});
   const [previousQuery, setPreviousQuery] = useState(normalized);
@@ -105,8 +119,8 @@ export function LibraryPanel({ category, draft, change, query }: { category: Cat
     requestAnimationFrame(() => { const heading = document.querySelector<HTMLButtonElement>(`#attribute-${CSS.escape(id)} .attribute-toggle`); heading?.scrollIntoView({ block: "start", behavior: "auto" }); heading?.focus({ preventScroll: true }); });
   }
   return <>
-    <div className="section-heading"><div><span className="eyebrow">THE ATTRIBUTE LIBRARY</span><h2>{category.name}</h2></div><span className="guide-label">Illustrative guides · not generated results</span></div>
+    <div className="section-heading"><div><span className="eyebrow">THE ATTRIBUTE LIBRARY</span><h2>{category.name}</h2></div><span className="guide-label">{photographic ? "Generated photographic examples" : "Illustrative guides · not generated results"}</span></div>
     <div className="attribute-navigation"><label htmlFor="attribute-jump">Jump to attribute</label><select id="attribute-jump" value="" onChange={(event) => jump(event.target.value)}><option value="">Choose an attribute…</option>{attrs.map((attr) => <option key={attr.id} value={attr.id}>{attr.name}{draft.selections[attr.id]?.length || draft.whitelist[attr.id]?.length ? " · selected" : ""}</option>)}</select><span>{attrs.length} attributes</span></div>
-    {attrs.length ? attrs.map((attr) => <AttributeEditor key={attr.id} attr={attr} draft={draft} change={change} query={normalized} open={isOpen(attr)} setOpen={(open) => setOpened((prev) => ({ ...prev, [attr.id]: open }))} />) : <div className="empty-state"><h3>No matching attributes</h3><p>Try another search or category.</p></div>}
+    {attrs.length ? attrs.map((attr) => <AttributeEditor key={attr.id} attr={attr} draft={draft} change={change} query={normalized} photographic={photographic || attr.thumbnail_mode === "photographic" || attr.thumbnail_kind === "contact_sheet"} open={isOpen(attr)} setOpen={(open) => setOpened((prev) => ({ ...prev, [attr.id]: open }))} />) : <div className="empty-state"><h3>No matching attributes</h3><p>Try another search or category.</p></div>}
   </>;
 }

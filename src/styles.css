@@ -1714,3 +1714,25 @@ p {
   .attribute-summary { font-size: 11px; }
   .attribute-navigation label { flex-basis: 100%; }
 }
+/* Photographic examples retain their whole frame and explicit provenance. */
+.photographic-value { display: flex; flex-direction: column; min-width: 0; }
+.photographic-value > .value-card { width: 100%; flex: 1; }
+.value-card > .photographic-thumb { aspect-ratio: 1; min-height: 0; object-fit: contain; background: #e8e6dc; }
+.photograph-pending { display: flex; align-items: center; justify-content: center; padding: 12px; text-align: center; color: #59664f; font-size: 11px; line-height: 1.5; }
+.attribute-thumb.photographic-thumb { width: 72px; height: 54px; object-fit: contain; flex-shrink: 0; border-radius: 4px; }
+.attribute-thumb.photograph-pending { font-size: 9px; padding: 4px; }
+.value-copy > .example-label { color: #425739; font-weight: 600; font-size: 10px; }
+.representative-label { display: block; margin-top: 4px; color: #59664f; font-size: 10px; font-weight: 400; }
+.example-link { display: block; margin-top: 5px; padding: 6px 2px; color: #425739; font-size: 11px; text-decoration: underline; }
+.photographic-progress { margin: 0 0 24px; padding: 15px; border: 1px solid #c9d0bd; border-radius: 5px; background: #eef1e4; }
+.photographic-progress p { font-size: 11px; color: #425739; line-height: 1.7; }
+.photographic-progress p:first-child { font-size: 12px; font-weight: 600; }
+.preview-generation-state { display: block; font-size: 10px; font-weight: 400; }
+.photographic-progress progress { display: block; width: 100%; height: 6px; margin: 10px 0; accent-color: #536d46; }
+.preview-update-notice { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 20px; padding: 12px; background: #f4eddf; border: 1px solid #d7c9ad; border-radius: 5px; color: #615238; font-size: 12px; line-height: 1.5; }
+.preview-update-notice .text-button { text-decoration: underline; padding: 0; }
+@media (max-width: 640px) {
+  .attribute-thumb.photographic-thumb { width: 48px; height: 36px; }
+  .attribute-thumb.photograph-pending { font-size: 8px; padding: 2px; }
+  .photographic-progress { padding: 12px; }
+}

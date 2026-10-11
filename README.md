@@ -11,7 +11,9 @@ A local, server-backed visual composition studio for adult, nonexplicit fashion/
 - Persistent SQLite gallery with FTS prompt search, indexed attribute/value filters, thumbnail cards, bounded pagination, original downloads, metadata details and selection reuse.
 - React, Radix UI accessibility primitives and Lucide icons; responsive category navigation, saved local presets, keyboard controls and explicit error/empty states.
 
-**Thumbnail honesty:** the attribute thumbnails are illustrative steering diagrams, not provider-generated before/after examples. Generative steering is probabilistic and does not guarantee identity, anatomy or literal compliance with every prompt. The selection seed controls plan sampling, not the provider's image randomness.
+**Photographic previews:** the hosted library now progressively displays actual provider-generated photographic examples for each value, and locally derived photographic contact sheets for attributes. Pending photographs are explicitly labeled; diagrams are not used as substitutes in photographic mode. The source SVG guides remain a legacy mode for deployments without a photographic manifest. Within an attribute, prompt framing stays consistent and the selected steer changes; independent generations may still change identity and other details, so these are aesthetic examples—not matched-person causal comparisons. Sampling seeds do not guarantee reproducible pixels.
+
+The approved full catalog batch is resumable and updates the interface while it runs. See [photographic preview generation](docs/PHOTOGRAPHIC_PREVIEWS.md).
 
 ## Requirements and startup
 

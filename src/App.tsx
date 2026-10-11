@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
@@ -16,6 +16,7 @@ import {
 } from "./icons";
 import {
   api,
+  ApiError,
   cleanDraft,
   errorMessage,
   matchingValues,
@@ -24,13 +25,26 @@ import {
   storageKey,
   writeStorage,
 } from "./lib";
-import { Draft, ImageRecord, Library, emptyDraft } from "./types";
+import { Draft, ImageRecord, Library, ThumbnailStatus, emptyDraft } from "./types";
 import { LibraryPanel } from "./components/Library";
 import { Generator } from "./components/Generator";
 import { Gallery } from "./components/Gallery";
 import { ImageDetail } from "./components/ImageDetail";
 import { ErrorNotice } from "./components/UI";
 type Preset = { id: string; name: string; draft: Draft };
+function PhotographicProgress({ library }: { library: Library }) {
+  const progress = library.thumbnail_progress;
+  const attrs = library.categories.flatMap((category) => category.attributes);
+  const sheets = progress?.attribute_completed ?? attrs.filter((attr) => attr.thumbnail_status === "ready" && /^\/preview-atlases\/[a-zA-Z0-9_-]+\.jpg$/.test(attr.thumbnail_url || "")).length;
+  const total = progress?.total ?? 893;
+  const completed = progress?.value_completed ?? 0;
+  const state = progress?.status || "running";
+  return <section className="photographic-progress" aria-label="Photographic preview progress">
+    <p role="status">Real photo values {completed}/{total} · Contact sheets {sheets}/{attrs.length}<span className="preview-generation-state">{state === "running" ? "Generating" : state === "completed" ? "Completed" : state === "paused" ? "Paused" : "Generation needs attention"}{progress?.failed ? ` · ${progress.failed} failed` : ""}</span></p>
+    <progress value={completed} max={total} aria-label="Photographic value preview progress" />
+    <p>Within each attribute, examples use a fixed photographic prompt baseline; only the target value steer changes. Provider variability can change the subject and other details between examples. Generated examples are searchable in Gallery.</p>
+  </section>;
+}
 function Presets({
   library,
   draft,
@@ -162,6 +176,7 @@ function Presets({
 }
 export default function App() {
   const [library, setLibrary] = useState<Library>();
+  const libraryRef = useRef<Library | undefined>(undefined);
   const [draft, setDraft] = useState<Draft>({ ...emptyDraft });
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
@@ -172,6 +187,8 @@ export default function App() {
   const [image, setImage] = useState<ImageRecord | null>(null);
   const [galleryRevision, setGalleryRevision] = useState(0);
   const [reuseUndo, setReuseUndo] = useState<Draft>();
+  const [thumbnailError, setThumbnailError] = useState(false);
+  const [thumbnailRetry, setThumbnailRetry] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
     setError("");
@@ -181,6 +198,7 @@ export default function App() {
         if (!Array.isArray(data.categories) || !data.categories.length)
           throw new Error("The attribute library is empty.");
         setDraft(cleanDraft(readStorage(storageKey), data));
+        libraryRef.current = data;
         setLibrary(data);
         setCategoryId(data.categories[0].id);
       })
@@ -189,6 +207,48 @@ export default function App() {
       });
     return () => controller.abort();
   }, [retry]);
+  const libraryLoaded = !!library;
+  useEffect(() => {
+    if (!libraryLoaded) return;
+    const controller = new AbortController();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let observedVersion = libraryRef.current?.thumbnail_progress?.version;
+    async function poll() {
+      let delay = 10_000;
+      try {
+        const status = await api<ThumbnailStatus>("/api/thumbnail-status", { signal: controller.signal, cache: "no-store" });
+        if (controller.signal.aborted) return;
+        if (!Number.isInteger(status.version) || status.version < 0) throw new Error("Invalid preview status");
+        const current = libraryRef.current!;
+        const mode = status.mode || (status.status ? "photographic" : "illustrative");
+        if (status.version !== observedVersion || mode !== (current.thumbnail_mode || "illustrative")) {
+          const data = await api<Library>("/api/library", { signal: controller.signal, cache: "no-store" });
+          if (controller.signal.aborted) return;
+          if (!Array.isArray(data.categories) || !data.categories.length) throw new Error("Empty preview library");
+          // Preview refreshes replace only the library; the user's draft and navigation stay in place.
+          const next = { ...data, thumbnail_mode: mode, thumbnail_progress: mode === "photographic" ? status : undefined };
+          libraryRef.current = next;
+          setLibrary(next);
+        } else if (mode === "photographic") {
+          const next = { ...current, thumbnail_progress: status };
+          libraryRef.current = next;
+          setLibrary(next);
+        }
+        observedVersion = status.version;
+        setThumbnailError(false);
+        delay = mode === "photographic" && status.status === "running" ? 10_000 : 60_000;
+      } catch (e) {
+        if (controller.signal.aborted) return;
+        // Older servers and illustrative fixtures have no status endpoint.
+        if (e instanceof ApiError && e.status === 404 && libraryRef.current?.thumbnail_mode !== "photographic") return;
+        setThumbnailError(true);
+        delay = libraryRef.current?.thumbnail_progress?.status === "running" ? 10_000 : 60_000;
+      }
+      if (!controller.signal.aborted) timer = setTimeout(poll, delay);
+    }
+    void poll();
+    return () => { controller.abort(); clearTimeout(timer); };
+  }, [libraryLoaded, thumbnailRetry]);
   useEffect(() => {
     if (library) writeStorage(storageKey, draft);
   }, [draft, library]);
@@ -405,6 +465,8 @@ export default function App() {
                     <span />
                   </div>
                 </div>
+                {library.thumbnail_mode === "photographic" && <PhotographicProgress library={library} />}
+                {thumbnailError && <div className="preview-update-notice" role="status"><span>Preview updates are temporarily unavailable. You can keep composing.</span><button className="text-button" onClick={() => setThumbnailRetry((value) => value + 1)}>Reload previews</button></div>}
                 {selected ? (
                   <LibraryPanel
                     key={selected.id}
@@ -412,6 +474,7 @@ export default function App() {
                     draft={draft}
                     change={setDraft}
                     query={categoryOnlyMatch ? "" : query}
+                    photographic={library.thumbnail_mode === "photographic"}
                   />
                 ) : (
                   <div className="empty-state">

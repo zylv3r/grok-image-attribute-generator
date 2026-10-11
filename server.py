@@ -10,15 +10,19 @@ import mimetypes
 import os
 import random
 import re
+import stat
 import sys
 import threading
+import warnings
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
-from gallery import Gallery, QueueFull, SAFE_PROVIDER_ERROR, save_image
+from PIL import Image, UnidentifiedImageError
+
+from gallery import Gallery, MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, QueueFull, SAFE_PROVIDER_ERROR, save_image
 
 ROOT = Path(__file__).resolve().parent
 GENERATED_DIR = ROOT / 'generated'
@@ -32,6 +36,9 @@ PROVIDER_SLOTS = threading.BoundedSemaphore(4)
 EXACT_PRODUCT_LIMIT = 4_096
 PLANNER_NODE_LIMIT = 20_000
 PLANNER_RESULT_LIMIT = 256
+PREVIEW_MANIFEST_LIMIT = 2 * 1024 * 1024
+PREVIEW_ID = re.compile(r'[a-zA-Z0-9_-]+\Z')
+PHOTO_ID = re.compile(r'[0-9a-f]{32}\Z')
 
 
 def safe_svg(raw):
@@ -418,6 +425,197 @@ class Application:
             self.store.import_legacy()
         self.jobs = JobManager(self.store, provider)
         self.provider = provider
+        self._preview_jpeg_cache = {}
+        self._preview_cache_lock = threading.Lock()
+
+    def _preview_file(self, path, limit):
+        """Open a regular file without following a symlink in either local component."""
+        directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+        finally:
+            os.close(directory)
+        handle = os.fdopen(descriptor, 'rb')
+        metadata = os.fstat(handle.fileno())
+        if not stat.S_ISREG(metadata.st_mode) or not 0 < metadata.st_size <= limit:
+            handle.close()
+            raise ValueError('invalid preview file')
+        return handle, metadata
+
+    def _preview_jpeg(self, path, max_side=None, raw=False):
+        """Validate pixels once per file revision; never trust an extension or MIME claim."""
+        limit = PREVIEW_MANIFEST_LIMIT if max_side else MAX_IMAGE_BYTES
+        try:
+            handle, metadata = self._preview_file(path, limit)
+            with handle:
+                key = (metadata.st_dev, metadata.st_ino, metadata.st_size,
+                       metadata.st_mtime_ns, metadata.st_ctime_ns, max_side)
+                with self._preview_cache_lock:
+                    cached = self._preview_jpeg_cache.get(path)
+                if cached is None or cached[0] != key:
+                    valid = False
+                    try:
+                        with warnings.catch_warnings():
+                            warnings.simplefilter('error', Image.DecompressionBombWarning)
+                            with Image.open(handle) as image:
+                                if (image.format != 'JPEG' or image.width * image.height > MAX_IMAGE_PIXELS
+                                        or (max_side and max(image.size) > max_side)):
+                                    raise ValueError('invalid preview image')
+                                image.verify()
+                            handle.seek(0)
+                            with Image.open(handle) as image:
+                                image.load()
+                        valid = True
+                    except (ValueError, OSError, SyntaxError, UnidentifiedImageError, Image.DecompressionBombError,
+                            Image.DecompressionBombWarning):
+                        pass
+                    with self._preview_cache_lock:
+                        if len(self._preview_jpeg_cache) >= 4096:
+                            self._preview_jpeg_cache.clear()
+                        self._preview_jpeg_cache[path] = (key, valid)
+                else:
+                    valid = cached[1]
+                if not valid:
+                    return None
+                if raw:
+                    handle.seek(0)
+                    contents = handle.read(limit + 1)
+                    return contents if len(contents) <= limit else None
+                return path
+        except (OSError, ValueError):
+            return None
+
+    def preview_atlas(self, aid, raw=False):
+        if aid not in self.catalog.attributes or not PREVIEW_ID.fullmatch(aid):
+            return None
+        # The output root is also forbidden from being a symlink.
+        if self.store.output_dir.is_symlink():
+            return None
+        return self._preview_jpeg(self.store.output_dir / 'preview-atlases' / (aid + '.jpg'), 400, raw)
+
+    def _preview_manifest(self):
+        path = self.store.output_dir / 'photographic-previews.json'
+        if not os.path.lexists(path):
+            return False, None
+        try:
+            handle, _ = self._preview_file(path, PREVIEW_MANIFEST_LIMIT)
+            with handle:
+                raw = handle.read(PREVIEW_MANIFEST_LIMIT + 1)
+            if len(raw) > PREVIEW_MANIFEST_LIMIT:
+                raise ValueError('oversized preview manifest')
+            def unique_object(pairs):
+                result = {}
+                for key, value in pairs:
+                    if key in result:
+                        raise ValueError('duplicate preview key')
+                    result[key] = value
+                return result
+            manifest = json.loads(raw, object_pairs_hook=unique_object,
+                                  parse_constant=lambda value: (_ for _ in ()).throw(ValueError('invalid constant')))
+            if not isinstance(manifest, dict) or not isinstance(manifest.get('attributes'), dict):
+                raise ValueError('invalid preview manifest')
+            return True, manifest
+        except (OSError, ValueError, UnicodeError, RecursionError):
+            return True, None
+
+    def thumbnail_library(self):
+        """Merge on a copy so atomic worker updates need no catalog reload/restart."""
+        active, manifest = self._preview_manifest()
+        library = json.loads(json.dumps(self.catalog.library))
+        total = sum(len(attribute['values']) for attribute in self.catalog.attributes.values())
+        progress = dict(total=total, value_completed=0, attribute_completed=0, failed=0,
+                        status='completed', version=0)
+        if not active:
+            progress['value_completed'] = sum(bool(value.get('thumbnail_url'))
+                for attribute in self.catalog.attributes.values() for value in attribute['values'])
+            progress['attribute_completed'] = sum(bool(attribute.get('thumbnail_url'))
+                for attribute in self.catalog.attributes.values())
+            return library, 'illustrative', progress
+        manifest = manifest or {}
+        attributes = manifest.get('attributes', {})
+        version = manifest.get('version')
+        if type(version) is int and 0 <= version <= 2**31 - 1:
+            progress['version'] = version
+        status = manifest.get('status')
+        progress['status'] = status if isinstance(status, str) and status in {'running', 'completed', 'paused', 'failed'} else 'failed'
+        # Fetch only the gallery fields needed for validation, in one read snapshot.
+        wanted = {item.get('image_id') for aid, attr in attributes.items()
+                  if aid in self.catalog.attributes and isinstance(attr, dict)
+                  and isinstance(attr.get('values'), dict)
+                  for vid, item in attr['values'].items()
+                  if vid in {v['id'] for v in self.catalog.attributes[aid]['values']}
+                  and isinstance(item, dict) and isinstance(item.get('image_id'), str)
+                  and PHOTO_ID.fullmatch(item['image_id'])}
+        records, tags = {}, set()
+        if wanted:
+            with self.store.connect() as db:
+                db.execute('BEGIN')
+                ids = sorted(wanted)
+                for start in range(0, len(ids), 400):
+                    chunk = ids[start:start + 400]
+                    placeholders = ','.join('?' for _ in chunk)
+                    for row in db.execute('SELECT id,filename,thumbnail,selections,width,height FROM images '
+                                          f'WHERE id IN ({placeholders})', chunk):
+                        records[row['id']] = dict(row)
+                    for row in db.execute('SELECT image_id,attribute,value FROM image_tags '
+                                          f'WHERE image_id IN ({placeholders})', chunk):
+                        tags.add(tuple(row))
+        for category in library['categories']:
+            for attribute in category['attributes']:
+                aid = attribute['id']
+                entry = attributes.get(aid)
+                entry = entry if isinstance(entry, dict) and PREVIEW_ID.fullmatch(aid) else {}
+                values = entry.get('values', {})
+                values = values if isinstance(values, dict) else {}
+                for item in [attribute, *attribute['values']]:
+                    illustration = item.get('thumbnail_url', '')
+                    if isinstance(illustration, str) and illustration in self.catalog.thumbnail_paths:
+                        item['illustration_url'] = illustration
+                    item.update(thumbnail_url='', thumbnail_kind='pending', thumbnail_status='pending')
+                    item.pop('example_url', None)
+                    item.pop('thumbnail', None)
+                for value in attribute['values']:
+                    vid = value['id']
+                    photo = values.get(vid)
+                    if not isinstance(photo, dict) or photo.get('status') != 'ready' or not PREVIEW_ID.fullmatch(vid):
+                        continue
+                    image_id = photo.get('image_id')
+                    record = records.get(image_id) if isinstance(image_id, str) else None
+                    if not record or (image_id, aid, vid) not in tags:
+                        continue
+                    original, thumb = image_id + '.jpg', image_id + '-thumb.jpg'
+                    if (photo.get('example_url') != '/generated/' + original
+                            or photo.get('thumbnail_url') != '/generated/' + thumb
+                            or record['filename'] != original or record['thumbnail'] != thumb
+                            or type(record['width']) is not int or type(record['height']) is not int
+                            or record['width'] <= 0 or record['height'] <= 0
+                            or not 0 < record['width'] * record['height'] <= MAX_IMAGE_PIXELS):
+                        continue
+                    try:
+                        selections = json.loads(record['selections'])
+                        if not isinstance(selections, dict) or not isinstance(selections.get(aid), list) or vid not in selections[aid]:
+                            continue
+                    except (ValueError, TypeError, RecursionError):
+                        continue
+                    if (not self._preview_jpeg(self.store.output_dir / original)
+                            or not self._preview_jpeg(self.store.output_dir / thumb, 400)):
+                        continue
+                    value.update(thumbnail_url='/generated/' + thumb, thumbnail_kind='photographic',
+                                 thumbnail_status='ready', example_url='/generated/' + original)
+                    progress['value_completed'] += 1
+                atlas = '/preview-atlases/' + aid + '.jpg'
+                if entry.get('thumbnail_url') == atlas and self.preview_atlas(aid):
+                    attribute.update(thumbnail_url=atlas + '?v=' + str(progress['version']), thumbnail_kind='contact_sheet', thumbnail_status='ready')
+                    progress['attribute_completed'] += 1
+        # Failures are worker-reported; successes and totals always come from verified local data.
+        failed = manifest.get('failed')
+        if type(failed) is int and failed >= 0:
+            progress['failed'] = min(failed, total - progress['value_completed'])
+        if progress['status'] == 'completed' and (progress['value_completed'] != total
+                or progress['attribute_completed'] != len(self.catalog.attributes)):
+            progress['status'] = 'running'
+        library.update(thumbnail_mode='photographic', thumbnail_progress=progress)
+        return library, 'photographic', progress
 
     def close(self):
         self.jobs.close()
@@ -559,7 +757,19 @@ class AppHandler(BaseHTTPRequestHandler):
                 self._json(200, self.app.store.health())
                 return
             if path == '/api/library':
-                self._json(200, self.app.catalog.library)
+                self._json(200, self.app.thumbnail_library()[0])
+                return
+            if path == '/api/thumbnail-status':
+                _, mode, progress = self.app.thumbnail_library()
+                self._json(200, dict(mode=mode, **progress))
+                return
+            if path.startswith('/preview-atlases/'):
+                basename = path[len('/preview-atlases/'):]
+                aid = basename[:-4] if basename.endswith('.jpg') else ''
+                raw = self.app.preview_atlas(aid, raw=True)
+                if raw is None:
+                    raise APIError(404, 'not found')
+                self._send(200, raw, 'image/jpeg')
                 return
             if path == '/api/gallery':
                 params = parse_qs(parsed.query, keep_blank_values=True, max_num_fields=12)
@@ -614,7 +824,7 @@ class AppHandler(BaseHTTPRequestHandler):
                     target = candidate
             elif path.startswith('/generated/'):
                 filename = path[len('/generated/'):]
-                if '/' not in filename and '\\' not in filename:
+                if re.fullmatch(r'[0-9a-f]{32}(?:-thumb)?\.jpg', filename):
                     target = self.app.store.asset(filename)
                     if target and not target.resolve().is_relative_to(self.app.store.output_dir.resolve()):
                         target = None

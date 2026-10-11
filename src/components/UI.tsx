@@ -106,21 +106,30 @@ export function Thumb({
   name,
   className = "",
   alt = "",
+  photographic = false,
+  pendingLabel = "Photograph pending",
 }: {
   url?: string;
   name: string;
   className?: string;
   alt?: string;
+  photographic?: boolean;
+  pendingLabel?: string;
 }) {
-  const [failed, setFailed] = useState(false);
+  const [failedUrl, setFailedUrl] = useState<string>();
+  const failed = !!url && failedUrl === url;
   return url && !failed ? (
     <img
-      className={`thumb ${className}`}
+      className={`thumb ${photographic ? "photographic-thumb" : ""} ${className}`}
       src={url}
       alt={alt}
       loading="lazy"
-      onError={() => setFailed(true)}
+      onError={() => setFailedUrl(url)}
     />
+  ) : photographic ? (
+    <span className={`thumb photographic-thumb photograph-pending ${className}`}>
+      {failed ? "Photograph unavailable" : pendingLabel}
+    </span>
   ) : (
     <span className={`thumb thumb-fallback ${className}`} aria-hidden="true">
       <Image size={22} />
