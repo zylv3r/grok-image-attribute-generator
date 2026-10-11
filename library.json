@@ -17,9 +17,10 @@
         {
           "id": "freckles",
           "name": "Freckles",
-          "type": "boolean",
+          "type": "exclusive",
           "values": [
             {"id": "on", "name": "Visible Freckles", "steers": "faint freckles with uneven distribution on nose, cheeks, shoulders and upper chest"},
+            {"id": "prominent", "name": "Prominent Freckles", "steers": "more prominent natural freckles across the nose and cheeks with uneven authentic distribution"},
             {"id": "off", "name": "No Freckles", "steers": "clear skin without freckles"}
           ]
         },
@@ -155,6 +156,111 @@
             {"id": "courtyard", "name": "Courtyard", "steers": "soft daylight in a quiet courtyard"},
             {"id": "hallway", "name": "Elegant Hallway", "steers": "soft light in an elegant hallway"},
             {"id": "bedroom_window", "name": "Bedroom Window", "steers": "soft morning light by a bedroom window"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phenotype",
+      "name": "Northern European Facial Detail",
+      "attributes": [
+        {
+          "id": "ethnic_inspiration",
+          "name": "Style Inspiration",
+          "type": "exclusive",
+          "values": [
+            {"id": "slavic_inspired", "name": "Slavic-Inspired", "steers": "young adult Slavic-inspired northern European beauty, light-featured editorial styling"},
+            {"id": "scandinavian_inspired", "name": "Scandinavian-Inspired", "steers": "young adult Scandinavian-inspired northern European beauty, light-featured editorial styling"},
+            {"id": "northern_european_blend", "name": "Northern European Blend", "steers": "young adult northern European light-featured beauty with a refined, ethereal editorial presence"}
+          ]
+        },
+        {
+          "id": "complexion_detail",
+          "name": "Complexion Detail",
+          "type": "exclusive",
+          "values": [
+            {"id": "porcelain_cool_pink", "name": "Porcelain Cool Pink", "steers": "pale porcelain skin with a cool soft-pink undertone, clear natural texture and faint freckles across the nose and cheeks"},
+            {"id": "pale_pink_freckled", "name": "Pale Pink Freckled", "steers": "pale pinkish skin with cool undertones and delicate uneven freckles across nose and cheeks"},
+            {"id": "fair_clear", "name": "Fair Clear", "steers": "fair cool-toned skin with natural tonal variation, clear healthy complexion and subtle micro-texture"}
+          ]
+        },
+        {
+          "id": "cheekbones",
+          "name": "Cheekbones",
+          "type": "exclusive",
+          "values": [
+            {"id": "prominent_soft", "name": "High & Softly Defined", "steers": "high prominent cheekbones creating a sculpted, elegant midface with soft natural transitions rather than harsh contour"},
+            {"id": "defined_natural", "name": "Defined Natural", "steers": "naturally defined cheekbones and an elegant structured midface"}
+          ]
+        },
+        {
+          "id": "eye_color",
+          "name": "Light Eye Color",
+          "type": "exclusive",
+          "values": [
+            {"id": "icy_blue", "name": "Icy Blue", "steers": "large wide-set clear icy-blue eyes, bright catchlights, no redness or cloudiness"},
+            {"id": "pale_green", "name": "Pale Green", "steers": "large wide-set clear pale-green eyes, bright catchlights, no redness or cloudiness"},
+            {"id": "aqua", "name": "Aqua", "steers": "large wide-set clear aqua eyes, bright catchlights, no redness or cloudiness"},
+            {"id": "gray_blue", "name": "Gray Blue", "steers": "large wide-set clear gray-blue eyes, bright catchlights, no redness or cloudiness"}
+          ]
+        },
+        {
+          "id": "eyelashes",
+          "name": "Eyelashes",
+          "type": "exclusive",
+          "values": [
+            {"id": "dark_long", "name": "Dark Long Lashes", "steers": "dark long natural eyelashes framing the light eyes with elegant contrast"},
+            {"id": "soft_dark", "name": "Soft Dark Lashes", "steers": "soft dark lashes with realistic separation, framing clear light eyes without a false-lash look"}
+          ]
+        },
+        {
+          "id": "facial_balance",
+          "name": "Facial Balance",
+          "type": "exclusive",
+          "values": [
+            {"id": "delicate_harmonious", "name": "Delicate & Harmonious", "steers": "a softly defined jawline, delicate natural nose and full natural lips, harmonious believable facial proportions"},
+            {"id": "ethereal_natural", "name": "Ethereal Natural", "steers": "an ethereal but credible face with gentle jawline, delicate nose, full natural lips and natural asymmetry"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "editorial",
+      "name": "Editorial Direction",
+      "attributes": [
+        {
+          "id": "silhouette",
+          "name": "Silhouette",
+          "type": "exclusive",
+          "values": [
+            {"id": "elegant_hourglass", "name": "Elegant Natural Hourglass", "steers": "a naturally proportioned hourglass silhouette with a narrow natural waist and softly defined curves, anatomically plausible proportions"},
+            {"id": "couture_hourglass", "name": "Couture Hourglass", "steers": "an elegant adult hourglass figure with a visually cinched couture waist, a naturally fuller bust and balanced hips, realistic anatomy, tasteful opaque fashion styling and no distortion"},
+            {"id": "slender_hourglass", "name": "Slender Couture Hourglass", "steers": "a slender, elegant adult hourglass silhouette with a lean frame, visually cinched natural waist, defined balanced hips, proportionate naturally fuller upper torso and anatomically believable proportions"},
+            {"id": "slender_toned_legs", "name": "Slender Toned Legs", "steers": "a slender petite build with long toned legs, graceful posture, balanced natural curves and believable anatomy"},
+            {"id": "graceful_curves", "name": "Graceful Natural Curves", "steers": "an elegant feminine figure with softly defined natural curves and balanced, believable proportions"},
+            {"id": "statuesque", "name": "Statuesque Poise", "steers": "a poised, statuesque fashion silhouette with elegant posture and realistic anatomy"}
+          ]
+        },
+        {
+          "id": "face_direction",
+          "name": "Face & Expression",
+          "type": "exclusive",
+          "values": [
+            {"id": "luminous", "name": "Luminous Natural Beauty", "steers": "a beautiful expressive face with natural facial asymmetry, believable skin detail, lively eyes and understated makeup"},
+            {"id": "classic_beauty", "name": "Classic Gorgeous Beauty", "steers": "a strikingly beautiful adult face with harmonious but believable features, clear expressive eyes, natural asymmetry, tactile skin detail and refined understated makeup"},
+            {"id": "confident", "name": "Confident Editorial Gaze", "steers": "a confident, captivating editorial gaze with refined natural beauty and subtle realistic expression"},
+            {"id": "soft_sultry", "name": "Softly Sensual Poise", "steers": "a subtly sensual yet sophisticated expression, allure conveyed through gaze and posture rather than exposure"}
+          ]
+        },
+        {
+          "id": "editorial_mood",
+          "name": "Editorial Mood",
+          "type": "exclusive",
+          "values": [
+            {"id": "quiet_luxury", "name": "Quiet Luxury", "steers": "quiet-luxury fashion editorial, impeccable styling, restrained elegance and natural confidence"},
+            {"id": "sensual_luxe", "name": "Sensual Luxe", "steers": "sensual, sexy yet tasteful luxury fashion editorial, sophisticated allure through silhouette, gaze, posture and satin texture rather than exposure"},
+            {"id": "cinematic_romance", "name": "Cinematic Romance", "steers": "cinematic romantic fashion editorial with atmospheric light, refined sensuality and believable candid motion"},
+            {"id": "modern_glamour", "name": "Modern Glamour", "steers": "modern glamour fashion editorial, polished but credible, with tactile materials and natural human imperfection"}
           ]
         }
       ]
