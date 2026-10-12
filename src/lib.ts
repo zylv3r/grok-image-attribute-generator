@@ -198,3 +198,56 @@ export function errorMessage(error: unknown): string {
   }
   return JSON.stringify(error) || "An unexpected error occurred.";
 }
+
+export function bulkVary(draft: Draft, attr: Attribute, action: "all" | "none" | "inverse"): Draft {
+  const allowed = new Set(draft.whitelist[attr.id] || []);
+  const ids = action === "none" ? [] : attr.values
+    .filter(v => action === "all" || !allowed.has(v.id)).map(v => v.id);
+  return setAttribute(draft, attr, "whitelist", ids);
+}
+
+// Capture the original text once, before ANY draft cleaning. Never rewrite legacy storage.
+export function readLegacyPresets(): import("./types").LegacyPresets | null {
+  try {
+    const raw_text = localStorage.getItem(presetKey);
+    if (raw_text === null) return null;
+    let parsed: unknown;
+    try { parsed = JSON.parse(raw_text); } catch { /* Archive malformed text for recovery. */ }
+    return { raw_text, presets: Array.isArray(parsed) ? parsed : [] };
+  } catch { return null; }
+}
+
+let fallbackSequence = 0;
+export function presetRequest(name: string, draft: Draft) {
+  const request_key = typeof globalThis.crypto?.randomUUID === "function"
+    ? globalThis.crypto.randomUUID()
+    : `save-${Date.now().toString(36)}-${(++fallbackSequence).toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+  return { name: name.trim(), draft: structuredClone(draft), request_key };
+}
+
+export function presetApplication(raw: Record<string, unknown>, library: Library, schemaVersion = 1) {
+  const draft = cleanDraft(raw, library);
+  const unresolved: string[] = [];
+  if (schemaVersion !== 1) unresolved.push(`Unsupported schema version: ${schemaVersion}`);
+  for (const [key, value] of Object.entries(raw)) {
+    const known = (draft as unknown as Record<string, unknown>)[key];
+    if (key === "selections" || key === "whitelist" || key === "attributeModes") {
+      if (!value || typeof value !== "object" || Array.isArray(value)) {
+        unresolved.push(`Unsupported ${key}`);
+        continue;
+      }
+      for (const [id, stored] of Object.entries(value)) {
+        const applied = (known as Record<string, unknown> | undefined)?.[id];
+        // Compare arrays without treating harmless key ordering as an unresolved change.
+        if (JSON.stringify(stored) !== JSON.stringify(applied)) {
+          // An explicitly empty pool is supported via attributeModes and stays unset.
+          if (key === "whitelist" && Array.isArray(stored) && stored.length === 0 && attributes(library).some(a => a.id === id)) continue;
+          unresolved.push(`${key}.${id}: ${JSON.stringify(stored)}`);
+        }
+      }
+    } else if (!(key in draft) || JSON.stringify(value) !== JSON.stringify(known)) {
+      unresolved.push(`${key}: ${JSON.stringify(value)}`);
+    }
+  }
+  return { draft, unresolved };
+}

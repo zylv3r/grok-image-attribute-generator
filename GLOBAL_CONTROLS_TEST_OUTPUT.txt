@@ -1,0 +1,159 @@
+Actual test output from the G1/G2 implementation worktree, 2026-10-11.
+
+RED before implementation (captured tool output excerpts):
+AssertionError: 404 != 200
+AssertionError: 404 != 201
+AssertionError: 404 != 403
+Ran 5 tests in 0.450s
+FAILED (failures=5)
+Node: bulkVary is not a function; readLegacyPresets is not a function; presetApplication is not a function
+# tests 12
+# pass 9
+# fail 3
+
+GREEN: python -m unittest test_presets test_server test_gallery -v
+test_canonical_import_preserves_raw_and_conflict_copies_across_restarts (test_presets.PresetTests.test_canonical_import_preserves_raw_and_conflict_copies_across_restarts) ... ok
+test_concurrent_retry_and_import_converge (test_presets.PresetTests.test_concurrent_retry_and_import_converge) ... ok
+test_json_bounds_unsafe_structure_and_duplicate_keys_headers (test_presets.PresetTests.test_json_bounds_unsafe_structure_and_duplicate_keys_headers) ... ok
+test_raw_save_retry_restart_conflict_and_delete_tombstone (test_presets.PresetTests.test_raw_save_retry_restart_conflict_and_delete_tombstone) ... ok
+test_required_exact_origin_host_client_and_duplicate_headers (test_presets.PresetTests.test_required_exact_origin_host_client_and_duplicate_headers) ... ok
+test_native_calls_share_global_four_call_limit_across_managers_and_legacy (test_server.GlobalConcurrencyTests.test_native_calls_share_global_four_call_limit_across_managers_and_legacy) ... ok
+test_recovery_fails_interrupted_paid_work_without_provider_retry (test_server.GlobalConcurrencyTests.test_recovery_fails_interrupted_paid_work_without_provider_retry) ... ok
+test_actual_hair_conflicts_return_specific_400_before_provider (test_server.HTTPTests.test_actual_hair_conflicts_return_specific_400_before_provider) ... ok
+test_csrf_host_origin_and_cross_site_reject_paid_requests_before_provider (test_server.HTTPTests.test_csrf_host_origin_and_cross_site_reject_paid_requests_before_provider) ... ok
+test_explicit_assets_only_for_get_and_head (test_server.HTTPTests.test_explicit_assets_only_for_get_and_head) ... ok
+test_full_preview_job_gallery_details_and_image_asset_flow (test_server.HTTPTests.test_full_preview_job_gallery_details_and_image_asset_flow) ... ok
+test_health_counts_without_prompts_paths_credentials_or_provider_reads (test_server.HTTPTests.test_health_counts_without_prompts_paths_credentials_or_provider_reads) ... ok
+test_legacy_compatibility_persists_empty_tags_and_sanitizes_failure (test_server.HTTPTests.test_legacy_compatibility_persists_empty_tags_and_sanitizes_failure) ... ok
+test_malformed_json_body_cap_types_and_query_validation (test_server.HTTPTests.test_malformed_json_body_cap_types_and_query_validation) ... ok
+test_partial_and_failed_jobs_never_claim_invalid_bytes_successful (test_server.HTTPTests.test_partial_and_failed_jobs_never_claim_invalid_bytes_successful) ... ok
+test_queue_limit_applies_to_async_and_legacy_and_max_four_active_calls (test_server.HTTPTests.test_queue_limit_applies_to_async_and_legacy_and_max_four_active_calls) ... ok
+test_generate_batch_saves_only_verified_images_and_passes_ratio (test_server.NativeGenerationTests.test_generate_batch_saves_only_verified_images_and_passes_ratio) ... ok
+test_legacy_partial_success_preserves_valid_images_and_sanitizes_errors (test_server.NativeGenerationTests.test_legacy_partial_success_preserves_valid_images_and_sanitizes_errors) ... ok
+test_native_url_branch_with_mock_credentials_and_verified_pixels (test_server.NativeGenerationTests.test_native_url_branch_with_mock_credentials_and_verified_pixels) ... ok
+test_unverified_provider_bytes_wrong_aspect_and_invalid_request_rejected (test_server.NativeGenerationTests.test_unverified_provider_bytes_wrong_aspect_and_invalid_request_rejected) ... ok
+test_actual_cross_attribute_locks_and_100_seeded_safe_plans (test_server.PlannerTests.test_actual_cross_attribute_locks_and_100_seeded_safe_plans) ... ok
+test_actual_library_every_attribute_and_value_can_be_planned (test_server.PlannerTests.test_actual_library_every_attribute_and_value_can_be_planned) ... ok
+test_authoritative_prompts_locked_multis_and_boolean_off (test_server.PlannerTests.test_authoritative_prompts_locked_multis_and_boolean_off) ... ok
+test_boolean_whitelist_chooses_exactly_one_and_library_metadata_present (test_server.PlannerTests.test_boolean_whitelist_chooses_exactly_one_and_library_metadata_present) ... ok
+test_huge_combination_space_is_sampled_without_materializing_product (test_server.PlannerTests.test_huge_combination_space_is_sampled_without_materializing_product) ... ok
+test_impossible_variations_repeat_and_single_are_distinct (test_server.PlannerTests.test_impossible_variations_repeat_and_single_are_distinct) ... ok
+test_optional_excludes_exact_counts_multi_conflicts_and_bounded_exhaustion (test_server.PlannerTests.test_optional_excludes_exact_counts_multi_conflicts_and_bounded_exhaustion) ... ok
+test_rejects_invalid_ids_cardinality_types_overlap_and_counts (test_server.PlannerTests.test_rejects_invalid_ids_cardinality_types_overlap_and_counts) ... ok
+test_seeded_distinct_variations_honor_locks_and_whitelist_subsets (test_server.PlannerTests.test_seeded_distinct_variations_honor_locks_and_whitelist_subsets) ... ok
+test_all_failure_recovery_and_completed_jobs_preserved (test_gallery.GalleryTests.test_all_failure_recovery_and_completed_jobs_preserved) ... ok
+test_atomic_replacements_and_cleanup_after_second_replace_failure (test_gallery.GalleryTests.test_atomic_replacements_and_cleanup_after_second_replace_failure) ... ok
+test_bounded_queue_partial_success_and_recovery (test_gallery.GalleryTests.test_bounded_queue_partial_success_and_recovery) ... ok
+test_database_failure_rolls_back_tags_and_cleans_full_image_and_thumbnail (test_gallery.GalleryTests.test_database_failure_rolls_back_tags_and_cleans_full_image_and_thumbnail) ... ok
+test_invalid_truncated_bytes_and_wrong_aspect_never_saved (test_gallery.GalleryTests.test_invalid_truncated_bytes_and_wrong_aspect_never_saved) ... ok
+test_old_sqlite_schema_migrates_and_persists_new_provenance_with_explicit_columns (test_gallery.GalleryTests.test_old_sqlite_schema_migrates_and_persists_new_provenance_with_explicit_columns) ... ok
+test_optional_legacy_import_has_no_invented_tags_and_is_idempotent (test_gallery.GalleryTests.test_optional_legacy_import_has_no_invented_tags_and_is_idempotent) ... ok
+test_or_within_attribute_and_across_all_attributes_and_prompt_search (test_gallery.GalleryTests.test_or_within_attribute_and_across_all_attributes_and_prompt_search) ... ok
+test_pagination_details_aspect_and_reopening_persistence (test_gallery.GalleryTests.test_pagination_details_aspect_and_reopening_persistence) ... ok
+test_verified_pixels_dimensions_and_smaller_thumbnail (test_gallery.GalleryTests.test_verified_pixels_dimensions_and_smaller_thumbnail) ... ok
+
+----------------------------------------------------------------------
+Ran 39 tests in 5.510s
+
+OK
+
+GREEN: node src/browser-tests/selection-state.test.mjs
+TAP version 13
+# Subtest: every real library value survives restoration; stale attributes and values are pruned
+ok 1 - every real library value survives restoration; stale attributes and values are pruned
+  ---
+  duration_ms: 26.629434
+  type: 'test'
+  ...
+# Subtest: locks and whitelists stay disjoint when moved; exclusive locks preserve one and multi locks preserve all
+ok 2 - locks and whitelists stay disjoint when moved; exclusive locks preserve one and multi locks preserve all
+  ---
+  duration_ms: 8.344915
+  type: 'test'
+  ...
+# Subtest: explicit boolean off is retained, while unset omits the attribute
+ok 3 - explicit boolean off is retained, while unset omits the attribute
+  ---
+  duration_ms: 0.895132
+  type: 'test'
+  ...
+# Subtest: restored generation settings are bounded and safe; malformed/unavailable storage does not throw
+ok 4 - restored generation settings are bounded and safe; malformed/unavailable storage does not throw
+  ---
+  duration_ms: 0.573289
+  type: 'test'
+  ...
+# Subtest: empty Vary preference survives restoration but never becomes an API field
+ok 5 - empty Vary preference survives restoration but never becomes an API field
+  ---
+  duration_ms: 0.300635
+  type: 'test'
+  ...
+# Subtest: description-only attribute searches expose all options; individual value steering is searchable
+ok 6 - description-only attribute searches expose all options; individual value steering is searchable
+  ---
+  duration_ms: 0.354155
+  type: 'test'
+  ...
+# Subtest: count labels distinguish bounded lower estimates from exact counts
+ok 7 - count labels distinguish bounded lower estimates from exact counts
+  ---
+  duration_ms: 14.886997
+  type: 'test'
+  ...
+# Subtest: gallery URL restoration keeps OR filters, validates IDs and bounds malformed page and ratio
+ok 8 - gallery URL restoration keeps OR filters, validates IDs and bounds malformed page and ratio
+  ---
+  duration_ms: 0.656531
+  type: 'test'
+  ...
+# Subtest: image descriptions name selections and ratio instead of exposing a full prompt
+ok 9 - image descriptions name selections and ratio instead of exposing a full prompt
+  ---
+  duration_ms: 0.723201
+  type: 'test'
+  ...
+# Subtest: G2 whole catalog bulk complement is ordered, keeps empty Vary and unrelated locks
+ok 10 - G2 whole catalog bulk complement is ordered, keeps empty Vary and unrelated locks
+  ---
+  duration_ms: 3.090779
+  type: 'test'
+  ...
+# Subtest: G1 reads raw legacy before pruning, never writes storage, preserves malformed text
+ok 11 - G1 reads raw legacy before pruning, never writes storage, preserves malformed text
+  ---
+  duration_ms: 0.445767
+  type: 'test'
+  ...
+# Subtest: G1 explicit application lists unsupported fields without mutating archive; save fallback key is stable in request
+ok 12 - G1 explicit application lists unsupported fields without mutating archive; save fallback key is stable in request
+  ---
+  duration_ms: 0.747082
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 79.522263
+
+GREEN: npm run build
+
+> grok-attribute-studio@1.0.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1661 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.62 kB │ gzip:   0.38 kB
+dist/assets/index-BLOwg5Jz.css   27.58 kB │ gzip:   6.73 kB
+dist/assets/index-CnAmurKk.js   386.99 kB │ gzip: 123.22 kB
+✓ built in 2.70s
+
+Browser suites: TypeScript check and Playwright discovery passed. Actual browser execution deferred to parent (sandbox blocked).

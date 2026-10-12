@@ -144,3 +144,49 @@ test("image descriptions name selections and ratio instead of exposing a full pr
   assert.equal(imageDescription(image, library), `${attr.values[0].name} · 9:16`);
   assert.equal(imageDescription({ selections: {}, aspect_ratio: "1:1" }, library), "Untagged composition · 1:1");
 });
+
+const { bulkVary, readLegacyPresets, presetApplication, presetRequest } = sourceModule("src/lib.ts");
+test("G2 whole catalog bulk complement is ordered, keeps empty Vary and unrelated locks", () => {
+  for (const attr of library.categories.flatMap(c => c.attributes)) {
+    const other = { unrelated: ["keep"] };
+    let draft = cleanDraft(null, library);
+    draft.selections = { ...other, [attr.id]: [attr.values[0].id] };
+    draft = bulkVary(draft, attr, "all");
+    assert.deepEqual(draft.whitelist[attr.id], attr.values.map(v => v.id));
+    assert.deepEqual(draft.selections, other);
+    draft = bulkVary(draft, attr, "inverse");
+    assert.equal(draft.whitelist[attr.id], undefined);
+    assert.equal(draft.attributeModes[attr.id], "whitelist");
+    assert.deepEqual(bulkVary(draft, attr, "inverse").whitelist[attr.id], attr.values.map(v => v.id));
+    const partial = { ...draft, whitelist: { [attr.id]: [attr.values.at(-1).id] } };
+    assert.deepEqual(bulkVary(partial, attr, "inverse").whitelist[attr.id], attr.values.slice(0, -1).map(v => v.id));
+    assert.deepEqual(bulkVary(partial, attr, "none").selections, other);
+  }
+});
+test("G1 reads raw legacy before pruning, never writes storage, preserves malformed text", () => {
+  const raw = '[{"id":"old","name":"Old","draft":{"retired":{"unknown":true}}}]';
+  globalThis.localStorage = { getItem: () => raw, setItem: () => assert.fail("must not write") };
+  assert.deepEqual(readLegacyPresets(), { raw_text: raw, presets: JSON.parse(raw) });
+  for (const malformed of ["{broken", ""]) {
+    globalThis.localStorage.getItem = () => malformed;
+    assert.deepEqual(readLegacyPresets(), { raw_text: malformed, presets: [] });
+  }
+  globalThis.localStorage.getItem = () => { throw Error("denied"); };
+  assert.equal(readLegacyPresets(), null);
+  delete globalThis.localStorage;
+});
+test("G1 explicit application lists unsupported fields without mutating archive; save fallback key is stable in request", () => {
+  const attr = library.categories[0].attributes[0];
+  const raw = { selections: { [attr.id]: [attr.values[0].id, "retired"], retired: ["x"] }, future: { keep: true }, mode: "unknown" };
+  const copy = JSON.stringify(raw);
+  const { draft, unresolved } = presetApplication(raw, library);
+  assert.deepEqual(draft.selections, { [attr.id]: [attr.values[0].id] });
+  for (const token of ["retired", "future", "mode"]) assert.ok(unresolved.some(v => v.includes(token)));
+  assert.equal(JSON.stringify(raw), copy);
+  const previous = globalThis.crypto;
+  Object.defineProperty(globalThis, "crypto", { value: undefined, configurable: true });
+  const request = presetRequest("Name", draft);
+  assert.ok(request.request_key.length > 10);
+  assert.equal(JSON.parse(JSON.stringify(request)).request_key, request.request_key);
+  Object.defineProperty(globalThis, "crypto", { value: previous, configurable: true });
+});

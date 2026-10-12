@@ -1,17 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
-import * as Dialog from "@radix-ui/react-dialog";
 import {
   ArrowUpRight,
-  Bookmark,
-  Check,
   ChevronRight,
   Layers,
   Menu,
   RotateCcw,
   Search,
   Sparkles,
-  Trash2,
   X,
 } from "./icons";
 import {
@@ -20,7 +16,7 @@ import {
   cleanDraft,
   errorMessage,
   matchingValues,
-  presetKey,
+  readLegacyPresets,
   readStorage,
   storageKey,
   writeStorage,
@@ -31,7 +27,7 @@ import { Generator } from "./components/Generator";
 import { Gallery } from "./components/Gallery";
 import { ImageDetail } from "./components/ImageDetail";
 import { ErrorNotice } from "./components/UI";
-type Preset = { id: string; name: string; draft: Draft };
+import { Presets } from "./components/Presets";
 function PhotographicProgress({ library }: { library: Library }) {
   const progress = library.thumbnail_progress;
   const attrs = library.categories.flatMap((category) => category.attributes);
@@ -45,136 +41,8 @@ function PhotographicProgress({ library }: { library: Library }) {
     <p>Within each attribute, examples use a fixed photographic prompt baseline; only the target value steer changes. Provider variability can change the subject and other details between examples. Generated examples are searchable in Gallery.</p>
   </section>;
 }
-function Presets({
-  library,
-  draft,
-  change,
-}: {
-  library: Library;
-  draft: Draft;
-  change: (d: Draft) => void;
-}) {
-  const [presets, setPresets] = useState<Preset[]>(() => {
-    const raw = readStorage(presetKey);
-    return Array.isArray(raw)
-      ? raw
-          .filter(
-            (p) => p && typeof p.id === "string" && typeof p.name === "string",
-          )
-          .map((p) => ({
-            id: p.id,
-            name: p.name,
-            draft: cleanDraft(p.draft, library),
-          }))
-      : [];
-  });
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
-  useEffect(() => {
-    writeStorage(presetKey, presets);
-  }, [presets]);
-  return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <button className="secondary">
-          <Bookmark size={15} />
-          Presets
-        </button>
-      </Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Overlay className="dialog-overlay" />
-        <Dialog.Content className="dialog-content preset-dialog">
-          <Dialog.Title>Your saved directions</Dialog.Title>
-          <Dialog.Description>
-            Keep selections, allowed variations, and generation settings for
-            next time.
-          </Dialog.Description>
-          <Dialog.Close
-            className="icon-button dialog-close"
-            aria-label="Close presets"
-          >
-            <X size={19} />
-          </Dialog.Close>
-          <form
-            className="save-preset"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!name.trim()) return;
-              setPresets((p) => [
-                ...p,
-                {
-                  id: crypto.randomUUID(),
-                  name: name.trim(),
-                  draft: structuredClone(draft),
-                },
-              ]);
-              setName("");
-              setStatus("Preset saved.");
-            }}
-          >
-            <label htmlFor="preset-name" className="field-label">
-              Name this direction
-            </label>
-            <div>
-              <input
-                id="preset-name"
-                value={name}
-                maxLength={80}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Quiet afternoon"
-              />
-              <button className="primary" disabled={!name.trim()} type="submit">
-                Save preset
-              </button>
-            </div>
-          </form>
-          <p role="status" className="muted">
-            {status}
-          </p>
-          <div className="preset-list">
-            {presets.length ? (
-              presets.map((p) => (
-                <div key={p.id}>
-                  <div>
-                    <strong>{p.name}</strong>
-                    <p>
-                      {Object.keys(p.draft.selections).length} locks ·{" "}
-                      {p.draft.mode} · {p.draft.aspect_ratio}
-                    </p>
-                  </div>
-                  <Dialog.Close asChild>
-                    <button
-                      className="secondary"
-                      aria-label={`Apply ${p.name}`}
-                      onClick={() => change(cleanDraft(p.draft, library))}
-                    >
-                      Apply
-                      <Check size={14} />
-                    </button>
-                  </Dialog.Close>
-                  <button
-                    className="icon-button"
-                    aria-label={`Delete ${p.name}`}
-                    onClick={() =>
-                      setPresets((prev) => prev.filter((x) => x.id !== p.id))
-                    }
-                  >
-                    <Trash2 size={15} />
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p className="muted">
-                No presets yet. Save your current composition above.
-              </p>
-            )}
-          </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
-  );
-}
 export default function App() {
+  const [legacyPresets] = useState(readLegacyPresets);
   const [library, setLibrary] = useState<Library>();
   const libraryRef = useRef<Library | undefined>(undefined);
   const [draft, setDraft] = useState<Draft>({ ...emptyDraft });
@@ -445,7 +313,7 @@ export default function App() {
                     Build a visual direction, one thoughtful choice at a time.
                   </p>
                   <div className="hero-actions">
-                    <Presets
+                    <Presets legacy={legacyPresets}
                       library={library}
                       draft={draft}
                       change={setDraft}

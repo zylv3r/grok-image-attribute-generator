@@ -23,6 +23,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 from PIL import Image, UnidentifiedImageError
 
 from gallery import Gallery, MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, QueueFull, SAFE_PROVIDER_ERROR, save_image
+from presets import Presets, PresetError
 
 ROOT = Path(__file__).resolve().parent
 GENERATED_DIR = ROOT / 'generated'
@@ -421,6 +422,7 @@ class Application:
         self.root = Path(root)
         self.catalog = catalog or Catalog.load(self.root / 'library.json')
         self.store = Gallery(db_path or self.root / 'gallery.sqlite3', output_dir or self.root / 'generated')
+        self.presets = Presets(self.root / 'presets.sqlite3', self.catalog.library_hash)
         if import_legacy:
             self.store.import_legacy()
         self.jobs = JobManager(self.store, provider)
@@ -660,7 +662,7 @@ class AppHandler(BaseHTTPRequestHandler):
         except ValueError:
             return False
 
-    def _guard(self, paid=False):
+    def _guard(self, paid=False, mutation=False):
         hosts = self.headers.get_all('Host') or []
         if len(hosts) != 1:
             raise APIError(403, 'a loopback Host header is required')
@@ -675,9 +677,9 @@ class AppHandler(BaseHTTPRequestHandler):
             raise APIError(403, 'Host must match this loopback server')
         if not self._loopback(self.client_address[0]):
             raise APIError(403, 'loopback clients only')
-        if paid:
+        if paid or mutation:
             origins = self.headers.get_all('Origin') or []
-            if len(origins) > 1 or (origins and origins[0] != 'http://' + host):
+            if (mutation and len(origins) != 1) or len(origins) > 1 or (origins and origins[0] != 'http://' + host):
                 raise APIError(403, 'Origin must match this server')
             if self.headers.get('Sec-Fetch-Site', '').lower() == 'cross-site':
                 raise APIError(403, 'cross-site generation is forbidden')
@@ -693,6 +695,8 @@ class AppHandler(BaseHTTPRequestHandler):
         length = int(lengths[0])
         if length > BODY_LIMIT:
             raise APIError(413, 'request body is too large')
+        if len(self.headers.get_all('Content-Type') or []) != 1:
+            raise APIError(400, 'one Content-Type header is required')
         if self.headers.get_content_type() != 'application/json':
             raise APIError(415, 'Content-Type must be application/json')
         self.connection.settimeout(10)
@@ -721,10 +725,17 @@ class AppHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         path = urlparse(self.path).path
         try:
-            self._guard(paid=path in {'/api/jobs', '/api/generate'})
-            if path not in {'/api/preview', '/api/jobs', '/api/generate'}:
+            self._guard(paid=path in {'/api/jobs', '/api/generate'}, mutation=path in {'/api/presets', '/api/presets/import'})
+            if path not in {'/api/preview', '/api/jobs', '/api/generate', '/api/presets', '/api/presets/import'}:
                 raise APIError(404, 'not found')
             payload = self._body()
+            if path == '/api/presets':
+                preset, created = self.app.presets.create(payload)
+                self._json(201 if created else 200, preset)
+                return
+            if path == '/api/presets/import':
+                self._json(200, self.app.presets.import_legacy(payload))
+                return
             if path == '/api/generate':
                 result = generate_batch(payload, self.app.store.output_dir, self.app.store, self.app.provider, self.app.catalog)
                 self._json(200, result)
@@ -737,12 +748,33 @@ class AppHandler(BaseHTTPRequestHandler):
                 self._json(202, {'id': job_id})
         except APIError as exc:
             self._json(exc.status, {'error': exc.message})
+        except PresetError as exc:
+            self._json(exc.status, {'error': str(exc)})
         except ValueError as exc:
             self._json(400, {'error': str(exc)})
         except QueueFull as exc:
             self._json(429, {'error': str(exc)})
         except Exception:
             self._json(502, {'error': SAFE_PROVIDER_ERROR})
+        self.close_connection = True
+
+    def do_DELETE(self):
+        try:
+            self._guard(mutation=True)
+            path = urlparse(self.path).path
+            if not path.startswith('/api/presets/'):
+                raise APIError(404, 'not found')
+            self._body()
+            self.app.presets.delete(path[len('/api/presets/'):])
+            self._json(200, {'presets': self.app.presets.list()})
+        except APIError as exc:
+            self._json(exc.status, {'error': exc.message})
+        except PresetError as exc:
+            self._json(exc.status, {'error': str(exc)})
+        except ValueError as exc:
+            self._json(400, {'error': str(exc)})
+        except Exception:
+            self._json(500, {'error': 'Unable to delete preset. Please retry.'})
         self.close_connection = True
 
     def do_HEAD(self):
@@ -753,6 +785,9 @@ class AppHandler(BaseHTTPRequestHandler):
             self._guard()
             parsed = urlparse(self.path)
             path = unquote(parsed.path)
+            if path == '/api/presets':
+                self._json(200, {'presets': self.app.presets.list()})
+                return
             if path == '/api/health':
                 self._json(200, self.app.store.health())
                 return

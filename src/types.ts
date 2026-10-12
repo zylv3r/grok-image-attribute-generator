@@ -105,3 +105,16 @@ export const emptyDraft: Draft = {
   aspect_ratio: "9:16",
   extra_prompt: "",
 };
+
+// Archival drafts may contain retired IDs and future fields; clean only on explicit Apply.
+export type Preset = {
+  id: string;
+  name: string;
+  draft: Record<string, unknown>;
+  schema_version: number;
+  catalog_hash: string;
+  created_at: string;
+  updated_at: string;
+};
+export type PresetResponse = { presets: Preset[]; warnings?: string[] };
+export type LegacyPresets = { raw_text: string; presets: unknown[] };

@@ -3,7 +3,7 @@ import type { KeyboardEvent } from "react";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { Check, ChevronDown, LockKeyhole, Shuffle } from "../icons";
 import { Attribute, Category, Draft } from "../types";
-import { matchingValues, setAttribute } from "../lib";
+import { bulkVary, matchingValues, setAttribute } from "../lib";
 import { Thumb } from "./UI";
 const pageSize = 12;
 const photoThumbnail = /^\/generated\/[a-f0-9]{32}-thumb\.jpg$/;
@@ -89,6 +89,12 @@ function AttributeEditor({ attr, draft, change, query, open, setOpen, photograph
           </div>
           <p id={behaviorId}>{target === "whitelist" ? `Only checked values are allowed. ${ids.length === 1 ? "One allowed value is deliberate: it stays the same in each plan. Add more to vary this attribute." : "Pick two or more for different plans."}` : "Selected values stay fixed in every image."}</p>
         </div>
+        {target === "whitelist" && <div className="attribute-tools" role="group" aria-label={`${attr.name} whole attribute variations`}>
+          <button type="button" className="secondary" onClick={() => change(bulkVary(draft, attr, "all"))}>All {attr.values.length} values</button>
+          <button type="button" className="secondary" onClick={() => change(bulkVary(draft, attr, "none"))}>None</button>
+          <button type="button" className="secondary" onClick={() => change(bulkVary(draft, attr, "inverse"))}>Inverse across {attr.values.length}</button>
+          <p>{ids.length} allowed · {shown.length} shown; actions affect all {attr.values.length}</p>
+        </div>}
         {notice && <p className="attribute-notice" role="status">{notice}</p>}
         <div className="value-grid" role={isCheck ? "group" : "radiogroup"} aria-label={`${attr.name} ${target === "whitelist" ? "allowed variations" : "values"}`} aria-describedby={`${descriptionId} ${behaviorId}`} onKeyDown={isCheck ? undefined : navigate}>
           {contents}

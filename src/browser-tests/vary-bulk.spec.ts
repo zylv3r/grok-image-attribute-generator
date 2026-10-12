@@ -1,0 +1,37 @@
+import { test, expect } from "@playwright/test";
+import { mockAPI, library } from "./fixtures";
+
+test("All/None/Inverse cover hidden and searched values; preserve other locks and empty Vary", async ({ page }) => {
+  const api = await mockAPI(page);
+  const expanded = structuredClone(library);
+  const attr = expanded.categories[0].attributes[0];
+  attr.values = Array.from({ length: 19 }, (_, i) => ({ id: `value-${i}`, name: `Shade ${i}`, steers: `Shade ${i}` }));
+  await page.route("**/api/library", route => route.fulfill({ json: expanded }));
+  await page.goto("/");
+  await page.getByRole("radio", { name: "Standard Skin", exact: true }).click();
+  const editor = page.getByRole("region", { name: "Skin Tone", exact: true });
+  await editor.getByRole("button", { name: "Vary", exact: true }).click();
+  await expect(editor.getByText("0 allowed · 12 shown; actions affect all 19")).toBeVisible();
+  await page.getByRole("textbox", { name: "Search library" }).fill("Shade 18");
+  await editor.getByRole("button", { name: "All 19 values", exact: true }).click();
+  await page.getByRole("button", { name: "Preview prompt & plans" }).click();
+  await expect.poll(() => api.previewPayloads.at(-1)?.whitelist.skin_tone?.length).toBe(19);
+  expect(api.previewPayloads.at(-1)?.selections.micro_texture).toEqual(["off"]);
+  await editor.getByRole("button", { name: "Inverse across 19", exact: true }).click();
+  await expect(editor.getByText("0 allowed · 1 shown; actions affect all 19")).toBeVisible();
+  await expect(editor.getByRole("button", { name: "Vary", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await editor.getByRole("button", { name: "Inverse across 19", exact: true }).click();
+  await page.getByRole("button", { name: "Preview prompt & plans" }).click();
+  await expect.poll(() => api.previewPayloads.at(-1)?.whitelist.skin_tone).toEqual(attr.values.map(v => v.id));
+  await editor.getByRole("button", { name: "None", exact: true }).click();
+  await expect(editor.getByText("0 allowed · 1 shown; actions affect all 19")).toBeVisible();
+  await page.getByRole("textbox", { name: "Search library" }).fill("");
+  const boolean = page.getByRole("region", { name: "Micro-Texture Lock", exact: true });
+  await boolean.getByRole("button", { name: "Vary", exact: true }).click();
+  await boolean.getByRole("button", { name: "All 2 values", exact: true }).click();
+  await page.getByRole("button", { name: "Preview prompt & plans" }).click();
+  await expect.poll(() => api.previewPayloads.at(-1)?.whitelist.micro_texture).toEqual(["on", "off"]);
+  await boolean.getByRole("button", { name: "None", exact: true }).click();
+  await expect(boolean.getByRole("checkbox", { name: "Standard Skin", exact: true })).not.toBeChecked();
+  expect(api.jobPayloads).toHaveLength(0);
+});

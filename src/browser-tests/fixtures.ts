@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { Page } from "@playwright/test";
-import { Draft, GalleryResponse, ImageRecord, Library } from "../types";
+import { Draft, GalleryResponse, ImageRecord, Library, Preset } from "../types";
 export const guide =
   "data:image/svg+xml," +
   encodeURIComponent(
@@ -92,8 +92,10 @@ export async function mockAPI(page: Page) {
     jobPayloads: Draft[] = [],
     galleryQueries: URLSearchParams[] = [];
   let polls = 0;
+  const presets: Preset[] = [];
+  const presetRequests = new Map<string, Preset>();
   // Serve the real compiled frontend in the browser without opening a socket.
-  await page.route("https://atelier.test/**", async (route) => {
+  await page.route(/^https:\/\/(?:atelier|renewed)\.test\//, async (route) => {
     const url = new URL(route.request().url());
     if (url.pathname.startsWith("/api/")) return route.fallback();
     const file = url.pathname === "/" ? "index.html" : url.pathname.slice(1);
@@ -115,6 +117,23 @@ export async function mockAPI(page: Page) {
   await page.route("**/api/**", async (route) => {
     const request = route.request(),
       url = new URL(request.url());
+    if (url.pathname === "/api/presets/import")
+      return route.fulfill({ json: { presets, warnings: request.postDataJSON().raw_text === "{broken" ? ["Malformed legacy text archived for recovery."] : [] } });
+    if (url.pathname === "/api/presets") {
+      if (request.method() === "GET") return route.fulfill({ json: { presets } });
+      const body = request.postDataJSON();
+      let preset = presetRequests.get(body.request_key);
+      if (!preset) {
+        preset = { id: `preset-${presetRequests.size}`, name: body.name, draft: body.draft, schema_version: 1, catalog_hash: "fixture", created_at: "now", updated_at: "now" };
+        presetRequests.set(body.request_key, preset); presets.push(preset);
+      }
+      return route.fulfill({ status: 201, json: preset });
+    }
+    if (url.pathname.startsWith("/api/presets/") && request.method() === "DELETE") {
+      const index = presets.findIndex(p => p.id === url.pathname.split("/").at(-1));
+      if (index >= 0) presets.splice(index, 1);
+      return route.fulfill({ json: { presets } });
+    }
     if (url.pathname === "/api/library")
       return route.fulfill({ json: library });
     if (url.pathname === "/api/preview") {
