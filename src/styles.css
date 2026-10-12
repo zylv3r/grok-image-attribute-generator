@@ -1736,3 +1736,14 @@ p {
   .attribute-thumb.photograph-pending { font-size: 8px; padding: 2px; }
   .photographic-progress { padding: 12px; }
 }
+/* Keep all three workspaces reachable on narrow authenticated phone screens. */
+.catalog-census { font-size: 12px; overflow-wrap: anywhere; }
+.comparisons-main { min-width: 0; }
+.comparisons-main[data-state="inactive"] { display: none; }
+@media (max-width: 640px) {
+  .topbar { height: auto; min-height: 72px; flex-wrap: wrap; row-gap: 4px; padding-block: 10px; }
+  .workspace-tabs { gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .workspace-tabs button { min-height: 44px; padding-inline: 6px; }
+  .brand { font-size: 27px; }
+  .brand-icon { display: none; }
+}

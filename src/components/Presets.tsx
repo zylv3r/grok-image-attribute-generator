@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Bookmark, Check, Trash2, X } from "../icons";
-import { api, errorMessage, presetApplication, presetRequest } from "../lib";
+import { api, errorMessage, presetRequest } from "../lib";
 import type { Draft, LegacyPresets, Library, Preset, PresetResponse } from "../types";
+import { MigrationReview, type MigrationSource } from "./MigrationReview";
 
 export function Presets({ library, draft, change, legacy }: {
   library: Library; draft: Draft; change: (draft: Draft) => void; legacy: LegacyPresets | null;
@@ -18,6 +19,7 @@ export function Presets({ library, draft, change, legacy }: {
   const [busy, setBusy] = useState(false);
   const [revision, setRevision] = useState(0);
   const [review, setReview] = useState<Preset | null>(null);
+  const [migrationSource, setMigrationSource] = useState<MigrationSource | null>(null);
   const requestLock = useRef(false);
   const pending = useRef<ReturnType<typeof presetRequest> | null>(null);
   const [saveFailed, setSaveFailed] = useState(false);
@@ -88,19 +90,17 @@ export function Presets({ library, draft, change, legacy }: {
     try {
       acceptList(await api<PresetResponse>(`/api/presets/${encodeURIComponent(preset.id)}`, { method: "DELETE", body: "{}" }));
       setStatus("Preset deleted from this studio.");
-      if (review?.id === preset.id) setReview(null);
+      if (review?.id === preset.id) { setReview(null); setMigrationSource(null); }
     } catch (error) { setStatus(`Delete failed: ${errorMessage(error)} Retry with Delete.`); }
     finally { requestLock.current = false; setBusy(false); }
   }
 
-  function apply(preset: Preset, explicit = false) {
-    const application = presetApplication(preset.draft, library, preset.schema_version);
-    if (application.unresolved.length && !explicit) { setReview(preset); return; }
-    change(application.draft); setReview(null); setOpen(false);
+  function apply(preset: Preset) {
+    setReview(preset);
+    setMigrationSource({ name: preset.name, draft: preset.draft, schemaVersion: preset.schema_version });
   }
-  const unresolved = review ? presetApplication(review.draft, library, review.schema_version).unresolved : [];
 
-  return <Dialog.Root open={open} onOpenChange={setOpen}>
+  return <><Dialog.Root open={open} onOpenChange={next => { setOpen(next); if (!next) { setReview(null); setMigrationSource(null); } }}>
     <Dialog.Trigger asChild><button className="secondary"><Bookmark size={15} />Presets</button></Dialog.Trigger>
     <Dialog.Portal>
       <Dialog.Overlay className="dialog-overlay" />
@@ -125,13 +125,6 @@ export function Presets({ library, draft, change, legacy }: {
           {warnings.map((warning, index) => <p key={index}>{warning}</p>)}
           {importError && <button className="secondary" disabled={busy || loading} onClick={() => void retryImport()}>Retry import</button>}
         </div>}
-        {review && <div aria-label="Unresolved preset controls">
-          <p>{review.name} includes unresolved, retired, or unsupported controls:</p>
-          <ul>{unresolved.map((field, index) => <li key={index}>{field}</li>)}</ul>
-          <p>The saved archive retains these fields. Applying known controls uses the supported values listed in the library.</p>
-          <button className="primary" disabled={busy} onClick={() => apply(review, true)}>Apply known controls</button>
-          <button className="secondary" onClick={() => setReview(null)}>Cancel apply</button>
-        </div>}
         <div className="preset-list" aria-busy={loading || busy}>
           {presets.map(preset => <div key={preset.id}>
             <div><strong>{preset.name}</strong></div>
@@ -142,5 +135,5 @@ export function Presets({ library, draft, change, legacy }: {
         </div>
       </Dialog.Content>
     </Dialog.Portal>
-  </Dialog.Root>;
+  </Dialog.Root><MigrationReview source={migrationSource} library={library} onCancel={() => { setReview(null); setMigrationSource(null); }} onApply={resolved => { change(resolved); setReview(null); setMigrationSource(null); setOpen(false); }} /></>;
 }

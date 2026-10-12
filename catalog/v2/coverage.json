@@ -1,0 +1,3294 @@
+{
+  "legacy_attribute_count": 97,
+  "legacy_value_count": 893,
+  "attributes": {
+    "skin_tone": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "pale_pinkish": "keep",
+        "porcelain": "keep",
+        "fair": "keep",
+        "light_beige": "keep",
+        "medium_beige": "keep",
+        "warm_tan": "keep",
+        "golden_brown": "keep",
+        "deep_brown": "keep",
+        "rich_ebony": "keep"
+      }
+    },
+    "freckles": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "on": "keep",
+        "prominent": "keep",
+        "off": "keep"
+      }
+    },
+    "micro_texture": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "on": "keep",
+        "off": "keep"
+      }
+    },
+    "skin_undertone": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "cool_rose": "keep",
+        "warm_gold": "keep",
+        "neutral_beige": "keep",
+        "olive": "keep",
+        "peach": "keep",
+        "copper": "keep",
+        "cool_blue": "keep",
+        "warm_red": "keep"
+      }
+    },
+    "skin_finish": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "matte": "keep",
+        "satin": "keep",
+        "dewy": "keep",
+        "dry_natural": "keep",
+        "hydrated": "keep",
+        "t_zone_glow": "keep",
+        "cheek_glow": "keep",
+        "bare_natural": "keep"
+      }
+    },
+    "hair_color": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "golden_blonde": "keep",
+        "light_auburn_copper": "keep",
+        "platinum": "keep",
+        "ash_blonde": "keep",
+        "jet_black": "keep",
+        "espresso": "keep",
+        "chestnut": "keep",
+        "chocolate": "keep",
+        "silver": "keep",
+        "salt_and_pepper": "move",
+        "copper_red": "keep",
+        "dark_auburn": "keep"
+      }
+    },
+    "hair_style": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "messy_waves": "disclosed_recipe",
+        "soft_waves": "move",
+        "straight": "move",
+        "loose_curls": "move",
+        "tight_coils": "move",
+        "sleek_center_part": "disclosed_recipe",
+        "side_part": "retire_unresolved",
+        "braided_crown": "move",
+        "low_bun": "move",
+        "high_bun": "move",
+        "low_ponytail": "move",
+        "high_ponytail": "move",
+        "twin_braids": "move"
+      }
+    },
+    "hair_length": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "shaved": "keep",
+        "buzz_cut": "keep",
+        "ear_length": "keep",
+        "chin_length": "keep",
+        "shoulder_length": "keep",
+        "collarbone_length": "keep",
+        "mid_back": "keep",
+        "waist_length": "keep"
+      }
+    },
+    "hair_fringe": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "open_forehead": "keep",
+        "blunt_bangs": "keep",
+        "curtain_bangs": "keep",
+        "side_swept_fringe": "keep",
+        "wispy_fringe": "keep",
+        "micro_bangs": "keep",
+        "curved_fringe": "keep",
+        "face_framing_strands": "keep"
+      }
+    },
+    "hair_accessory": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "none": "keep",
+        "silk_ribbon": "keep",
+        "metal_barrette": "keep",
+        "wide_headband": "keep",
+        "small_clips": "keep",
+        "scrunchie": "keep",
+        "decorative_comb": "keep",
+        "flower_pin": "keep"
+      }
+    },
+    "fabric_color": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "pale_pink": "keep",
+        "emerald": "keep",
+        "deep_red": "keep",
+        "ivory": "keep",
+        "champagne": "keep",
+        "black": "keep",
+        "sage": "keep",
+        "navy": "keep",
+        "cobalt": "keep",
+        "ochre": "keep",
+        "terracotta": "keep",
+        "lavender": "keep",
+        "plum": "keep",
+        "teal": "keep",
+        "charcoal": "keep",
+        "white": "keep"
+      }
+    },
+    "drape_effect": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "on": "keep",
+        "off": "keep"
+      }
+    },
+    "high_slit": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "on": "keep",
+        "off": "keep"
+      }
+    },
+    "dress_style": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "slip": "disclosed_recipe",
+        "bodycon": "disclosed_recipe",
+        "off_shoulder": "disclosed_recipe",
+        "a_line": "move",
+        "shirt_dress": "disclosed_recipe",
+        "wrap_dress": "move",
+        "column_dress": "move",
+        "fit_and_flare": "move",
+        "shift_dress": "move",
+        "pleated_dress": "disclosed_recipe",
+        "high_neck_dress": "disclosed_recipe"
+      }
+    },
+    "fabric_material": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "cotton_poplin": "keep",
+        "linen": "keep",
+        "wool": "keep",
+        "denim": "keep",
+        "velvet": "keep",
+        "satin": "move",
+        "corduroy": "keep",
+        "tweed": "keep"
+      }
+    },
+    "garment_pattern": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "solid": "keep",
+        "pinstripe": "keep",
+        "wide_stripe": "keep",
+        "gingham": "keep",
+        "herringbone": "keep",
+        "polka_dot": "keep",
+        "botanical_print": "keep",
+        "color_block": "keep"
+      }
+    },
+    "hem_length": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "above_knee": "keep",
+        "at_knee": "move",
+        "below_knee": "keep",
+        "mid_calf": "keep",
+        "ankle": "keep",
+        "floor": "keep",
+        "asymmetric": "move",
+        "high_low": "move"
+      }
+    },
+    "seam_detail": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "move",
+      "value_dispositions": {
+        "clean_seams": "move",
+        "topstitch": "move",
+        "piped_seams": "move",
+        "panel_seams": "move",
+        "princess_seams": "move",
+        "flat_fell": "move",
+        "bound_edges": "move",
+        "raised_welts": "move"
+      }
+    },
+    "pose": {
+      "owner_category": "poses",
+      "current_category": "pose",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "hands_on_hips": "move",
+        "weight_shift": "move",
+        "over_shoulder": "disclosed_recipe",
+        "adjusting_strap": "move",
+        "finger_near_lips": "move",
+        "seated": "move",
+        "three_quarter": "move",
+        "leaning": "retire_unresolved",
+        "looking_back": "disclosed_recipe",
+        "hand_in_hair": "move",
+        "arms_relaxed": "move",
+        "slight_arch": "keep",
+        "walking_forward": "move",
+        "walking_left": "move",
+        "walking_right": "move",
+        "long_stride": "move",
+        "short_step": "move",
+        "paused_step": "move",
+        "crossed_ankles": "keep",
+        "feet_together": "keep",
+        "wide_stance": "move",
+        "one_knee_bent": "move",
+        "one_foot_forward": "move",
+        "hands_clasped_front": "move",
+        "hands_behind_back": "move",
+        "one_hand_on_hip": "move",
+        "arms_folded": "move",
+        "hand_on_forearm": "move",
+        "hand_on_elbow": "move",
+        "touching_collar": "move",
+        "touching_cuff": "move",
+        "holding_lapel": "move",
+        "holding_hem": "move",
+        "checking_watch": "move",
+        "reading_book": "disclosed_recipe",
+        "holding_cup": "disclosed_recipe",
+        "carrying_bag": "move",
+        "holding_umbrella": "move",
+        "waving": "move",
+        "pointing_side": "move",
+        "open_hand_gesture": "move",
+        "reaching_shelf": "move",
+        "reaching_up": "move",
+        "stretching_shoulders": "move",
+        "turning_in_place": "move",
+        "pivot_left": "move",
+        "pivot_right": "move",
+        "seated_upright": "disclosed_recipe",
+        "seated_sideways": "move",
+        "seated_ankles_crossed": "move",
+        "seated_lean_forward": "move",
+        "seated_lean_back": "move",
+        "seated_hands_clasped": "disclosed_recipe",
+        "seated_one_arm_on_back": "move",
+        "seated_reading": "disclosed_recipe",
+        "seated_looking_up": "disclosed_recipe",
+        "bench_side_sit": "move",
+        "stool_perch": "keep",
+        "step_sit": "keep",
+        "ledge_sit": "keep",
+        "wall_lean_shoulder": "keep",
+        "wall_lean_back": "keep",
+        "rail_lean": "keep",
+        "table_lean": "keep",
+        "doorway_rest": "keep",
+        "ascending_step": "keep",
+        "descending_step": "keep",
+        "looking_into_window": "move",
+        "tying_scarf": "move",
+        "buttoning_jacket": "move"
+      }
+    },
+    "body_orientation": {
+      "owner_category": "poses",
+      "current_category": "pose",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "front": "keep",
+        "quarter_left": "keep",
+        "quarter_right": "keep",
+        "profile_left": "keep",
+        "profile_right": "keep",
+        "back": "keep",
+        "back_three_quarter_left": "keep",
+        "back_three_quarter_right": "keep"
+      }
+    },
+    "head_tilt": {
+      "owner_category": "poses",
+      "current_category": "pose",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "level": "keep",
+        "tilt_left": "keep",
+        "tilt_right": "keep",
+        "chin_up": "keep",
+        "chin_down": "keep",
+        "turn_left": "keep",
+        "turn_right": "keep",
+        "forward_incline": "keep"
+      }
+    },
+    "scenery": {
+      "owner_category": "environment_props",
+      "current_category": "scenery",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "window_left": "keep",
+        "garden_path": "keep",
+        "balcony": "keep",
+        "meadow": "keep",
+        "apartment": "keep",
+        "terrace": "keep",
+        "library": "keep",
+        "rainy_window": "keep",
+        "loft": "keep",
+        "courtyard": "keep",
+        "hallway": "keep",
+        "bedroom_window": "keep",
+        "coastal_boardwalk": "keep",
+        "rocky_shore": "keep",
+        "sandy_beach": "keep",
+        "harbor_quay": "keep",
+        "marina": "keep",
+        "lighthouse_path": "keep",
+        "dune_trail": "keep",
+        "cliff_overlook": "keep",
+        "pine_forest": "keep",
+        "birch_grove": "keep",
+        "woodland_trail": "keep",
+        "bamboo_walk": "keep",
+        "orchard": "keep",
+        "olive_grove": "keep",
+        "lavender_field": "keep",
+        "sunflower_field": "keep",
+        "vineyard": "keep",
+        "tea_garden": "keep",
+        "botanical_glasshouse": "keep",
+        "palm_garden": "keep",
+        "rose_garden": "keep",
+        "formal_hedge_garden": "keep",
+        "stone_bridge": "keep",
+        "riverside_walk": "keep",
+        "lakeside_pier": "keep",
+        "mountain_lake": "keep",
+        "waterfall_path": "keep",
+        "wetland_boardwalk": "keep",
+        "desert_courtyard": "keep",
+        "cactus_garden": "keep",
+        "red_rock_trail": "keep",
+        "salt_flat": "keep",
+        "prairie": "keep",
+        "rolling_hills": "keep",
+        "snowy_park": "keep",
+        "alpine_village": "keep",
+        "cabin_porch": "keep",
+        "urban_crosswalk": "keep",
+        "cobblestone_lane": "keep",
+        "brick_alley": "keep",
+        "shopping_arcade": "keep",
+        "cafe_exterior": "keep",
+        "cafe_interior": "keep",
+        "bakery": "keep",
+        "bookshop": "keep",
+        "museum_gallery": "keep",
+        "sculpture_hall": "keep",
+        "train_platform": "keep",
+        "tram_stop": "keep",
+        "station_concourse": "keep",
+        "airport_lounge": "keep",
+        "rooftop": "keep",
+        "city_park": "keep",
+        "plaza": "keep",
+        "fountain_square": "keep",
+        "colonnade": "keep",
+        "arched_passage": "keep",
+        "spiral_stair": "keep",
+        "grand_staircase": "keep",
+        "industrial_studio": "keep",
+        "white_cyclorama": "keep",
+        "gray_studio": "keep",
+        "black_studio": "keep",
+        "paper_backdrop": "keep",
+        "daylight_studio": "keep",
+        "art_workshop": "keep",
+        "ceramics_studio": "keep",
+        "music_room": "keep",
+        "conservatory": "keep",
+        "dining_room": "keep",
+        "kitchen": "keep",
+        "entryway": "keep",
+        "sunroom": "keep",
+        "hotel_lobby": "keep",
+        "dressing_room": "keep",
+        "tailor_workshop": "keep",
+        "covered_veranda": "keep",
+        "pergola": "keep",
+        "greenhouse_path": "keep",
+        "courtyard_pool": "keep",
+        "canal_bridge": "keep",
+        "market_hall": "keep",
+        "concert_foyer": "keep"
+      }
+    },
+    "ethnic_inspiration": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "phenotype",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "retire_unresolved",
+      "value_dispositions": {
+        "slavic_inspired": "retire_unresolved",
+        "scandinavian_inspired": "retire_unresolved",
+        "northern_european_blend": "retire_unresolved"
+      }
+    },
+    "complexion_detail": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "phenotype",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "retire_unresolved",
+      "value_dispositions": {
+        "porcelain_cool_pink": "retire_unresolved",
+        "pale_pink_freckled": "retire_unresolved",
+        "fair_clear": "retire_unresolved"
+      }
+    },
+    "cheekbones": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "phenotype",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "prominent_soft": "keep",
+        "defined_natural": "keep",
+        "rounded": "keep",
+        "broad": "keep",
+        "subtle": "keep",
+        "angular": "keep",
+        "low_set": "keep",
+        "high_narrow": "keep"
+      }
+    },
+    "eye_color": {
+      "owner_category": "eyes",
+      "current_category": "phenotype",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "icy_blue": "keep",
+        "pale_green": "keep",
+        "aqua": "keep",
+        "gray_blue": "keep",
+        "dark_brown": "move",
+        "amber": "move",
+        "hazel": "move",
+        "olive_green": "keep",
+        "warm_gray": "keep"
+      }
+    },
+    "eyelashes": {
+      "owner_category": "eyes",
+      "current_category": "phenotype",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "dark_long": "keep",
+        "soft_dark": "keep",
+        "short_natural": "keep",
+        "fine_sparse": "keep",
+        "curled": "keep",
+        "straight_lashes": "keep",
+        "brown_lashes": "keep",
+        "full_natural": "keep"
+      }
+    },
+    "facial_balance": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "phenotype",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "retire_unresolved",
+      "value_dispositions": {
+        "delicate_harmonious": "retire_unresolved",
+        "ethereal_natural": "retire_unresolved"
+      }
+    },
+    "silhouette": {
+      "owner_category": "body_avatar",
+      "current_category": "editorial",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "disclosed_recipe",
+      "value_dispositions": {
+        "elegant_hourglass": "disclosed_recipe",
+        "couture_hourglass": "disclosed_recipe",
+        "slender_hourglass": "disclosed_recipe",
+        "slender_toned_legs": "disclosed_recipe",
+        "graceful_curves": "disclosed_recipe",
+        "statuesque": "disclosed_recipe"
+      }
+    },
+    "face_direction": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "editorial",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "retire_unresolved",
+      "value_dispositions": {
+        "luminous": "retire_unresolved",
+        "classic_beauty": "retire_unresolved",
+        "confident": "retire_unresolved",
+        "soft_sultry": "retire_unresolved"
+      }
+    },
+    "editorial_mood": {
+      "owner_category": "editorial_recipes",
+      "current_category": "editorial",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "disclosed_recipe",
+      "value_dispositions": {
+        "quiet_luxury": "disclosed_recipe",
+        "sensual_luxe": "disclosed_recipe",
+        "cinematic_romance": "disclosed_recipe",
+        "modern_glamour": "disclosed_recipe"
+      }
+    },
+    "narrative": {
+      "owner_category": "editorial_recipes",
+      "current_category": "editorial",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "disclosed_recipe",
+      "value_dispositions": {
+        "arrival": "disclosed_recipe",
+        "pause": "disclosed_recipe",
+        "conversation": "disclosed_recipe",
+        "reflection": "disclosed_recipe",
+        "exploration": "disclosed_recipe",
+        "departure": "disclosed_recipe",
+        "preparation": "disclosed_recipe",
+        "observation": "disclosed_recipe"
+      }
+    },
+    "camera": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "on": "keep",
+        "off": "keep"
+      }
+    },
+    "age": {
+      "owner_category": "identity_controls",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "24": "move",
+        "age_21": "keep",
+        "age_28": "keep",
+        "age_35": "keep",
+        "age_42": "keep",
+        "age_50": "keep",
+        "age_60": "keep",
+        "age_70": "keep",
+        "age_80": "keep"
+      }
+    },
+    "focal_length": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "24mm": "keep",
+        "28mm": "keep",
+        "35mm": "keep",
+        "50mm": "keep",
+        "65mm": "keep",
+        "85mm": "keep",
+        "105mm": "keep",
+        "135mm": "keep"
+      }
+    },
+    "aperture": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "f_1_4": "keep",
+        "f_2": "keep",
+        "f_2_8": "keep",
+        "f_4": "keep",
+        "f_5_6": "keep",
+        "f_8": "keep",
+        "f_11": "keep",
+        "f_16": "keep"
+      }
+    },
+    "shutter_motion": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "frozen": "keep",
+        "crisp_still": "keep",
+        "slight_fabric_blur": "keep",
+        "walking_blur": "keep",
+        "panned": "keep",
+        "long_background": "keep",
+        "handheld_trace": "keep",
+        "wind_trace": "keep"
+      }
+    },
+    "grain": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "clean_digital": "keep",
+        "fine_grain": "keep",
+        "medium_grain": "keep",
+        "coarse_grain": "keep",
+        "shadow_grain": "keep",
+        "soft_film_grain": "keep",
+        "high_iso": "keep",
+        "low_iso": "keep"
+      }
+    },
+    "focus_target": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "near_eye": "keep",
+        "both_eyes": "keep",
+        "face_plane": "keep",
+        "garment_detail": "keep",
+        "hands": "keep",
+        "full_subject": "keep",
+        "accessory": "keep",
+        "environmental": "keep"
+      }
+    },
+    "white_balance": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "daylight": "keep",
+        "cloudy": "keep",
+        "shade": "keep",
+        "tungsten": "keep",
+        "cool_neutral": "keep",
+        "warm_neutral": "keep",
+        "mixed_balanced": "keep",
+        "custom_gray": "keep"
+      }
+    },
+    "highlight_rolloff": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "gentle": "keep",
+        "neutral_rolloff": "keep",
+        "film_shoulder": "keep",
+        "crisp_white": "keep",
+        "protect_whites": "keep",
+        "glowing_edge": "keep",
+        "matte_brights": "keep",
+        "high_latitude": "keep"
+      }
+    },
+    "face_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "oval": "keep",
+        "round": "keep",
+        "square": "keep",
+        "heart": "keep",
+        "long": "keep",
+        "diamond": "keep",
+        "soft_rectangle": "keep",
+        "tapered_oval": "keep"
+      }
+    },
+    "brow_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "straight": "keep",
+        "soft_arch": "keep",
+        "high_arch": "keep",
+        "angled": "keep",
+        "rounded": "keep",
+        "flat_outer": "keep",
+        "upward": "keep",
+        "low_arch": "keep"
+      }
+    },
+    "eye_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "almond": "keep",
+        "round_eyes": "keep",
+        "hooded": "keep",
+        "monolid": "keep",
+        "deep_set": "keep",
+        "upturned": "keep",
+        "downturned": "keep",
+        "wide_aperture": "keep"
+      }
+    },
+    "nose_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "straight_bridge": "keep",
+        "soft_rounded_tip": "keep",
+        "defined_bridge": "keep",
+        "low_bridge": "keep",
+        "broad_bridge": "keep",
+        "narrow_bridge": "keep",
+        "gentle_convex": "keep",
+        "upturned_tip": "keep"
+      }
+    },
+    "lip_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "balanced": "keep",
+        "full_lower": "keep",
+        "defined_cupid_bow": "keep",
+        "soft_bow": "keep",
+        "wide_lips": "keep",
+        "petite_lips": "keep",
+        "full_balanced": "keep",
+        "thin_balanced": "keep"
+      }
+    },
+    "expression": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "move",
+      "value_dispositions": {
+        "neutral": "move",
+        "gentle_smile": "move",
+        "open_smile": "move",
+        "thoughtful": "move",
+        "amused": "move",
+        "serious": "move",
+        "surprised": "move",
+        "serene": "move"
+      }
+    },
+    "gaze_direction": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "at_camera": "keep",
+        "camera_left": "keep",
+        "camera_right": "keep",
+        "upward_gaze": "keep",
+        "downward_gaze": "keep",
+        "distant_horizon": "keep",
+        "at_hands": "keep",
+        "eyes_closed": "keep"
+      }
+    },
+    "makeup_finish": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "bare_face": "keep",
+        "sheer_tint": "keep",
+        "soft_matte": "keep",
+        "luminous": "keep",
+        "satin_base": "keep",
+        "minimal_concealer": "keep",
+        "editorial_polish": "keep",
+        "sunlit_bronze": "keep"
+      }
+    },
+    "lip_color": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "natural_rose": "keep",
+        "peach_nude": "keep",
+        "berry": "keep",
+        "brick_red": "keep",
+        "classic_red": "keep",
+        "mauve": "keep",
+        "warm_brown": "keep",
+        "clear_balm": "keep"
+      }
+    },
+    "eye_makeup": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_eye_makeup": "keep",
+        "fine_liner": "keep",
+        "soft_brown_shadow": "keep",
+        "taupe_wash": "keep",
+        "bronze_lid": "keep",
+        "charcoal_smudge": "keep",
+        "short_wing": "keep",
+        "rose_lid": "keep"
+      }
+    },
+    "blush_placement": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_blush": "keep",
+        "cheek_apples": "keep",
+        "high_cheeks": "keep",
+        "outer_cheeks": "keep",
+        "soft_diagonal": "keep",
+        "diffuse_cheeks": "keep",
+        "nose_bridge": "keep",
+        "low_cheeks": "keep"
+      }
+    },
+    "top_style": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "crew_tee": "disclosed_recipe",
+        "button_shirt": "disclosed_recipe",
+        "blouse": "keep",
+        "turtleneck": "disclosed_recipe",
+        "polo": "disclosed_recipe",
+        "boat_neck_top": "disclosed_recipe",
+        "tunic": "keep",
+        "knit_pullover": "disclosed_recipe"
+      }
+    },
+    "neckline": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "move",
+      "value_dispositions": {
+        "crew_neck": "move",
+        "boat_neck": "move",
+        "square_neck": "move",
+        "modest_v_neck": "move",
+        "high_neck": "move",
+        "collared": "move",
+        "cowl_neck": "move",
+        "stand_collar": "move"
+      }
+    },
+    "sleeve_length": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "sleeveless": "move",
+        "cap_sleeve": "move",
+        "short_sleeve": "move",
+        "elbow_sleeve": "move",
+        "three_quarter_sleeve": "move",
+        "wrist_sleeve": "move",
+        "extended_cuff": "move",
+        "rolled_sleeve": "keep"
+      }
+    },
+    "sleeve_shape": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "straight_sleeve": "move",
+        "fitted_sleeve": "move",
+        "bell_sleeve": "move",
+        "bishop_sleeve": "move",
+        "puff_sleeve": "move",
+        "dolman_sleeve": "move",
+        "raglan_sleeve": "move",
+        "structured_sleeve": "keep"
+      }
+    },
+    "trouser_cut": {
+      "owner_category": "wardrobe",
+      "current_category": "bottoms",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "straight_leg": "move",
+        "wide_leg": "keep",
+        "tapered": "keep",
+        "bootcut": "keep",
+        "culottes": "move",
+        "pleated_trousers": "disclosed_recipe",
+        "relaxed_cargo": "disclosed_recipe",
+        "slim_tailored": "move"
+      }
+    },
+    "skirt_cut": {
+      "owner_category": "wardrobe",
+      "current_category": "bottoms",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "pencil": "keep",
+        "circle": "keep",
+        "pleated": "disclosed_recipe",
+        "a_line_skirt": "move",
+        "wrap_skirt": "move",
+        "tiered": "keep",
+        "straight_skirt": "move",
+        "bias_cut": "move"
+      }
+    },
+    "waist_position": {
+      "owner_category": "wardrobe",
+      "current_category": "bottoms",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "natural_waist": "move",
+        "high_waist": "move",
+        "mid_rise": "move",
+        "hip_rise": "move",
+        "paperbag_waist": "disclosed_recipe",
+        "contoured_waist": "move",
+        "wide_waistband": "move",
+        "elastic_waist": "move"
+      }
+    },
+    "outerwear_style": {
+      "owner_category": "wardrobe",
+      "current_category": "outerwear",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "no_outerwear": "move",
+        "blazer": "keep",
+        "trench_coat": "disclosed_recipe",
+        "wool_coat": "move",
+        "denim_jacket": "keep",
+        "cardigan": "keep",
+        "bomber": "keep",
+        "cape": "keep"
+      }
+    },
+    "outerwear_length": {
+      "owner_category": "wardrobe",
+      "current_category": "outerwear",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "cropped_jacket": "keep",
+        "waist_jacket": "keep",
+        "hip_jacket": "keep",
+        "longline_jacket": "keep",
+        "mid_thigh_coat": "keep",
+        "knee_coat": "keep",
+        "calf_coat": "keep",
+        "ankle_coat": "keep"
+      }
+    },
+    "shoe_style": {
+      "owner_category": "wardrobe",
+      "current_category": "footwear",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "loafers": "move",
+        "ballet_flats": "disclosed_recipe",
+        "ankle_boots": "move",
+        "knee_boots": "move",
+        "low_pumps": "move",
+        "sneakers": "move",
+        "oxfords": "move",
+        "sandals": "move"
+      }
+    },
+    "shoe_material": {
+      "owner_category": "wardrobe",
+      "current_category": "footwear",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "smooth_leather": "keep",
+        "suede": "keep",
+        "canvas": "keep",
+        "patent_leather": "keep",
+        "nubuck": "keep",
+        "woven_fabric": "keep",
+        "rubber": "keep",
+        "grained_leather": "keep"
+      }
+    },
+    "jewelry_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_jewelry": "keep",
+        "stud_earrings": "keep",
+        "hoop_earrings": "keep",
+        "pendant": "keep",
+        "pearl_strand": "keep",
+        "cuff_bracelet": "keep",
+        "fine_rings": "keep",
+        "sculptural_earrings": "keep"
+      }
+    },
+    "metal_finish": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "yellow_gold": "keep",
+        "silver": "keep",
+        "rose_gold": "keep",
+        "brushed_steel": "keep",
+        "oxidized_silver": "keep",
+        "matte_brass": "keep",
+        "polished_chrome": "keep",
+        "hammered_gold": "keep"
+      }
+    },
+    "bag_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_bag": "keep",
+        "structured_tote": "keep",
+        "crossbody": "keep",
+        "satchel": "keep",
+        "clutch": "keep",
+        "bucket_bag": "keep",
+        "shoulder_bag": "keep",
+        "backpack": "keep"
+      }
+    },
+    "belt_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_belt": "keep",
+        "narrow_leather": "keep",
+        "wide_leather": "keep",
+        "fabric_tie": "keep",
+        "braided_belt": "keep",
+        "minimal_buckle": "keep",
+        "round_buckle": "keep",
+        "double_wrap": "keep"
+      }
+    },
+    "scarf_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_scarf": "keep",
+        "loose_loop": "keep",
+        "single_knot": "keep",
+        "shoulder_drape": "keep",
+        "neck_wrap": "keep",
+        "long_ends": "keep",
+        "triangle_fold": "keep",
+        "small_bow": "keep"
+      }
+    },
+    "body_build": {
+      "owner_category": "body_avatar",
+      "current_category": "body",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "lean": "move",
+        "athletic": "move",
+        "soft_average": "disclosed_recipe",
+        "broad_frame": "move",
+        "petite_frame": "disclosed_recipe",
+        "full_figure": "move",
+        "tall_frame": "move",
+        "compact_athletic": "disclosed_recipe"
+      }
+    },
+    "shoulder_shape": {
+      "owner_category": "body_avatar",
+      "current_category": "body",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "mixed",
+      "value_dispositions": {
+        "narrow_shoulders": "move",
+        "balanced_shoulders": "move",
+        "broad_shoulders": "move",
+        "soft_slope": "move",
+        "square_shoulders": "move",
+        "rounded_shoulders": "retire_unresolved",
+        "defined_shoulders": "retire_unresolved",
+        "relaxed_shoulders": "retire_unresolved"
+      }
+    },
+    "light_direction": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "front_light": "keep",
+        "left_light": "keep",
+        "right_light": "keep",
+        "top_light": "keep",
+        "back_light": "keep",
+        "front_left": "keep",
+        "front_right": "keep",
+        "low_side_light": "keep"
+      }
+    },
+    "light_quality": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "hard": "keep",
+        "soft": "keep",
+        "diffuse": "keep",
+        "filtered": "keep",
+        "dappled": "keep",
+        "strip_softbox": "keep",
+        "bounce": "keep",
+        "fresnel": "keep"
+      }
+    },
+    "lighting_pattern": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "butterfly": "keep",
+        "loop": "keep",
+        "rembrandt": "keep",
+        "split": "keep",
+        "broad": "keep",
+        "short": "keep",
+        "clamshell": "keep",
+        "rim": "keep"
+      }
+    },
+    "fill_ratio": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "one_to_one": "keep",
+        "two_to_one": "keep",
+        "three_to_one": "keep",
+        "four_to_one": "keep",
+        "six_to_one": "keep",
+        "eight_to_one": "keep",
+        "no_fill": "keep",
+        "negative_fill": "keep"
+      }
+    },
+    "practical_light": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_practical": "keep",
+        "table_lamp": "keep",
+        "floor_lamp": "keep",
+        "pendant_lamp": "keep",
+        "wall_sconce": "keep",
+        "string_lights": "keep",
+        "shop_sign": "keep",
+        "lantern": "keep"
+      }
+    },
+    "light_temperature": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "candle_warm": "keep",
+        "warm_lamp": "keep",
+        "tungsten_source": "keep",
+        "neutral_white": "keep",
+        "daylight_source": "keep",
+        "cool_sky": "keep",
+        "blue_hour": "keep",
+        "mixed_warm_cool": "keep"
+      }
+    },
+    "shot_size": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "face_closeup": "keep",
+        "head_and_shoulders": "keep",
+        "chest_up": "keep",
+        "waist_up": "keep",
+        "three_quarter_body": "keep",
+        "full_body": "keep",
+        "environmental_wide": "keep",
+        "detail_crop": "keep"
+      }
+    },
+    "camera_height": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "eye_level": "keep",
+        "chest_level": "keep",
+        "waist_level": "keep",
+        "knee_level": "keep",
+        "above_eye": "keep",
+        "high_angle": "keep",
+        "ground_level": "keep",
+        "overhead": "keep"
+      }
+    },
+    "subject_placement": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "centered": "keep",
+        "left_third": "keep",
+        "right_third": "keep",
+        "lower_center": "keep",
+        "upper_center": "keep",
+        "far_left": "keep",
+        "far_right": "keep",
+        "balanced_offset": "keep"
+      }
+    },
+    "leading_lines": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_strong_lines": "keep",
+        "path_convergence": "keep",
+        "vertical_columns": "keep",
+        "diagonal_rail": "keep",
+        "curved_walkway": "keep",
+        "stair_rhythm": "keep",
+        "window_grid": "keep",
+        "arch_frame": "keep"
+      }
+    },
+    "foreground": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "clear_foreground": "keep",
+        "soft_leaves": "keep",
+        "window_edge": "keep",
+        "door_frame": "keep",
+        "flower_blur": "keep",
+        "rail_edge": "keep",
+        "reflective_pane": "keep",
+        "fabric_edge": "keep"
+      }
+    },
+    "horizon_height": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "low_horizon": "keep",
+        "middle_horizon": "keep",
+        "high_horizon": "keep",
+        "near_bottom": "keep",
+        "near_top": "keep",
+        "no_horizon": "keep",
+        "descending_left": "keep",
+        "descending_right": "keep"
+      }
+    },
+    "ground_surface": {
+      "owner_category": "environment_props",
+      "current_category": "location",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "stone_paving": "keep",
+        "wood_boards": "keep",
+        "concrete": "keep",
+        "grass": "keep",
+        "gravel": "keep",
+        "brick_paving": "keep",
+        "tile_floor": "keep",
+        "packed_earth": "keep"
+      }
+    },
+    "wall_surface": {
+      "owner_category": "environment_props",
+      "current_category": "location",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "white_plaster": "keep",
+        "exposed_brick": "keep",
+        "limestone": "keep",
+        "wood_panel": "keep",
+        "concrete_wall": "keep",
+        "painted_stucco": "keep",
+        "ceramic_tile": "keep",
+        "glass_wall": "keep"
+      }
+    },
+    "vegetation": {
+      "owner_category": "environment_props",
+      "current_category": "location",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_vegetation": "keep",
+        "broad_leaves": "keep",
+        "fine_ferns": "keep",
+        "tall_grasses": "keep",
+        "flowering_shrubs": "keep",
+        "climbing_vines": "keep",
+        "conifer_trees": "keep",
+        "deciduous_trees": "keep"
+      }
+    },
+    "weather": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "clear": "keep",
+        "overcast": "keep",
+        "light_rain": "keep",
+        "after_rain": "keep",
+        "misty": "keep",
+        "snowfall": "keep",
+        "hazy": "keep",
+        "broken_cloud": "keep"
+      }
+    },
+    "time_of_day": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "dawn": "keep",
+        "morning": "keep",
+        "midday": "keep",
+        "afternoon": "keep",
+        "golden_hour": "keep",
+        "sunset": "keep",
+        "twilight": "keep",
+        "night": "keep"
+      }
+    },
+    "wind": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "still_air": "keep",
+        "light_breeze": "keep",
+        "side_breeze": "keep",
+        "headwind": "keep",
+        "back_breeze": "keep",
+        "gust": "keep",
+        "swirling_breeze": "keep",
+        "sheltered": "keep"
+      }
+    },
+    "season": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "spring": "keep",
+        "early_summer": "keep",
+        "high_summer": "keep",
+        "late_summer": "keep",
+        "autumn": "keep",
+        "late_autumn": "keep",
+        "winter": "keep",
+        "early_winter": "keep"
+      }
+    },
+    "hand_prop": {
+      "owner_category": "environment_props",
+      "current_category": "props",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_hand_prop": "keep",
+        "book": "keep",
+        "coffee_cup": "keep",
+        "ceramic_mug": "keep",
+        "folded_scarf": "keep",
+        "flower_stem": "keep",
+        "notebook": "keep",
+        "umbrella": "keep"
+      }
+    },
+    "seating_prop": {
+      "owner_category": "environment_props",
+      "current_category": "props",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_seat": "keep",
+        "wood_chair": "keep",
+        "upholstered_chair": "keep",
+        "bench": "keep",
+        "stool": "keep",
+        "cafe_chair": "keep",
+        "stone_ledge": "keep",
+        "low_ottoman": "keep"
+      }
+    },
+    "background_prop": {
+      "owner_category": "environment_props",
+      "current_category": "props",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_background_prop": "keep",
+        "vase": "keep",
+        "stacked_books": "keep",
+        "framed_art": "keep",
+        "bicycle": "keep",
+        "coat_rack": "keep",
+        "plant_pot": "keep",
+        "side_table": "keep"
+      }
+    },
+    "eyewear": {
+      "owner_category": "wardrobe",
+      "current_category": "props",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "no_eyewear": "keep",
+        "round_glasses": "keep",
+        "rectangle_glasses": "keep",
+        "oval_glasses": "keep",
+        "browline_glasses": "keep",
+        "round_sunglasses": "keep",
+        "square_sunglasses": "keep",
+        "cat_eye_glasses": "keep"
+      }
+    },
+    "photo_genre": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "fashion_editorial": "keep",
+        "street_style": "keep",
+        "lifestyle": "keep",
+        "studio_portrait": "keep",
+        "environmental_portrait": "keep",
+        "lookbook": "keep",
+        "documentary": "keep",
+        "campaign": "keep"
+      }
+    },
+    "color_grade": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "neutral_grade": "keep",
+        "warm_grade": "keep",
+        "cool_grade": "keep",
+        "muted_grade": "keep",
+        "rich_grade": "keep",
+        "pastel_grade": "keep",
+        "earth_grade": "keep",
+        "monochrome": "keep"
+      }
+    },
+    "contrast": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "low_contrast": "keep",
+        "soft_contrast": "keep",
+        "balanced_contrast": "keep",
+        "crisp_contrast": "keep",
+        "deep_shadows": "keep",
+        "lifted_shadows": "keep",
+        "soft_highlights": "keep",
+        "strong_midtones": "keep"
+      }
+    },
+    "palette": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "controls_active_v2",
+      "preview_status": "comparison_previews_awaiting_operator_review",
+      "requires_operator_confirmation": true,
+      "disposition": "keep",
+      "value_dispositions": {
+        "analogous": "keep",
+        "complementary": "keep",
+        "triadic": "keep",
+        "monochromatic": "keep",
+        "neutral_accent": "keep",
+        "warm_dominant": "keep",
+        "cool_dominant": "keep",
+        "balanced_warm_cool": "keep"
+      }
+    }
+  },
+  "active_counts": {
+    "hair": {
+      "attributes": 10,
+      "values": 136
+    },
+    "face_expression_makeup": {
+      "attributes": 12,
+      "values": 131
+    },
+    "eyes": {
+      "attributes": 3,
+      "values": 42
+    },
+    "skin_pigmentation": {
+      "attributes": 9,
+      "values": 51
+    },
+    "body_avatar": {
+      "attributes": 15,
+      "values": 57
+    },
+    "wardrobe": {
+      "attributes": 37,
+      "values": 452
+    },
+    "poses": {
+      "attributes": 4,
+      "values": 228
+    },
+    "identity_controls": {
+      "attributes": 2,
+      "values": 68
+    },
+    "photography": {
+      "attributes": 12,
+      "values": 96
+    },
+    "editorial_recipes": {
+      "attributes": 2,
+      "values": 60
+    },
+    "lighting_composition": {
+      "attributes": 12,
+      "values": 96
+    },
+    "environment_props": {
+      "attributes": 11,
+      "values": 179
+    }
+  },
+  "proposal_reconciliation": {
+    "wardrobe_source_candidates": 341,
+    "removed_semantic_equivalents": {
+      "qipao_inspired": "dress_family:cheongsam_inspired",
+      "sleeve_shape:cap": "sleeve_length:cap"
+    },
+    "wardrobe_source": "docs/plans/anchored-v2/WARDROBE-PROPOSAL.json",
+    "wardrobe_candidates": {
+      "dress_silhouette:sheath": {
+        "disposition": "keep",
+        "target": "dress_silhouette:sheath"
+      },
+      "dress_silhouette:shift": {
+        "disposition": "keep",
+        "target": "dress_silhouette:shift"
+      },
+      "dress_silhouette:a_line": {
+        "disposition": "keep",
+        "target": "dress_silhouette:a_line"
+      },
+      "dress_silhouette:fit_and_flare": {
+        "disposition": "keep",
+        "target": "dress_silhouette:fit_and_flare"
+      },
+      "dress_silhouette:wrap": {
+        "disposition": "keep",
+        "target": "dress_silhouette:wrap"
+      },
+      "dress_silhouette:empire": {
+        "disposition": "keep",
+        "target": "dress_silhouette:empire"
+      },
+      "dress_silhouette:column": {
+        "disposition": "keep",
+        "target": "dress_silhouette:column"
+      },
+      "dress_silhouette:mermaid": {
+        "disposition": "keep",
+        "target": "dress_silhouette:mermaid"
+      },
+      "dress_silhouette:trumpet": {
+        "disposition": "keep",
+        "target": "dress_silhouette:trumpet"
+      },
+      "dress_silhouette:princess_seam": {
+        "disposition": "keep",
+        "target": "dress_silhouette:princess_seam"
+      },
+      "dress_silhouette:tent": {
+        "disposition": "keep",
+        "target": "dress_silhouette:tent"
+      },
+      "dress_silhouette:trapeze": {
+        "disposition": "keep",
+        "target": "dress_silhouette:trapeze"
+      },
+      "dress_silhouette:cocoon": {
+        "disposition": "keep",
+        "target": "dress_silhouette:cocoon"
+      },
+      "dress_silhouette:tunic": {
+        "disposition": "keep",
+        "target": "dress_silhouette:tunic"
+      },
+      "dress_silhouette:smock": {
+        "disposition": "keep",
+        "target": "dress_silhouette:smock"
+      },
+      "dress_silhouette:bias_cut": {
+        "disposition": "keep",
+        "target": "dress_silhouette:bias_cut"
+      },
+      "dress_silhouette:ballgown": {
+        "disposition": "keep",
+        "target": "dress_silhouette:ballgown"
+      },
+      "dress_silhouette:asymmetric_drape": {
+        "disposition": "keep",
+        "target": "dress_silhouette:asymmetric_drape"
+      },
+      "dress_silhouette:tiered": {
+        "disposition": "keep",
+        "target": "dress_silhouette:tiered"
+      },
+      "dress_family_recipes:shirt_dress": {
+        "disposition": "keep",
+        "target": "dress_family:shirt_dress"
+      },
+      "dress_family_recipes:slip_dress": {
+        "disposition": "keep",
+        "target": "dress_family:slip_dress"
+      },
+      "dress_family_recipes:tea_dress": {
+        "disposition": "keep",
+        "target": "dress_family:tea_dress"
+      },
+      "dress_family_recipes:sundress": {
+        "disposition": "keep",
+        "target": "dress_family:sundress"
+      },
+      "dress_family_recipes:sweater_dress": {
+        "disposition": "keep",
+        "target": "dress_family:sweater_dress"
+      },
+      "dress_family_recipes:pinafore_dress": {
+        "disposition": "keep",
+        "target": "dress_family:pinafore_dress"
+      },
+      "dress_family_recipes:blazer_dress": {
+        "disposition": "keep",
+        "target": "dress_family:blazer_dress"
+      },
+      "dress_family_recipes:coat_dress": {
+        "disposition": "keep",
+        "target": "dress_family:coat_dress"
+      },
+      "dress_family_recipes:kaftan_dress": {
+        "disposition": "keep",
+        "target": "dress_family:kaftan_dress"
+      },
+      "dress_family_recipes:cheongsam_inspired": {
+        "disposition": "keep",
+        "target": "dress_family:cheongsam_inspired"
+      },
+      "dress_family_recipes:qipao_inspired": {
+        "disposition": "move",
+        "target": "dress_family:cheongsam_inspired"
+      },
+      "dress_family_recipes:sari_inspired_drape": {
+        "disposition": "keep",
+        "target": "dress_family:sari_inspired_drape"
+      },
+      "upper_garment:crewneck_tee": {
+        "disposition": "keep",
+        "target": "top_style:crewneck_tee"
+      },
+      "upper_garment:vneck_tee": {
+        "disposition": "keep",
+        "target": "top_style:vneck_tee"
+      },
+      "upper_garment:tank": {
+        "disposition": "keep",
+        "target": "top_style:tank"
+      },
+      "upper_garment:camisole_opaque": {
+        "disposition": "keep",
+        "target": "top_style:camisole_opaque"
+      },
+      "upper_garment:shell_top": {
+        "disposition": "keep",
+        "target": "top_style:shell_top"
+      },
+      "upper_garment:button_front_shirt": {
+        "disposition": "keep",
+        "target": "top_style:button_front_shirt"
+      },
+      "upper_garment:oxford_shirt": {
+        "disposition": "keep",
+        "target": "top_style:oxford_shirt"
+      },
+      "upper_garment:popover_shirt": {
+        "disposition": "keep",
+        "target": "top_style:popover_shirt"
+      },
+      "upper_garment:blouse": {
+        "disposition": "keep",
+        "target": "top_style:blouse"
+      },
+      "upper_garment:peasant_blouse": {
+        "disposition": "keep",
+        "target": "top_style:peasant_blouse"
+      },
+      "upper_garment:wrap_top": {
+        "disposition": "keep",
+        "target": "top_style:wrap_top"
+      },
+      "upper_garment:peplum_top": {
+        "disposition": "keep",
+        "target": "top_style:peplum_top"
+      },
+      "upper_garment:tunic": {
+        "disposition": "keep",
+        "target": "top_style:tunic"
+      },
+      "upper_garment:knit_pullover": {
+        "disposition": "keep",
+        "target": "top_style:knit_pullover"
+      },
+      "upper_garment:cardigan": {
+        "disposition": "keep",
+        "target": "top_style:cardigan"
+      },
+      "upper_garment:sweatshirt": {
+        "disposition": "keep",
+        "target": "top_style:sweatshirt"
+      },
+      "upper_garment:hoodie": {
+        "disposition": "keep",
+        "target": "top_style:hoodie"
+      },
+      "upper_garment:polo": {
+        "disposition": "keep",
+        "target": "top_style:polo"
+      },
+      "upper_garment:henley": {
+        "disposition": "keep",
+        "target": "top_style:henley"
+      },
+      "upper_garment:bodysuit_opaque": {
+        "disposition": "keep",
+        "target": "top_style:bodysuit_opaque"
+      },
+      "upper_garment:halter_top": {
+        "disposition": "keep",
+        "target": "top_style:halter_top"
+      },
+      "upper_garment:tube_top_secure": {
+        "disposition": "keep",
+        "target": "top_style:tube_top_secure"
+      },
+      "upper_garment:bustier_style_opaque_top": {
+        "disposition": "keep",
+        "target": "top_style:bustier_style_opaque_top"
+      },
+      "upper_garment:vest_top": {
+        "disposition": "keep",
+        "target": "top_style:vest_top"
+      },
+      "neckline:crew": {
+        "disposition": "keep",
+        "target": "neckline:crew"
+      },
+      "neckline:round": {
+        "disposition": "keep",
+        "target": "neckline:round"
+      },
+      "neckline:scoop": {
+        "disposition": "keep",
+        "target": "neckline:scoop"
+      },
+      "neckline:v": {
+        "disposition": "keep",
+        "target": "neckline:v"
+      },
+      "neckline:square": {
+        "disposition": "keep",
+        "target": "neckline:square"
+      },
+      "neckline:sweetheart": {
+        "disposition": "keep",
+        "target": "neckline:sweetheart"
+      },
+      "neckline:boat": {
+        "disposition": "keep",
+        "target": "neckline:boat"
+      },
+      "neckline:cowl": {
+        "disposition": "keep",
+        "target": "neckline:cowl"
+      },
+      "neckline:halter": {
+        "disposition": "keep",
+        "target": "neckline:halter"
+      },
+      "neckline:off_shoulder": {
+        "disposition": "keep",
+        "target": "neckline:off_shoulder"
+      },
+      "neckline:one_shoulder": {
+        "disposition": "keep",
+        "target": "neckline:one_shoulder"
+      },
+      "neckline:asymmetric": {
+        "disposition": "keep",
+        "target": "neckline:asymmetric"
+      },
+      "neckline:keyhole_secure": {
+        "disposition": "keep",
+        "target": "neckline:keyhole_secure"
+      },
+      "neckline:mockneck": {
+        "disposition": "keep",
+        "target": "neckline:mockneck"
+      },
+      "neckline:turtleneck": {
+        "disposition": "keep",
+        "target": "neckline:turtleneck"
+      },
+      "neckline:jewel": {
+        "disposition": "keep",
+        "target": "neckline:jewel"
+      },
+      "neckline:strapless_secure": {
+        "disposition": "keep",
+        "target": "neckline:strapless_secure"
+      },
+      "collar:none": {
+        "disposition": "keep",
+        "target": "collar:none"
+      },
+      "collar:shirt_point": {
+        "disposition": "keep",
+        "target": "collar:shirt_point"
+      },
+      "collar:spread": {
+        "disposition": "keep",
+        "target": "collar:spread"
+      },
+      "collar:button_down": {
+        "disposition": "keep",
+        "target": "collar:button_down"
+      },
+      "collar:mandarin": {
+        "disposition": "keep",
+        "target": "collar:mandarin"
+      },
+      "collar:stand": {
+        "disposition": "keep",
+        "target": "collar:stand"
+      },
+      "collar:peter_pan": {
+        "disposition": "keep",
+        "target": "collar:peter_pan"
+      },
+      "collar:shawl": {
+        "disposition": "keep",
+        "target": "collar:shawl"
+      },
+      "collar:notched": {
+        "disposition": "keep",
+        "target": "collar:notched"
+      },
+      "collar:sailor": {
+        "disposition": "keep",
+        "target": "collar:sailor"
+      },
+      "collar:funnel": {
+        "disposition": "keep",
+        "target": "collar:funnel"
+      },
+      "collar:pussy_bow": {
+        "disposition": "keep",
+        "target": "collar:pussy_bow"
+      },
+      "sleeve_shape:straight": {
+        "disposition": "keep",
+        "target": "sleeve_shape:straight"
+      },
+      "sleeve_shape:fitted": {
+        "disposition": "keep",
+        "target": "sleeve_shape:fitted"
+      },
+      "sleeve_shape:raglan": {
+        "disposition": "keep",
+        "target": "sleeve_shape:raglan"
+      },
+      "sleeve_shape:dolman": {
+        "disposition": "keep",
+        "target": "sleeve_shape:dolman"
+      },
+      "sleeve_shape:kimono": {
+        "disposition": "keep",
+        "target": "sleeve_shape:kimono"
+      },
+      "sleeve_shape:batwing": {
+        "disposition": "keep",
+        "target": "sleeve_shape:batwing"
+      },
+      "sleeve_shape:puff": {
+        "disposition": "keep",
+        "target": "sleeve_shape:puff"
+      },
+      "sleeve_shape:bishop": {
+        "disposition": "keep",
+        "target": "sleeve_shape:bishop"
+      },
+      "sleeve_shape:balloon": {
+        "disposition": "keep",
+        "target": "sleeve_shape:balloon"
+      },
+      "sleeve_shape:bell": {
+        "disposition": "keep",
+        "target": "sleeve_shape:bell"
+      },
+      "sleeve_shape:flutter": {
+        "disposition": "keep",
+        "target": "sleeve_shape:flutter"
+      },
+      "sleeve_shape:cap": {
+        "disposition": "move",
+        "target": "sleeve_length:cap"
+      },
+      "sleeve_shape:petal": {
+        "disposition": "keep",
+        "target": "sleeve_shape:petal"
+      },
+      "sleeve_shape:leg_of_mutton": {
+        "disposition": "keep",
+        "target": "sleeve_shape:leg_of_mutton"
+      },
+      "sleeve_shape:lantern": {
+        "disposition": "keep",
+        "target": "sleeve_shape:lantern"
+      },
+      "sleeve_shape:split": {
+        "disposition": "keep",
+        "target": "sleeve_shape:split"
+      },
+      "sleeve_shape:cape": {
+        "disposition": "keep",
+        "target": "sleeve_shape:cape"
+      },
+      "sleeve_length:none": {
+        "disposition": "keep",
+        "target": "sleeve_length:none"
+      },
+      "sleeve_length:cap": {
+        "disposition": "keep",
+        "target": "sleeve_length:cap"
+      },
+      "sleeve_length:short": {
+        "disposition": "keep",
+        "target": "sleeve_length:short"
+      },
+      "sleeve_length:elbow": {
+        "disposition": "keep",
+        "target": "sleeve_length:elbow"
+      },
+      "sleeve_length:three_quarter": {
+        "disposition": "keep",
+        "target": "sleeve_length:three_quarter"
+      },
+      "sleeve_length:bracelet": {
+        "disposition": "keep",
+        "target": "sleeve_length:bracelet"
+      },
+      "sleeve_length:long": {
+        "disposition": "keep",
+        "target": "sleeve_length:long"
+      },
+      "sleeve_length:extended": {
+        "disposition": "keep",
+        "target": "sleeve_length:extended"
+      },
+      "waist_rise:low": {
+        "disposition": "keep",
+        "target": "waist_rise:low"
+      },
+      "waist_rise:mid": {
+        "disposition": "keep",
+        "target": "waist_rise:mid"
+      },
+      "waist_rise:high": {
+        "disposition": "keep",
+        "target": "waist_rise:high"
+      },
+      "waist_rise:ultra_high": {
+        "disposition": "keep",
+        "target": "waist_rise:ultra_high"
+      },
+      "waistband:plain": {
+        "disposition": "keep",
+        "target": "waistband:plain"
+      },
+      "waistband:belted": {
+        "disposition": "keep",
+        "target": "waistband:belted"
+      },
+      "waistband:elastic": {
+        "disposition": "keep",
+        "target": "waistband:elastic"
+      },
+      "waistband:drawstring": {
+        "disposition": "keep",
+        "target": "waistband:drawstring"
+      },
+      "waistband:paperbag": {
+        "disposition": "keep",
+        "target": "waistband:paperbag"
+      },
+      "waistband:yoke": {
+        "disposition": "keep",
+        "target": "waistband:yoke"
+      },
+      "waistband:wide": {
+        "disposition": "keep",
+        "target": "waistband:wide"
+      },
+      "waistband:contoured": {
+        "disposition": "keep",
+        "target": "waistband:contoured"
+      },
+      "hem_length:above_knee": {
+        "disposition": "keep",
+        "target": "hem_length:above_knee"
+      },
+      "hem_length:knee": {
+        "disposition": "keep",
+        "target": "hem_length:knee"
+      },
+      "hem_length:below_knee": {
+        "disposition": "keep",
+        "target": "hem_length:below_knee"
+      },
+      "hem_length:mid_calf": {
+        "disposition": "keep",
+        "target": "hem_length:mid_calf"
+      },
+      "hem_length:ankle": {
+        "disposition": "keep",
+        "target": "hem_length:ankle"
+      },
+      "hem_length:floor": {
+        "disposition": "keep",
+        "target": "hem_length:floor"
+      },
+      "hem_shape:straight": {
+        "disposition": "keep",
+        "target": "hem_shape:straight"
+      },
+      "hem_shape:rounded": {
+        "disposition": "keep",
+        "target": "hem_shape:rounded"
+      },
+      "hem_shape:asymmetric": {
+        "disposition": "keep",
+        "target": "hem_shape:asymmetric"
+      },
+      "hem_shape:high_low": {
+        "disposition": "keep",
+        "target": "hem_shape:high_low"
+      },
+      "hem_shape:handkerchief": {
+        "disposition": "keep",
+        "target": "hem_shape:handkerchief"
+      },
+      "hem_shape:scalloped": {
+        "disposition": "keep",
+        "target": "hem_shape:scalloped"
+      },
+      "hem_shape:ruffled": {
+        "disposition": "keep",
+        "target": "hem_shape:ruffled"
+      },
+      "hem_shape:split": {
+        "disposition": "keep",
+        "target": "hem_shape:split"
+      },
+      "trouser_cut:straight": {
+        "disposition": "keep",
+        "target": "trouser_cut:straight"
+      },
+      "trouser_cut:slim": {
+        "disposition": "keep",
+        "target": "trouser_cut:slim"
+      },
+      "trouser_cut:skinny": {
+        "disposition": "keep",
+        "target": "trouser_cut:skinny"
+      },
+      "trouser_cut:cigarette": {
+        "disposition": "keep",
+        "target": "trouser_cut:cigarette"
+      },
+      "trouser_cut:tapered": {
+        "disposition": "keep",
+        "target": "trouser_cut:tapered"
+      },
+      "trouser_cut:wide_leg": {
+        "disposition": "keep",
+        "target": "trouser_cut:wide_leg"
+      },
+      "trouser_cut:palazzo": {
+        "disposition": "keep",
+        "target": "trouser_cut:palazzo"
+      },
+      "trouser_cut:flare": {
+        "disposition": "keep",
+        "target": "trouser_cut:flare"
+      },
+      "trouser_cut:bootcut": {
+        "disposition": "keep",
+        "target": "trouser_cut:bootcut"
+      },
+      "trouser_cut:culotte": {
+        "disposition": "keep",
+        "target": "trouser_cut:culotte"
+      },
+      "trouser_cut:barrel": {
+        "disposition": "keep",
+        "target": "trouser_cut:barrel"
+      },
+      "trouser_cut:balloon": {
+        "disposition": "keep",
+        "target": "trouser_cut:balloon"
+      },
+      "trouser_cut:peg": {
+        "disposition": "keep",
+        "target": "trouser_cut:peg"
+      },
+      "trouser_cut:harem": {
+        "disposition": "keep",
+        "target": "trouser_cut:harem"
+      },
+      "trouser_cut:jogger": {
+        "disposition": "keep",
+        "target": "trouser_cut:jogger"
+      },
+      "trouser_cut:cargo": {
+        "disposition": "keep",
+        "target": "trouser_cut:cargo"
+      },
+      "trouser_cut:carpenter": {
+        "disposition": "keep",
+        "target": "trouser_cut:carpenter"
+      },
+      "trouser_cut:sailor": {
+        "disposition": "keep",
+        "target": "trouser_cut:sailor"
+      },
+      "trouser_cut:tailored_pleated_recipe": {
+        "disposition": "keep",
+        "target": "trouser_cut:tailored_pleated_recipe"
+      },
+      "skirt_cut:pencil": {
+        "disposition": "keep",
+        "target": "skirt_cut:pencil"
+      },
+      "skirt_cut:straight": {
+        "disposition": "keep",
+        "target": "skirt_cut:straight"
+      },
+      "skirt_cut:a_line": {
+        "disposition": "keep",
+        "target": "skirt_cut:a_line"
+      },
+      "skirt_cut:circle": {
+        "disposition": "keep",
+        "target": "skirt_cut:circle"
+      },
+      "skirt_cut:half_circle": {
+        "disposition": "keep",
+        "target": "skirt_cut:half_circle"
+      },
+      "skirt_cut:wrap": {
+        "disposition": "keep",
+        "target": "skirt_cut:wrap"
+      },
+      "skirt_cut:bias": {
+        "disposition": "keep",
+        "target": "skirt_cut:bias"
+      },
+      "skirt_cut:mermaid": {
+        "disposition": "keep",
+        "target": "skirt_cut:mermaid"
+      },
+      "skirt_cut:trumpet": {
+        "disposition": "keep",
+        "target": "skirt_cut:trumpet"
+      },
+      "skirt_cut:tulip": {
+        "disposition": "keep",
+        "target": "skirt_cut:tulip"
+      },
+      "skirt_cut:balloon": {
+        "disposition": "keep",
+        "target": "skirt_cut:balloon"
+      },
+      "skirt_cut:godet": {
+        "disposition": "keep",
+        "target": "skirt_cut:godet"
+      },
+      "skirt_cut:tiered": {
+        "disposition": "keep",
+        "target": "skirt_cut:tiered"
+      },
+      "skirt_cut:gored": {
+        "disposition": "keep",
+        "target": "skirt_cut:gored"
+      },
+      "skirt_cut:sarong_inspired": {
+        "disposition": "keep",
+        "target": "skirt_cut:sarong_inspired"
+      },
+      "skirt_cut:draped": {
+        "disposition": "keep",
+        "target": "skirt_cut:draped"
+      },
+      "skirt_cut:kilt_inspired": {
+        "disposition": "keep",
+        "target": "skirt_cut:kilt_inspired"
+      },
+      "jumpsuit_family:tailored": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:tailored"
+      },
+      "jumpsuit_family:utility": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:utility"
+      },
+      "jumpsuit_family:wide_leg": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:wide_leg"
+      },
+      "jumpsuit_family:tapered": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:tapered"
+      },
+      "jumpsuit_family:wrap": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:wrap"
+      },
+      "jumpsuit_family:halter": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:halter"
+      },
+      "jumpsuit_family:boiler_suit": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:boiler_suit"
+      },
+      "jumpsuit_family:romper": {
+        "disposition": "keep",
+        "target": "jumpsuit_family:romper"
+      },
+      "shorts_cut:tailored": {
+        "disposition": "keep",
+        "target": "shorts_cut:tailored"
+      },
+      "shorts_cut:bermuda": {
+        "disposition": "keep",
+        "target": "shorts_cut:bermuda"
+      },
+      "shorts_cut:denim": {
+        "disposition": "keep",
+        "target": "shorts_cut:denim"
+      },
+      "shorts_cut:paperbag": {
+        "disposition": "keep",
+        "target": "shorts_cut:paperbag"
+      },
+      "shorts_cut:cargo": {
+        "disposition": "keep",
+        "target": "shorts_cut:cargo"
+      },
+      "shorts_cut:culotte_short": {
+        "disposition": "keep",
+        "target": "shorts_cut:culotte_short"
+      },
+      "shorts_cut:athletic": {
+        "disposition": "keep",
+        "target": "shorts_cut:athletic"
+      },
+      "shorts_cut:cycling_opaque": {
+        "disposition": "keep",
+        "target": "shorts_cut:cycling_opaque"
+      },
+      "shorts_cut:skort": {
+        "disposition": "keep",
+        "target": "shorts_cut:skort"
+      },
+      "shorts_cut:sailor": {
+        "disposition": "keep",
+        "target": "shorts_cut:sailor"
+      },
+      "outerwear_family:blazer": {
+        "disposition": "keep",
+        "target": "outerwear_style:blazer"
+      },
+      "outerwear_family:double_breasted_blazer": {
+        "disposition": "keep",
+        "target": "outerwear_style:double_breasted_blazer"
+      },
+      "outerwear_family:tuxedo_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:tuxedo_jacket"
+      },
+      "outerwear_family:trench": {
+        "disposition": "keep",
+        "target": "outerwear_style:trench"
+      },
+      "outerwear_family:mac_coat": {
+        "disposition": "keep",
+        "target": "outerwear_style:mac_coat"
+      },
+      "outerwear_family:pea_coat": {
+        "disposition": "keep",
+        "target": "outerwear_style:pea_coat"
+      },
+      "outerwear_family:overcoat": {
+        "disposition": "keep",
+        "target": "outerwear_style:overcoat"
+      },
+      "outerwear_family:wrap_coat": {
+        "disposition": "keep",
+        "target": "outerwear_style:wrap_coat"
+      },
+      "outerwear_family:cocoon_coat": {
+        "disposition": "keep",
+        "target": "outerwear_style:cocoon_coat"
+      },
+      "outerwear_family:duffle_coat": {
+        "disposition": "keep",
+        "target": "outerwear_style:duffle_coat"
+      },
+      "outerwear_family:parka": {
+        "disposition": "keep",
+        "target": "outerwear_style:parka"
+      },
+      "outerwear_family:puffer": {
+        "disposition": "keep",
+        "target": "outerwear_style:puffer"
+      },
+      "outerwear_family:quilted_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:quilted_jacket"
+      },
+      "outerwear_family:bomber": {
+        "disposition": "keep",
+        "target": "outerwear_style:bomber"
+      },
+      "outerwear_family:harrington": {
+        "disposition": "keep",
+        "target": "outerwear_style:harrington"
+      },
+      "outerwear_family:biker_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:biker_jacket"
+      },
+      "outerwear_family:denim_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:denim_jacket"
+      },
+      "outerwear_family:field_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:field_jacket"
+      },
+      "outerwear_family:utility_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:utility_jacket"
+      },
+      "outerwear_family:cropped_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:cropped_jacket"
+      },
+      "outerwear_family:bolero": {
+        "disposition": "keep",
+        "target": "outerwear_style:bolero"
+      },
+      "outerwear_family:cape": {
+        "disposition": "keep",
+        "target": "outerwear_style:cape"
+      },
+      "outerwear_family:poncho": {
+        "disposition": "keep",
+        "target": "outerwear_style:poncho"
+      },
+      "outerwear_family:gilet": {
+        "disposition": "keep",
+        "target": "outerwear_style:gilet"
+      },
+      "outerwear_family:duster": {
+        "disposition": "keep",
+        "target": "outerwear_style:duster"
+      },
+      "outerwear_family:chore_jacket": {
+        "disposition": "keep",
+        "target": "outerwear_style:chore_jacket"
+      },
+      "construction_details:princess_seams": {
+        "disposition": "keep",
+        "target": "construction_detail:princess_seams"
+      },
+      "construction_details:darts": {
+        "disposition": "keep",
+        "target": "construction_detail:darts"
+      },
+      "construction_details:knife_pleats": {
+        "disposition": "keep",
+        "target": "construction_detail:knife_pleats"
+      },
+      "construction_details:box_pleats": {
+        "disposition": "keep",
+        "target": "construction_detail:box_pleats"
+      },
+      "construction_details:inverted_pleats": {
+        "disposition": "keep",
+        "target": "construction_detail:inverted_pleats"
+      },
+      "construction_details:gathers": {
+        "disposition": "keep",
+        "target": "construction_detail:gathers"
+      },
+      "construction_details:smocking": {
+        "disposition": "keep",
+        "target": "construction_detail:smocking"
+      },
+      "construction_details:ruching": {
+        "disposition": "keep",
+        "target": "construction_detail:ruching"
+      },
+      "construction_details:shirring": {
+        "disposition": "keep",
+        "target": "construction_detail:shirring"
+      },
+      "construction_details:tucks": {
+        "disposition": "keep",
+        "target": "construction_detail:tucks"
+      },
+      "construction_details:godets": {
+        "disposition": "keep",
+        "target": "construction_detail:godets"
+      },
+      "construction_details:ruffles": {
+        "disposition": "keep",
+        "target": "construction_detail:ruffles"
+      },
+      "construction_details:flounces": {
+        "disposition": "keep",
+        "target": "construction_detail:flounces"
+      },
+      "construction_details:piping": {
+        "disposition": "keep",
+        "target": "construction_detail:piping"
+      },
+      "construction_details:topstitch": {
+        "disposition": "keep",
+        "target": "construction_detail:topstitch"
+      },
+      "construction_details:patch_pockets": {
+        "disposition": "keep",
+        "target": "construction_detail:patch_pockets"
+      },
+      "construction_details:welt_pockets": {
+        "disposition": "keep",
+        "target": "construction_detail:welt_pockets"
+      },
+      "construction_details:cargo_pockets": {
+        "disposition": "keep",
+        "target": "construction_detail:cargo_pockets"
+      },
+      "construction_details:epaulettes": {
+        "disposition": "keep",
+        "target": "construction_detail:epaulettes"
+      },
+      "construction_details:yoke": {
+        "disposition": "keep",
+        "target": "construction_detail:yoke"
+      },
+      "closure:pull_on": {
+        "disposition": "keep",
+        "target": "garment_closure:pull_on"
+      },
+      "closure:buttons": {
+        "disposition": "keep",
+        "target": "garment_closure:buttons"
+      },
+      "closure:zipper": {
+        "disposition": "keep",
+        "target": "garment_closure:zipper"
+      },
+      "closure:snaps": {
+        "disposition": "keep",
+        "target": "garment_closure:snaps"
+      },
+      "closure:hooks": {
+        "disposition": "keep",
+        "target": "garment_closure:hooks"
+      },
+      "closure:tie": {
+        "disposition": "keep",
+        "target": "garment_closure:tie"
+      },
+      "closure:lace_up": {
+        "disposition": "keep",
+        "target": "garment_closure:lace_up"
+      },
+      "closure:belted_wrap": {
+        "disposition": "keep",
+        "target": "garment_closure:belted_wrap"
+      },
+      "closure:toggle": {
+        "disposition": "keep",
+        "target": "garment_closure:toggle"
+      },
+      "closure:asymmetric_zip": {
+        "disposition": "keep",
+        "target": "garment_closure:asymmetric_zip"
+      },
+      "material:cotton_poplin": {
+        "disposition": "keep",
+        "target": "fabric_material:cotton_poplin"
+      },
+      "material:cotton_twill": {
+        "disposition": "keep",
+        "target": "fabric_material:cotton_twill"
+      },
+      "material:denim": {
+        "disposition": "keep",
+        "target": "fabric_material:denim"
+      },
+      "material:linen": {
+        "disposition": "keep",
+        "target": "fabric_material:linen"
+      },
+      "material:wool_flannel": {
+        "disposition": "keep",
+        "target": "fabric_material:wool_flannel"
+      },
+      "material:wool_gabardine": {
+        "disposition": "keep",
+        "target": "fabric_material:wool_gabardine"
+      },
+      "material:tweed": {
+        "disposition": "keep",
+        "target": "fabric_material:tweed"
+      },
+      "material:velvet": {
+        "disposition": "keep",
+        "target": "fabric_material:velvet"
+      },
+      "material:velour": {
+        "disposition": "keep",
+        "target": "fabric_material:velour"
+      },
+      "material:corduroy": {
+        "disposition": "keep",
+        "target": "fabric_material:corduroy"
+      },
+      "material:opaque_satin": {
+        "disposition": "keep",
+        "target": "fabric_material:opaque_satin"
+      },
+      "material:opaque_silk_twill": {
+        "disposition": "keep",
+        "target": "fabric_material:opaque_silk_twill"
+      },
+      "material:crepe": {
+        "disposition": "keep",
+        "target": "fabric_material:crepe"
+      },
+      "material:jacquard": {
+        "disposition": "keep",
+        "target": "fabric_material:jacquard"
+      },
+      "material:brocade": {
+        "disposition": "keep",
+        "target": "fabric_material:brocade"
+      },
+      "material:jersey": {
+        "disposition": "keep",
+        "target": "fabric_material:jersey"
+      },
+      "material:rib_knit": {
+        "disposition": "keep",
+        "target": "fabric_material:rib_knit"
+      },
+      "material:cable_knit": {
+        "disposition": "keep",
+        "target": "fabric_material:cable_knit"
+      },
+      "material:interlock": {
+        "disposition": "keep",
+        "target": "fabric_material:interlock"
+      },
+      "material:fleece": {
+        "disposition": "keep",
+        "target": "fabric_material:fleece"
+      },
+      "material:boucle": {
+        "disposition": "keep",
+        "target": "fabric_material:boucle"
+      },
+      "material:leather": {
+        "disposition": "keep",
+        "target": "fabric_material:leather"
+      },
+      "material:suede": {
+        "disposition": "keep",
+        "target": "fabric_material:suede"
+      },
+      "material:technical_nylon": {
+        "disposition": "keep",
+        "target": "fabric_material:technical_nylon"
+      },
+      "material:lined_mesh": {
+        "disposition": "keep",
+        "target": "fabric_material:lined_mesh"
+      },
+      "material:lined_lace": {
+        "disposition": "keep",
+        "target": "fabric_material:lined_lace"
+      },
+      "pattern:solid": {
+        "disposition": "keep",
+        "target": "garment_pattern:solid"
+      },
+      "pattern:pinstripe": {
+        "disposition": "keep",
+        "target": "garment_pattern:pinstripe"
+      },
+      "pattern:wide_stripe": {
+        "disposition": "keep",
+        "target": "garment_pattern:wide_stripe"
+      },
+      "pattern:gingham": {
+        "disposition": "keep",
+        "target": "garment_pattern:gingham"
+      },
+      "pattern:tartan": {
+        "disposition": "keep",
+        "target": "garment_pattern:tartan"
+      },
+      "pattern:windowpane": {
+        "disposition": "keep",
+        "target": "garment_pattern:windowpane"
+      },
+      "pattern:houndstooth": {
+        "disposition": "keep",
+        "target": "garment_pattern:houndstooth"
+      },
+      "pattern:herringbone": {
+        "disposition": "keep",
+        "target": "garment_pattern:herringbone"
+      },
+      "pattern:polka_dot": {
+        "disposition": "keep",
+        "target": "garment_pattern:polka_dot"
+      },
+      "pattern:micro_dot": {
+        "disposition": "keep",
+        "target": "garment_pattern:micro_dot"
+      },
+      "pattern:floral": {
+        "disposition": "keep",
+        "target": "garment_pattern:floral"
+      },
+      "pattern:paisley": {
+        "disposition": "keep",
+        "target": "garment_pattern:paisley"
+      },
+      "pattern:geometric": {
+        "disposition": "keep",
+        "target": "garment_pattern:geometric"
+      },
+      "pattern:abstract": {
+        "disposition": "keep",
+        "target": "garment_pattern:abstract"
+      },
+      "pattern:animal_inspired": {
+        "disposition": "keep",
+        "target": "garment_pattern:animal_inspired"
+      },
+      "pattern:color_block": {
+        "disposition": "keep",
+        "target": "garment_pattern:color_block"
+      },
+      "pattern:ombre": {
+        "disposition": "keep",
+        "target": "garment_pattern:ombre"
+      },
+      "pattern:jacquard_motif": {
+        "disposition": "keep",
+        "target": "garment_pattern:jacquard_motif"
+      },
+      "fit:fitted": {
+        "disposition": "keep",
+        "target": "garment_fit:fitted"
+      },
+      "fit:tailored": {
+        "disposition": "keep",
+        "target": "garment_fit:tailored"
+      },
+      "fit:regular": {
+        "disposition": "keep",
+        "target": "garment_fit:regular"
+      },
+      "fit:relaxed": {
+        "disposition": "keep",
+        "target": "garment_fit:relaxed"
+      },
+      "fit:oversized": {
+        "disposition": "keep",
+        "target": "garment_fit:oversized"
+      },
+      "fit:boxy": {
+        "disposition": "keep",
+        "target": "garment_fit:boxy"
+      },
+      "fit:draped": {
+        "disposition": "keep",
+        "target": "garment_fit:draped"
+      },
+      "shoe_family:ballet_flat": {
+        "disposition": "keep",
+        "target": "shoe_style:ballet_flat"
+      },
+      "shoe_family:mary_jane_flat": {
+        "disposition": "keep",
+        "target": "shoe_style:mary_jane_flat"
+      },
+      "shoe_family:loafer": {
+        "disposition": "keep",
+        "target": "shoe_style:loafer"
+      },
+      "shoe_family:moccasin": {
+        "disposition": "keep",
+        "target": "shoe_style:moccasin"
+      },
+      "shoe_family:oxford": {
+        "disposition": "keep",
+        "target": "shoe_style:oxford"
+      },
+      "shoe_family:derby": {
+        "disposition": "keep",
+        "target": "shoe_style:derby"
+      },
+      "shoe_family:brogue": {
+        "disposition": "keep",
+        "target": "shoe_style:brogue"
+      },
+      "shoe_family:mule": {
+        "disposition": "keep",
+        "target": "shoe_style:mule"
+      },
+      "shoe_family:clog": {
+        "disposition": "keep",
+        "target": "shoe_style:clog"
+      },
+      "shoe_family:slingback": {
+        "disposition": "keep",
+        "target": "shoe_style:slingback"
+      },
+      "shoe_family:court_pump": {
+        "disposition": "keep",
+        "target": "shoe_style:court_pump"
+      },
+      "shoe_family:mary_jane_pump": {
+        "disposition": "keep",
+        "target": "shoe_style:mary_jane_pump"
+      },
+      "shoe_family:ankle_strap_sandal": {
+        "disposition": "keep",
+        "target": "shoe_style:ankle_strap_sandal"
+      },
+      "shoe_family:tstrap_sandal": {
+        "disposition": "keep",
+        "target": "shoe_style:tstrap_sandal"
+      },
+      "shoe_family:fisherman_sandal": {
+        "disposition": "keep",
+        "target": "shoe_style:fisherman_sandal"
+      },
+      "shoe_family:espadrille": {
+        "disposition": "keep",
+        "target": "shoe_style:espadrille"
+      },
+      "shoe_family:wedge": {
+        "disposition": "keep",
+        "target": "shoe_style:wedge"
+      },
+      "shoe_family:platform": {
+        "disposition": "keep",
+        "target": "shoe_style:platform"
+      },
+      "shoe_family:low_top_sneaker": {
+        "disposition": "keep",
+        "target": "shoe_style:low_top_sneaker"
+      },
+      "shoe_family:high_top_sneaker": {
+        "disposition": "keep",
+        "target": "shoe_style:high_top_sneaker"
+      },
+      "shoe_family:running_shoe": {
+        "disposition": "keep",
+        "target": "shoe_style:running_shoe"
+      },
+      "shoe_family:ankle_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:ankle_boot"
+      },
+      "shoe_family:chelsea_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:chelsea_boot"
+      },
+      "shoe_family:chukka_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:chukka_boot"
+      },
+      "shoe_family:lace_up_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:lace_up_boot"
+      },
+      "shoe_family:cowboy_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:cowboy_boot"
+      },
+      "shoe_family:knee_high_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:knee_high_boot"
+      },
+      "shoe_family:riding_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:riding_boot"
+      },
+      "shoe_family:over_knee_boot": {
+        "disposition": "keep",
+        "target": "shoe_style:over_knee_boot"
+      },
+      "heel_shape:flat": {
+        "disposition": "keep",
+        "target": "heel_shape:flat"
+      },
+      "heel_shape:kitten": {
+        "disposition": "keep",
+        "target": "heel_shape:kitten"
+      },
+      "heel_shape:block": {
+        "disposition": "keep",
+        "target": "heel_shape:block"
+      },
+      "heel_shape:cone": {
+        "disposition": "keep",
+        "target": "heel_shape:cone"
+      },
+      "heel_shape:stiletto": {
+        "disposition": "keep",
+        "target": "heel_shape:stiletto"
+      },
+      "heel_shape:wedge": {
+        "disposition": "keep",
+        "target": "heel_shape:wedge"
+      },
+      "heel_shape:platform": {
+        "disposition": "keep",
+        "target": "heel_shape:platform"
+      },
+      "layering_recipe:single_garment": {
+        "disposition": "keep",
+        "target": "layering:single_garment"
+      },
+      "layering_recipe:open_outerwear": {
+        "disposition": "keep",
+        "target": "layering:open_outerwear"
+      },
+      "layering_recipe:buttoned_outerwear": {
+        "disposition": "keep",
+        "target": "layering:buttoned_outerwear"
+      },
+      "layering_recipe:shirt_under_knit": {
+        "disposition": "keep",
+        "target": "layering:shirt_under_knit"
+      },
+      "layering_recipe:shirt_under_dress": {
+        "disposition": "keep",
+        "target": "layering:shirt_under_dress"
+      },
+      "layering_recipe:top_over_dress": {
+        "disposition": "keep",
+        "target": "layering:top_over_dress"
+      },
+      "layering_recipe:dress_over_trousers": {
+        "disposition": "keep",
+        "target": "layering:dress_over_trousers"
+      },
+      "layering_recipe:vest_over_shirt": {
+        "disposition": "keep",
+        "target": "layering:vest_over_shirt"
+      },
+      "layering_recipe:coat_over_blazer": {
+        "disposition": "keep",
+        "target": "layering:coat_over_blazer"
+      }
+    }
+  },
+  "v1_sha256": "8e593b186c7ac5c68e49176771860bc9d0ab877da3029c0b426d2405c1552ea8"
+}

@@ -1,15 +1,18 @@
 export type Choices = Record<string, string[]>;
-export type ThumbnailMode = "illustrative" | "photographic";
+export type ThumbnailMode = "illustrative" | "photographic" | "mixed";
 export type ThumbnailFields = {
   thumbnail?: string;
   thumbnail_url?: string;
   thumbnail_mode?: ThumbnailMode;
-  thumbnail_kind?: "illustrative" | "photographic" | "contact_sheet" | "pending";
-  thumbnail_status?: "ready" | "pending" | "failed";
+  thumbnail_kind?: "illustrative" | "photographic" | "contact_sheet" | "pending" | "comparison" | "control_only" | "swatch";
+  thumbnail_status?: "ready" | "pending" | "failed" | "control_only" | "swatch";
   status?: "ready" | "pending" | "failed";
   example_url?: string;
   image_id?: string;
   illustration_url?: string;
+  thumbnail_source?: string;
+  preview_method?: string;
+  preview_scope?: string;
 };
 export type ThumbnailProgress = {
   version: number;
@@ -25,6 +28,11 @@ export type Value = ThumbnailFields & {
   name: string;
   steers: string;
   description?: string;
+  color?: string | number[];
+  rgb?: string | number[];
+  recipe?: { selections: Choices; allowed_component_changes: string[] } | Record<string, string[]> | string;
+  hex?: string;
+  [key: string]: unknown;
 };
 export type Attribute = ThumbnailFields & {
   id: string;
@@ -32,10 +40,19 @@ export type Attribute = ThumbnailFields & {
   type: "exclusive" | "boolean" | "multi";
   description?: string;
   values: Value[];
+  control?: "swatch" | "range" | "select" | "cards";
+  range?: { min: number; max: number; step: number };
+  default?: string | string[];
+  comparison_group?: string;
+  [key: string]: unknown;
 };
-export type Category = { id: string; name: string; attributes: Attribute[] };
+export type Category = { id: string; name: string; attributes: Attribute[]; retired?: boolean; [key: string]: unknown };
 export type Library = {
   categories: Category[];
+  catalog_version?: number;
+  version?: number;
+  historical_library?: Library;
+  historical_categories?: Category[];
   thumbnail_mode?: ThumbnailMode;
   thumbnail_progress?: ThumbnailProgress;
   base_locks?: string;
@@ -60,6 +77,7 @@ export type Draft = {
   extra_prompt: string;
   seed?: number;
   attributeModes?: Record<string, "selections" | "whitelist">;
+  comparison?: { category_id: string; baseline_asset_id: string; contract_hash: string; locked_fields: string[] };
 };
 export type Plan = { selections: Choices; prompt: string; selection_sampling_seed?: number };
 export type Preview = {
@@ -80,6 +98,8 @@ export type ImageRecord = {
   aspect_ratio: string;
   seed?: number;
   selection_sampling_seed?: number;
+  selection_labels?: Record<string, { name: string; values: Record<string, string> }>;
+  label_snapshot?: Record<string, { name: string; values: Record<string, string> }>;
 };
 export type Job = {
   id: string;
@@ -118,3 +138,13 @@ export type Preset = {
 };
 export type PresetResponse = { presets: Preset[]; warnings?: string[] };
 export type LegacyPresets = { raw_text: string; presets: unknown[] };
+export type DraftResolution = { draft: Record<string, unknown>; changes: unknown[]; unresolved: unknown[] };
+export type ComparisonArtifact = { id: string; url: string; base_url: string; attribute_id: string; value_id: string; method: string; receipt: Record<string, unknown>; accepted: boolean };
+export type ComparisonReviewRecord = {
+  category_id: string; state: "draft" | "contract_approved" | "pilot_done" | "pilot_accepted" | "published";
+  contract_hash: string;
+  baseline?: { asset_id: string; url: string; sha256: string; width: number; height: number; subject_id: string } | null;
+  masks: Record<string, { polygon?: [number, number][]; sha256?: string; url?: string }>;
+  artifacts: ComparisonArtifact[]; budget: {cap: number; used: number};
+  locked_fields: unknown; allowed_changes: unknown;
+};

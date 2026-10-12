@@ -5,6 +5,8 @@ import {
   emptyDraft,
   Library,
   ratios,
+  ThumbnailFields,
+  ImageRecord,
 } from "./types";
 export const storageKey = "atelier.draft.v1";
 export const presetKey = "atelier.presets.v1";
@@ -32,13 +34,50 @@ export function matchingValues(attr: Attribute, query: string) {
     : attr.values.filter((v) => `${v.name} ${v.description || ""} ${v.steers}`.toLowerCase().includes(normalized));
 }
 export function generationPayload(draft: Draft) {
-  const { attributeModes: _preferences, ...payload } = draft;
-  return payload;
+  const { selections, whitelist, mode, n, aspect_ratio, extra_prompt, seed } = draft;
+  return { selections, whitelist, mode, n, aspect_ratio, extra_prompt,
+    ...(seed !== undefined ? { seed } : {}) };
 }
-export function imageDescription(image: { selections: Choices; aspect_ratio: string }, library: Library) {
+export function historicalLibrary(active: Library, legacy?: Library): Library {
+  if (!legacy) return historyLibrary(active);
+  const result = structuredClone(active);
+  for (const category of legacy.categories) {
+    let destination = result.categories.find(c => c.id === category.id);
+    for (const attribute of category.attributes) {
+      const existing = attributes(result).find(a => a.id === attribute.id);
+      if (existing) {
+        for (const value of attribute.values)
+          if (!existing.values.some(v => v.id === value.id)) existing.values.push(structuredClone(value));
+      } else {
+        if (!destination) {
+          destination = { ...structuredClone(category), attributes: [] };
+          result.categories.push(destination);
+        }
+        destination.attributes.push(structuredClone(attribute));
+      }
+    }
+  }
+  return result;
+}
+export function historyLibrary(library: Library): Library {
+  return library.historical_library || (library.historical_categories ? { categories: library.historical_categories } : library);
+}
+export function rangeValueId(attr: Attribute, value: number): string | undefined {
+  const range = attr.range;
+  if (!range || !Number.isFinite(value) || value < range.min || value > range.max || (value - range.min) % range.step !== 0) return;
+  return attr.values.find(v => v.id === `${attr.id}_${value}`)?.id;
+}
+export function previewLabel(fields: ThumbnailFields): string {
+  if (fields.thumbnail_source === "legacy_independent" || fields.preview_method === "legacy_independent_photo") return "Independent generated example";
+  if (fields.preview_method?.includes("simulat") || fields.preview_method?.includes("optical") || fields.preview_method?.includes("crop")) return "Simulated comparison";
+  if (fields.thumbnail_source === "approved_comparison" || fields.preview_method === "approved_comparison") return "Approved controlled comparison";
+  return "Generated example";
+}
+export function imageDescription(image: Pick<ImageRecord, "selections" | "aspect_ratio" | "selection_labels" | "label_snapshot">, library: Library) {
+  const snapshots = image.selection_labels || image.label_snapshot;
   const names = Object.entries(image.selections || {}).flatMap(([id, ids]) => {
-    const attr = attributes(library).find((a) => a.id === id);
-    return (Array.isArray(ids) ? ids : [ids]).map((value) => attr?.values.find((v) => v.id === value)?.name || value);
+    const attr = attributes(historyLibrary(library)).find((a) => a.id === id);
+    return (Array.isArray(ids) ? ids : [ids]).map((value) => snapshots?.[id]?.values?.[value] || attr?.values.find((v) => v.id === value)?.name || value);
   });
   return `${names.length ? names.join(", ") : "Untagged composition"} · ${image.aspect_ratio}`;
 }
@@ -82,11 +121,14 @@ export function galleryState(search: string, library: Library) {
   return { query: (params.get("gallery_q") || "").slice(0, 500), ratio: ratios.includes(ratio as (typeof ratios)[number]) ? ratio : "all", filters, page: Number.isSafeInteger(page) && page > 0 ? page : 1 };
 }
 export function cleanDraft(raw: unknown, library: Library): Draft {
-  if (!raw || typeof raw !== "object") return { ...emptyDraft };
-  const d = raw as Partial<Draft>;
+  const d = (raw && typeof raw === "object" ? raw : emptyDraft) as Partial<Draft>;
   const selections = pruneChoices(d.selections, library);
   const whitelist = pruneChoices(d.whitelist, library, true);
   Object.keys(selections).forEach((id) => delete whitelist[id]);
+  const gender = attributes(library).find(a => a.id === "gender");
+  if ((!raw || typeof raw !== "object") && (library.catalog_version === 2 || library.version === 2 || gender?.control === "select") && !selections.gender && !whitelist.gender) {
+    if (gender?.values.some(v => v.id === "woman")) selections.gender = ["woman"];
+  }
   const mode = Object.keys(whitelist).length
     ? "variations"
     : d.mode === "repeat" || d.mode === "variations"
@@ -116,7 +158,19 @@ export function cleanDraft(raw: unknown, library: Library): Draft {
       : "9:16",
     extra_prompt: typeof d.extra_prompt === "string" ? d.extra_prompt : "",
     ...(Number.isSafeInteger(d.seed) && d.seed! >= 0 ? { seed: d.seed } : {}),
+    ...(validComparison(d.comparison, library) ? { comparison: structuredClone(d.comparison) } : {}),
   };
+}
+export function validComparison(raw: unknown, library: Library): raw is NonNullable<Draft["comparison"]> {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return false;
+  const c = raw as Record<string, unknown>;
+  return typeof c.category_id === "string" && library.categories.some(category => category.id === c.category_id)
+    && typeof c.baseline_asset_id === "string" && /^[a-f0-9]{32}$/.test(c.baseline_asset_id)
+    && typeof c.contract_hash === "string" && /^[a-f0-9]{64}$/.test(c.contract_hash)
+    && (c.group === undefined || (typeof c.group === 'string' && c.group.length > 0 && c.group.length <= 200))
+    && Array.isArray(c.locked_fields) && c.locked_fields.length <= 100
+    && c.locked_fields.every(field => typeof field === "string" && field.length > 0 && field.length <= 500)
+    && Object.keys(c).every(key => ["category_id", "baseline_asset_id", "contract_hash", "locked_fields", "group"].includes(key));
 }
 export function setAttribute(
   draft: Draft,
@@ -250,4 +304,24 @@ export function presetApplication(raw: Record<string, unknown>, library: Library
     }
   }
   return { draft, unresolved };
+}
+
+// Saved comparison metadata never conditions /api/jobs generation.
+export async function validateComparisonAnchor(raw: unknown, library: Library, readReview: (path: string) => Promise<unknown> = api): Promise<boolean> {
+  if (!validComparison(raw, library)) return false;
+  const anchor = raw as NonNullable<Draft['comparison']> & {group?: string; baseline_integrity?: boolean};
+  try {
+    const current = await readReview(`/api/comparisons/${encodeURIComponent(anchor.category_id)}${anchor.group ? `?group=${encodeURIComponent(anchor.group)}` : ''}`) as {contract_hash?: string; baseline?: {asset_id?: string; sha256?: string}; group?: string; baseline_integrity?: boolean};
+    return current.baseline_integrity !== false && current.contract_hash === anchor.contract_hash && current.baseline?.asset_id === anchor.baseline_asset_id
+      && typeof current.baseline?.sha256 === 'string' && /^[a-f0-9]{64}$/.test(current.baseline.sha256)
+      && (!anchor.group || current.group === anchor.group);
+  } catch { return false; }
+}
+
+export function generationDefaults(draft: Pick<Draft, 'selections' | 'whitelist'>, library: Library): string[] {
+  return attributes(library).flatMap(attr => {
+    const value = (attr as Attribute & {default?: string; default_value?: string}).default || (attr as Attribute & {default_value?: string}).default_value;
+    if (!value || draft.selections[attr.id]?.length || draft.whitelist[attr.id]?.length) return [];
+    return [`${attr.name}: ${attr.values.find(v => v.id === value)?.name || value}`];
+  });
 }

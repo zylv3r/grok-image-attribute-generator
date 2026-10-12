@@ -6,6 +6,7 @@ import io
 import json
 import math
 import os
+import re
 import sqlite3
 import tempfile
 import warnings
@@ -287,6 +288,31 @@ class Gallery:
             row = db.execute('SELECT 1 FROM images WHERE filename=? OR thumbnail=? LIMIT 1', (filename, filename)).fetchone()
         return self.output_dir / filename if row else None
 
+    def owned_image(self, image_id):
+        """Resolve only registered original JPEGs; browser paths are never accepted."""
+        if not isinstance(image_id, str) or not re.fullmatch(r'[0-9a-f]{32}', image_id):
+            return None
+        filename = image_id + '.jpg'
+        with self.connect() as db:
+            row = db.execute('SELECT filename FROM images WHERE id=?', (image_id,)).fetchone()
+        if not row or row['filename'] != filename or self.output_dir.is_symlink():
+            return None
+        path = self.output_dir / filename
+        if path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(self.output_dir.resolve()):
+            return None
+        return path
+
+    def set_filter_aliases(self, aliases):
+        """Expand only safe one-to-one moves; preserve archived tags and recipes."""
+        self.filter_aliases = {}
+        for old, alias in aliases.items():
+            targets = alias.get('targets', [])
+            if alias.get('disposition') != 'move' or len(targets) != 1:
+                continue
+            target = targets[0]
+            canonical = (target['attribute_id'], target['value_id'])
+            self.filter_aliases.setdefault(canonical, set()).add(tuple(old.split(':', 1)))
+
     def query(self, q='', page=1, page_size=24, filters=None, aspect_ratio=''):
         if isinstance(page, bool) or not isinstance(page, int) or not 1 <= page <= 10000:
             raise ValueError('page must be between 1 and 10000')
@@ -305,8 +331,17 @@ class Gallery:
         for attribute, values in (filters or {}).items():
             if not values:
                 continue
-            where.append('i.id IN (SELECT image_id FROM image_tags WHERE attribute=? AND value IN (' + ','.join('?' for _ in values) + '))')
-            args.extend([attribute, *values])
+            # Exact legacy 24 alias, without rewriting historic tags or lexical
+            # comparisons (age_2 must never match age_24).
+            if attribute == 'age' and ('age_24' in values or '24' in values):
+                values = list(dict.fromkeys([*values, 'age_24', '24']))
+            pairs = {(attribute, value) for value in values}
+            for value in values:
+                pairs.update(getattr(self, 'filter_aliases', {}).get((attribute, value), set()))
+            pairs = sorted(pairs)
+            where.append('i.id IN (SELECT image_id FROM image_tags WHERE ' +
+                         ' OR '.join('(attribute=? AND value=?)' for _ in pairs) + ')')
+            args.extend(part for pair in pairs for part in pair)
         clause = ' WHERE ' + ' AND '.join(where) if where else ''
         with self.connect() as db:
             db.execute('BEGIN')

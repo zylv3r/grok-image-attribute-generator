@@ -1,0 +1,253 @@
+{
+  "attributes": {
+    "hair_style": {
+      "legacy_name": "Hair Style",
+      "legacy_description": "Arrangement of strands without imposing hair color or length.",
+      "owner_category": "hair",
+      "disposition": "reconciled",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "dress_style": {
+      "legacy_name": "Dress Style",
+      "legacy_description": "Dress construction with fully opaque coverage.",
+      "owner_category": "wardrobe",
+      "disposition": "reconciled",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "seam_detail": {
+      "legacy_name": "Seam Detail",
+      "legacy_description": "Visible construction details of opaque garments.",
+      "owner_category": "wardrobe",
+      "disposition": "reconciled",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "ethnic_inspiration": {
+      "legacy_name": "Style Inspiration",
+      "legacy_description": "Regional design and wardrobe references, without inferring ancestry or prescribing facial features.",
+      "owner_category": "skin_pigmentation",
+      "disposition": "retire_unresolved",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "complexion_detail": {
+      "legacy_name": "Complexion Detail",
+      "legacy_description": "Legacy complexion presets now steer undertone only; skin pigment and freckles remain separate.",
+      "owner_category": "skin_pigmentation",
+      "disposition": "retire_unresolved",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "facial_balance": {
+      "legacy_name": "Facial Balance",
+      "legacy_description": "Choose harmonious soft proportions or subtle natural asymmetry without changing skin or eye pigment.",
+      "owner_category": "skin_pigmentation",
+      "disposition": "retire_unresolved",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "silhouette": {
+      "legacy_name": "Silhouette",
+      "legacy_description": "Overall adult fashion silhouette with plausible anatomy; clothing cut is independently selectable.",
+      "owner_category": "body_avatar",
+      "disposition": "reconciled",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "face_direction": {
+      "legacy_name": "Face & Expression",
+      "legacy_description": "Editorial facial presence conveyed by gaze and soft expression without fixing makeup or age.",
+      "owner_category": "face_expression_makeup",
+      "disposition": "retire_unresolved",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "waist_position": {
+      "legacy_name": "Waist Position",
+      "legacy_description": "Garment waistband height independent of body shape.",
+      "owner_category": "wardrobe",
+      "disposition": "reconciled",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "body_build": {
+      "legacy_name": "Body Build",
+      "legacy_description": "Overall adult build with natural anatomy.",
+      "owner_category": "body_avatar",
+      "disposition": "reconciled",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    },
+    "shoulder_shape": {
+      "legacy_name": "Shoulder Shape",
+      "legacy_description": "Shoulder width and slope independent of body mass.",
+      "owner_category": "body_avatar",
+      "disposition": "reconciled",
+      "reason": "Archived raw control remains available for historical filters; review each value disposition before generation."
+    }
+  },
+  "values": {
+    "hair_style:side_part": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Side Part",
+      "legacy_steer": "a clearly offset side part with hair swept across the crown",
+      "legacy_description": "A clearly offset side part with hair swept across the crown.",
+      "legacy_category": "hair",
+      "reason": "Legacy side_part does not specify left or right; operator must choose a canonical part explicitly.",
+      "historical_filter_retained": true
+    },
+    "pose:leaning": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Leaning",
+      "legacy_steer": "slightly leaning against a surface",
+      "legacy_description": "Slightly leaning against a surface.",
+      "legacy_category": "pose",
+      "reason": "The legacy pose needs an explicit support or orientation decision before generation.",
+      "historical_filter_retained": true
+    },
+    "ethnic_inspiration:slavic_inspired": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Slavic-Inspired",
+      "legacy_steer": "Slavic-inspired editorial wardrobe and craft references without prescribing ancestry or skin tone",
+      "legacy_description": "Slavic-inspired editorial wardrobe and craft references without prescribing ancestry or skin tone.",
+      "legacy_category": "phenotype",
+      "reason": "Retired ancestry-style stereotype control has no appearance-only equivalent; preserve raw tags and choose explicit appearance controls.",
+      "historical_filter_retained": true
+    },
+    "ethnic_inspiration:scandinavian_inspired": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Scandinavian-Inspired",
+      "legacy_steer": "Scandinavian-inspired restrained editorial wardrobe and clean design references without prescribing ancestry or skin tone",
+      "legacy_description": "Scandinavian-inspired restrained editorial wardrobe and clean design references without prescribing ancestry or skin tone.",
+      "legacy_category": "phenotype",
+      "reason": "Retired ancestry-style stereotype control has no appearance-only equivalent; preserve raw tags and choose explicit appearance controls.",
+      "historical_filter_retained": true
+    },
+    "ethnic_inspiration:northern_european_blend": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Northern European Blend",
+      "legacy_steer": "northern European-inspired editorial design references without prescribing ancestry or skin tone",
+      "legacy_description": "Northern european-inspired editorial design references without prescribing ancestry or skin tone.",
+      "legacy_category": "phenotype",
+      "reason": "Retired ancestry-style stereotype control has no appearance-only equivalent; preserve raw tags and choose explicit appearance controls.",
+      "historical_filter_retained": true
+    },
+    "complexion_detail:porcelain_cool_pink": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Porcelain Cool Pink",
+      "legacy_steer": "a subtle cool-pink complexion undertone without changing skin depth or freckles",
+      "legacy_description": "A subtle cool-pink complexion undertone without changing skin depth or freckles.",
+      "legacy_category": "phenotype",
+      "reason": "Retired bundled complexion recipe needs explicit tone, undertone and freckle decisions; no inferred replacement.",
+      "historical_filter_retained": true
+    },
+    "complexion_detail:pale_pink_freckled": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Pale Pink Freckled",
+      "legacy_steer": "a softly rosy complexion undertone; retain the independently chosen freckle setting",
+      "legacy_description": "A softly rosy complexion undertone; retain the independently chosen freckle setting.",
+      "legacy_category": "phenotype",
+      "reason": "Retired bundled complexion recipe needs explicit tone, undertone and freckle decisions; no inferred replacement.",
+      "historical_filter_retained": true
+    },
+    "complexion_detail:fair_clear": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Fair Clear",
+      "legacy_steer": "a neutral balanced complexion undertone with natural tonal variation",
+      "legacy_description": "A neutral balanced complexion undertone with natural tonal variation.",
+      "legacy_category": "phenotype",
+      "reason": "Retired bundled complexion recipe needs explicit tone, undertone and freckle decisions; no inferred replacement.",
+      "historical_filter_retained": true
+    },
+    "facial_balance:delicate_harmonious": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Delicate & Harmonious",
+      "legacy_steer": "a softly defined jawline, delicate natural nose and full natural lips, harmonious believable facial proportions",
+      "legacy_description": "A softly defined jawline, delicate natural nose and full natural lips, harmonious believable facial proportions.",
+      "legacy_category": "phenotype",
+      "reason": "Retired subjective balance label has no measurable independent appearance equivalent.",
+      "historical_filter_retained": true
+    },
+    "facial_balance:ethereal_natural": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Ethereal Natural",
+      "legacy_steer": "an ethereal but credible face with gentle jawline, delicate nose, full natural lips and natural asymmetry",
+      "legacy_description": "An ethereal but credible face with gentle jawline, delicate nose, full natural lips and natural asymmetry.",
+      "legacy_category": "phenotype",
+      "reason": "Retired subjective balance label has no measurable independent appearance equivalent.",
+      "historical_filter_retained": true
+    },
+    "face_direction:luminous": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Luminous Natural Beauty",
+      "legacy_steer": "an expressive adult face with lively eyes and relaxed facial muscles",
+      "legacy_description": "An expressive adult face with lively eyes and relaxed facial muscles.",
+      "legacy_category": "editorial",
+      "reason": "Retired non-expression editorial label cannot be guessed into a mouth, brow or lid movement.",
+      "historical_filter_retained": true
+    },
+    "face_direction:classic_beauty": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Classic Gorgeous Beauty",
+      "legacy_steer": "harmonious adult facial presence with a composed gaze and natural asymmetry",
+      "legacy_description": "Harmonious adult facial presence with a composed gaze and natural asymmetry.",
+      "legacy_category": "editorial",
+      "reason": "Retired non-expression editorial label cannot be guessed into a mouth, brow or lid movement.",
+      "historical_filter_retained": true
+    },
+    "face_direction:confident": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Confident Editorial Gaze",
+      "legacy_steer": "a confident direct editorial gaze with relaxed brows and a composed mouth",
+      "legacy_description": "A confident direct editorial gaze with relaxed brows and a composed mouth.",
+      "legacy_category": "editorial",
+      "reason": "Retired non-expression editorial label cannot be guessed into a mouth, brow or lid movement.",
+      "historical_filter_retained": true
+    },
+    "face_direction:soft_sultry": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Softly Sensual Poise",
+      "legacy_steer": "a subtle softly focused editorial gaze with relaxed lids and a gently composed mouth",
+      "legacy_description": "A subtle softly focused editorial gaze with relaxed lids and a gently composed mouth.",
+      "legacy_category": "editorial",
+      "reason": "Retired non-expression editorial label cannot be guessed into a mouth, brow or lid movement.",
+      "historical_filter_retained": true
+    },
+    "shoulder_shape:rounded_shoulders": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Rounded Shoulders",
+      "legacy_steer": "softly rounded shoulder contours",
+      "legacy_description": "Softly rounded shoulder contours.",
+      "legacy_category": "body",
+      "reason": "Bundled shoulder contour or posture needs explicit width/slope/posture choices.",
+      "historical_filter_retained": true
+    },
+    "shoulder_shape:defined_shoulders": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Defined Shoulders",
+      "legacy_steer": "naturally defined shoulder contours",
+      "legacy_description": "Naturally defined shoulder contours.",
+      "legacy_category": "body",
+      "reason": "Bundled shoulder contour or posture needs explicit width/slope/posture choices.",
+      "historical_filter_retained": true
+    },
+    "shoulder_shape:relaxed_shoulders": {
+      "disposition": "retire_unresolved",
+      "targets": [],
+      "legacy_name": "Relaxed Shoulders",
+      "legacy_steer": "shoulders resting low without tension",
+      "legacy_description": "Shoulders resting low without tension.",
+      "legacy_category": "body",
+      "reason": "Bundled shoulder contour or posture needs explicit width/slope/posture choices.",
+      "historical_filter_retained": true
+    }
+  }
+}

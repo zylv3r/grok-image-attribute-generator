@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import io
 import ipaddress
 import json
 import mimetypes
@@ -12,6 +13,7 @@ import random
 import re
 import stat
 import sys
+import tempfile
 import threading
 import warnings
 import xml.etree.ElementTree as ET
@@ -24,6 +26,20 @@ from PIL import Image, UnidentifiedImageError
 
 from gallery import Gallery, MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, QueueFull, SAFE_PROVIDER_ERROR, save_image
 from presets import Presets, PresetError
+
+try:
+    import catalog_v2
+except ModuleNotFoundError as exc:
+    if exc.name != 'catalog_v2':
+        raise
+    catalog_v2 = None
+
+try:
+    from comparisons import ComparisonStore
+except ModuleNotFoundError as exc:
+    if exc.name != 'comparisons':
+        raise
+    ComparisonStore = None
 
 ROOT = Path(__file__).resolve().parent
 GENERATED_DIR = ROOT / 'generated'
@@ -70,9 +86,10 @@ def safe_svg(raw):
 
 
 class Catalog:
-    def __init__(self, library):
+    def __init__(self, library, bundle=None):
         self.library_hash = hashlib.sha256(json.dumps(library, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
         self.library = json.loads(json.dumps(library))
+        self.bundle = bundle
         self.attributes = {}
         self.thumbnail_paths = set()
         for category in self.library['categories']:
@@ -117,6 +134,10 @@ class Catalog:
                 if left in known and right in known:
                     self.exclusions.add(frozenset((left, right)))
         self.ordered_exclusions = sorted(self.exclusions, key=lambda pair: sorted(pair))
+        # Required controls may occur later in the planner's search order.
+        self.partial_library = dict(self.library, compatibility_rules=[
+            {key: value for key, value in rule.items() if key != 'requires'}
+            for rule in self.library.get('compatibility_rules', [])])
 
     @classmethod
     def load(cls, path):
@@ -125,12 +146,32 @@ class Catalog:
         catalog.library_hash = hashlib.sha256(raw).hexdigest()
         return catalog
 
-    def conflict(self, selections):
+    def conflict(self, selections, partial=False):
         selected = {(aid, vid) for aid, ids in selections.items() for vid in ids}
         for pair in self.ordered_exclusions:
             if pair <= selected:
                 return 'conflicting selections: ' + ' + '.join(f'{aid}:{vid}' for aid, vid in sorted(pair))
+        if catalog_v2 is not None and (self.bundle is not None or self.library.get('catalog_version') == 2 or self.library.get('compatibility_rules')):
+            return catalog_v2.validate_compatibility(selections, self.partial_library if partial else self.library)
         return None
+
+    def expand_recipes(self, selections):
+        expanded = {aid: list(ids) for aid, ids in selections.items()}
+        queue = [(aid, vid) for aid, ids in expanded.items() for vid in ids]
+        visited = set()
+        while queue:
+            aid, vid = queue.pop(0)
+            if (aid, vid) in visited:
+                continue
+            visited.add((aid, vid))
+            value = next(v for v in self.attributes[aid]['values'] if v['id'] == vid)
+            for component, wanted in value.get('recipe', {}).get('selections', {}).items():
+                current = expanded.setdefault(component, [])
+                for component_id in wanted:
+                    if component_id not in current:
+                        current.append(component_id)
+                        queue.append((component, component_id))
+        return expanded
 
     def snapshot(self, mapping):
         return {aid: {'name': self.attributes[aid]['name'], 'type': self.attributes[aid]['type'],
@@ -144,6 +185,8 @@ class Catalog:
         normalized = {}
         for aid, ids in mapping.items():
             if aid not in self.attributes:
+                if self.bundle is not None:
+                    raise ValueError(f'retired or unsupported attribute: {aid}; use /api/catalog/resolve to review migration')
                 raise ValueError(f'unknown attribute: {aid}')
             attribute = self.attributes[aid]
             if not isinstance(ids, list) or any(not isinstance(vid, str) for vid in ids):
@@ -152,6 +195,8 @@ class Catalog:
                 raise ValueError(f'{aid} contains duplicate value IDs')
             known = {v['id'] for v in attribute['values']}
             if any(vid not in known for vid in ids):
+                if self.bundle is not None:
+                    raise ValueError(f'{aid} contains a retired or unsupported value ID; use /api/catalog/resolve to review migration')
                 raise ValueError(f'{aid} contains an unknown value ID')
             if kind == 'whitelist' and not ids:
                 raise ValueError(f'{aid} whitelist must contain at least one value ID')
@@ -176,7 +221,16 @@ class Catalog:
         if set(payload) - {'selections', 'whitelist', 'mode', 'n', 'aspect_ratio', 'extra_prompt', 'seed'}:
             raise ValueError('unknown request fields')
         selections = self.validate_map(payload.get('selections', {}))
-        conflict = self.conflict(selections)
+        requested_selections = {aid: list(ids) for aid, ids in selections.items()}
+        defaulted = []
+        # Defaults are authoritative catalog values, never prompt text from a client.
+        for aid, attr in self.attributes.items():
+            default = attr.get('default', attr.get('default_value'))
+            raw_whitelist = payload.get('whitelist', {})
+            if default and aid not in selections and (not isinstance(raw_whitelist, dict) or aid not in raw_whitelist):
+                selections[aid] = self.validate_map({aid: [default]})[aid]
+                defaulted.append(aid)
+        conflict = self.conflict(selections, partial=bool(payload.get('whitelist')))
         if conflict:
             raise ValueError(conflict)
         whitelist = self.validate_map(payload.get('whitelist', {}), 'whitelist')
@@ -227,12 +281,13 @@ class Catalog:
                 nonlocal nodes
                 nodes += 1
                 if depth == len(choices):
-                    valid.append({aid: list(ids) for aid, ids in selected.items()})
+                    if not self.conflict(selected):
+                        valid.append({aid: list(ids) for aid, ids in selected.items()})
                     return
                 aid, options = choices[depth]
                 for option in options:
                     selected[aid] = option
-                    if not self.conflict(selected):
+                    if not self.conflict(selected, partial=True):
                         visit(depth + 1)
                 selected.pop(aid, None)
             visit(0)
@@ -242,7 +297,8 @@ class Catalog:
             # freezes early attributes and is not a valid variation sampler.
             potential = {(aid, vid) for aid, ids in selections.items() for vid in ids}
             potential.update((aid, vid) for aid, ids in whitelist.items() for vid in ids)
-            constrained = any(pair <= potential for pair in self.ordered_exclusions)
+            constrained = any(pair <= potential for pair in self.ordered_exclusions) or bool(self.library.get('compatibility_rules')) or any(
+                v.get('recipe') for a in self.attributes.values() for v in a['values'])
             seen = set()
             step_cost = len(choices) + 1
             while nodes + step_cost <= PLANNER_NODE_LIMIT and len(valid) < PLANNER_RESULT_LIMIT:
@@ -271,8 +327,14 @@ class Catalog:
         else:
             resolved = [selections] * n
         plans = []
-        requested_snapshot = {'selections': self.snapshot(selections), 'whitelist': self.snapshot(whitelist)}
+        requested_snapshot = {'selections': self.snapshot(requested_selections), 'whitelist': self.snapshot(whitelist),
+                              'requested_maps': json.loads(json.dumps({'selections': payload.get('selections', {}), 'whitelist': payload.get('whitelist', {})})),
+                              'defaulted': defaulted}
         for index, selected in enumerate(resolved):
+            selected = self.expand_recipes(selected)
+            conflict = self.conflict(selected)
+            if conflict:
+                raise ValueError(conflict)
             selected = {aid: selected[aid] for aid in self.attributes if aid in selected}
             plans.append({'selections': selected, 'prompt': self.prompt(selected, extra),
                           'plan_index': index, 'library_hash': self.library_hash,
@@ -326,6 +388,87 @@ def generate_native_image(prompt: str, aspect_ratio: str) -> tuple[str, str]:
 def invoke_provider(prompt, aspect_ratio, provider=None):
     with PROVIDER_SLOTS:
         return (provider or generate_native_image)(prompt, aspect_ratio)
+
+
+def _validated_image_bytes(raw, aspect_ratio=None, mime=None):
+    if not isinstance(raw, bytes) or not 0 < len(raw) <= MAX_IMAGE_BYTES:
+        raise ValueError('invalid image bytes')
+    with warnings.catch_warnings():
+        warnings.simplefilter('error', Image.DecompressionBombWarning)
+        with Image.open(io.BytesIO(raw)) as image:
+            if not 0 < image.width * image.height <= MAX_IMAGE_PIXELS:
+                raise ValueError('invalid image dimensions')
+            actual_mime = Image.MIME.get(image.format)
+            if actual_mime not in {'image/jpeg', 'image/png', 'image/webp'} or (mime and mime != actual_mime):
+                raise ValueError('invalid image format')
+            width, height = image.size
+            image.verify()
+        with Image.open(io.BytesIO(raw)) as image:
+            image.load()
+    if aspect_ratio:
+        left, right = map(int, aspect_ratio.split(':'))
+        if abs(width / height - left / right) > max(left / right * .02, 1 / height):
+            raise ValueError('provider image has the wrong aspect ratio')
+    return actual_mime
+
+
+def edit_native_image(prompt: str, image_bytes: bytes, mime: str, aspect_ratio: str) -> tuple[str, str]:
+    """Native JSON reference edit. No URL downloads or text-generation fallback."""
+    try:
+        if (not isinstance(prompt, str) or not 0 < len(prompt) <= 20000 or not isinstance(aspect_ratio, str)
+                or not re.fullmatch(r'[1-9][0-9]{0,4}:[1-9][0-9]{0,4}', aspect_ratio)):
+            raise ValueError('invalid edit request')
+        actual_mime = _validated_image_bytes(image_bytes, aspect_ratio, mime=mime)
+        import requests
+        from hermes_cli.config import load_config
+        from tools.xai_http import hermes_xai_user_agent, resolve_xai_http_credentials
+        credentials = resolve_xai_http_credentials()
+        bearer = str(credentials.get('api_key') or '').strip()
+        if not bearer:
+            raise ValueError('credentials unavailable')
+        model = str(load_config().get('image_gen', {}).get('xai', {}).get('edit_model') or 'grok-imagine-image-2.0')
+        body = {'model': model, 'prompt': prompt, 'response_format': 'b64_json',
+                'image': {'url': 'data:' + actual_mime + ';base64,' + base64.b64encode(image_bytes).decode('ascii'),
+                          'type': 'image_url'}}
+        # For a reviewed crop outside supported generation ratios, retain the reference
+        # dimensions rather than instructing the provider to stretch or resize it.
+        if aspect_ratio in XAI_ASPECT_RATIOS:
+            body['aspect_ratio'] = aspect_ratio
+        response = requests.post(
+            str(credentials.get('base_url') or 'https://api.x.ai/v1').rstrip('/') + '/images/edits',
+            headers={'Authorization': 'Bearer ' + bearer, 'Content-Type': 'application/json',
+                     'User-Agent': hermes_xai_user_agent()},
+            json=body, timeout=120, stream=True)
+        try:
+            response.raise_for_status()
+            limit = MAX_IMAGE_BYTES * 4 // 3 + 65536
+            chunks, size = [], 0
+            for chunk in response.iter_content(chunk_size=65536):
+                size += len(chunk)
+                if size > limit:
+                    raise ValueError('oversized image response')
+                chunks.append(chunk)
+            data = json.loads(b''.join(chunks)).get('data')
+        finally:
+            response.close()
+        if not isinstance(data, list) or not data or not isinstance(data[0], dict):
+            raise ValueError('no image data')
+        encoded = data[0].get('b64_json')
+        if not isinstance(encoded, str) or len(encoded) > MAX_IMAGE_BYTES * 4 // 3 + 4:
+            raise ValueError('no bounded image bytes')
+        raw = base64.b64decode(encoded, validate=True)
+        actual_mime = _validated_image_bytes(raw, aspect_ratio)
+        return encoded, actual_mime
+    except Exception:
+        raise RuntimeError(SAFE_PROVIDER_ERROR) from None
+
+
+def invoke_edit_provider(prompt, image_bytes, mime, aspect_ratio, provider=None):
+    with PROVIDER_SLOTS:
+        try:
+            return (provider or edit_native_image)(prompt, image_bytes, mime, aspect_ratio)
+        except Exception:
+            raise RuntimeError(SAFE_PROVIDER_ERROR) from None
 
 
 def legacy_request(payload):
@@ -418,17 +561,256 @@ class JobManager:
 
 
 class Application:
-    def __init__(self, root=ROOT, db_path=None, output_dir=None, catalog=None, provider=None, import_legacy=False):
+    def __init__(self, root=ROOT, db_path=None, output_dir=None, catalog=None, provider=None, import_legacy=False, edit_provider=None):
         self.root = Path(root)
-        self.catalog = catalog or Catalog.load(self.root / 'library.json')
+        self.bundle = (getattr(catalog, 'bundle', None) if catalog is not None else
+                       catalog_v2.load_bundle(self.root) if catalog_v2 is not None else None)
+        self.catalog = catalog or (Catalog(self.bundle['library'], self.bundle) if self.bundle else Catalog.load(self.root / 'library.json'))
+        self.historical_catalog = Catalog(catalog_v2.historical_library(self.bundle)) if self.bundle else self.catalog
+        self.legacy_catalog = Catalog(self.bundle['legacy_library']) if self.bundle else self.catalog
+        if self.bundle:
+            active_categories = {c['id'] for c in self.catalog.library['categories']}
+            for category in self.historical_catalog.library['categories']:
+                category['historical_only'] = category['id'] not in active_categories
+                for attribute in category['attributes']:
+                    active = self.catalog.attributes.get(attribute['id'])
+                    attribute['historical_only'] = active is None
+                    current_ids = {v['id'] for v in active['values']} if active else set()
+                    for value in attribute['values']:
+                        value['historical_only'] = value['id'] not in current_ids
         self.store = Gallery(db_path or self.root / 'gallery.sqlite3', output_dir or self.root / 'generated')
+        if self.bundle:
+            self.store.set_filter_aliases(self.bundle['aliases'])
         self.presets = Presets(self.root / 'presets.sqlite3', self.catalog.library_hash)
         if import_legacy:
             self.store.import_legacy()
         self.jobs = JobManager(self.store, provider)
         self.provider = provider
+        self.edit_provider = edit_provider
+        self.comparisons = ComparisonStore(self.root) if ComparisonStore is not None and self.bundle else None
+        if self.comparisons is not None:
+            assert self.bundle is not None
+            self.comparisons.list_categories(self.bundle['library'])
         self._preview_jpeg_cache = {}
         self._preview_cache_lock = threading.Lock()
+
+    def catalog_versions(self):
+        categories = []
+        for cat in self.catalog.library['categories']:
+            attrs = cat['attributes']
+            categories.append({'id': cat['id'], 'name': cat['name'],
+                               'attributes': len(attrs), 'values': sum(len(a['values']) for a in attrs),
+                               'source_control_mode': cat.get('preview_status', 'legacy_independent' if not self.bundle else 'draft')})
+        return {'active_version': 2 if self.bundle else 1, 'legacy_version': 1,
+                'library_hash': self.catalog.library_hash,
+                'source_control_mode': 'category_review' if self.bundle else 'legacy',
+                'effective_counts': {'categories': len(categories), 'attributes': len(self.catalog.attributes),
+                                     'values': sum(len(a['values']) for a in self.catalog.attributes.values())},
+                'categories': categories}
+
+    def gallery_labels(self, image):
+        if not self.bundle or not image or image.get('resolved_selection_snapshot'):
+            return image
+        selections = image.get('selections', {})
+        snapshot = {}
+        for aid, ids in selections.items():
+            source = self.legacy_catalog if aid in self.legacy_catalog.attributes else self.historical_catalog
+            if aid in source.attributes and isinstance(ids, list):
+                snapshot.update(source.snapshot({aid: ids}))
+        if snapshot:
+            image = dict(image, resolved_selection_snapshot=snapshot, label_snapshot_source='archived_catalog')
+        return image
+
+    def resolve_draft(self, raw):
+        if not isinstance(raw, dict):
+            raise ValueError('draft must be an object')
+        if self.bundle:
+            result = catalog_v2.resolve_draft(raw, self.bundle)
+        else:
+            unresolved = []
+            for field in ('selections', 'whitelist'):
+                mapping = raw.get(field, {})
+                if not isinstance(mapping, dict):
+                    unresolved.append({'field': field, 'reason': 'unsupported control structure'})
+                    continue
+                for aid, ids in mapping.items():
+                    try:
+                        self.catalog.validate_map({aid: ids}, 'filters')
+                    except ValueError as exc:
+                        unresolved.append({'field': field, 'attribute_id': aid, 'reason': str(exc)})
+            result = {'draft': json.loads(json.dumps(raw)), 'changes': [], 'unresolved': unresolved}
+        return dict(result, raw_draft=json.loads(json.dumps(raw)))
+
+    def comparison_post(self, category_id, action, payload):
+        if self.comparisons is None or category_id not in {cat['id'] for cat in self.catalog.library['categories']}:
+            raise APIError(404, 'comparison category not found')
+        fields = {
+            'base': ({'image_id'}, {'image_id', 'subject_id', 'crop', 'attribute_id', 'group', 'baseline_confirmations'}),
+            'mask': ({'attribute_id', 'polygon'}, {'attribute_id', 'polygon', 'group'}),
+            'approve': ({'stage', 'expected_contract_hash'}, {'stage', 'expected_contract_hash', 'artifact_ids', 'provider_attempt_cap', 'approval_note', 'attribute_id', 'group'}),
+            'preview': ({'attribute_id', 'value_id', 'method', 'request_key'}, {'attribute_id', 'value_id', 'method', 'params', 'request_key', 'group'}),
+        }
+        fields['reopen'] = ({'expected_contract_hash', 'approval_note'}, {'expected_contract_hash', 'approval_note', 'attribute_id', 'group'})
+        required, allowed = fields[action]
+        if not required <= set(payload) or set(payload) - allowed:
+            raise ValueError('invalid comparison request fields')
+        targeting = {k: payload[k] for k in ('attribute_id', 'group') if k in payload}
+        for field, value in targeting.items():
+            if not isinstance(value, str) or not value or len(value) > 200:
+                raise ValueError('invalid comparison ' + field)
+        if action == 'reopen':
+            return self.comparisons.reopen(category_id, payload['expected_contract_hash'], payload['approval_note'], **targeting)
+        if action == 'base':
+            confirmations = payload.get('baseline_confirmations')
+            if 'baseline_confirmations' in payload and (not isinstance(confirmations, list) or len(confirmations) > 100 or
+                    any(not isinstance(v, str) or not v.strip() or len(v) > 1000 for v in confirmations) or
+                    len(set(confirmations)) != len(confirmations)):
+                raise ValueError('invalid operator baseline_confirmations')
+            targeting['baseline_confirmations'] = confirmations
+            path = self.store.owned_image(payload['image_id'])
+            if path is None or self._preview_jpeg(path) is None:
+                raise ValueError('image_id must identify an owned gallery photograph')
+            subject = payload.get('subject_id', 'woman-1')
+            if not isinstance(subject, str) or not PREVIEW_ID.fullmatch(subject) or len(subject) > 100:
+                raise ValueError('invalid subject_id')
+            if path.resolve().is_relative_to(self.root.resolve()):
+                return self.comparisons.set_base(category_id, path, payload['image_id'], subject, payload.get('crop'), **targeting)
+            # The catalog checkout may use an existing installation's private
+            # gallery path. Copy owned bytes transiently across the engine's root
+            # boundary; never move, rename or rewrite the source photograph.
+            handle, _ = self._preview_file(path, MAX_IMAGE_BYTES)
+            with handle:
+                original = handle.read(MAX_IMAGE_BYTES + 1)
+            _validated_image_bytes(original, mime='image/jpeg')
+            with tempfile.NamedTemporaryFile(dir=self.root / 'generated', prefix='.owned-reference-', suffix='.jpg') as reference:
+                reference.write(original)
+                reference.flush()
+                return self.comparisons.set_base(category_id, Path(reference.name), payload['image_id'], subject, payload.get('crop'), **targeting)
+        if action == 'approve':
+            if payload['stage'] not in ('contract', 'pilot', 'publish', 'expansion'):
+                raise ValueError('stage must be contract, pilot, publish, or expansion')
+            digest = payload['expected_contract_hash']
+            if not isinstance(digest, str) or not re.fullmatch(r'[0-9a-f]{64}', digest):
+                raise ValueError('expected_contract_hash must be a SHA256 digest')
+            artifacts = payload.get('artifact_ids', [])
+            if not isinstance(artifacts, list) or len(artifacts) > 2000 or any(not isinstance(a, str) or not PHOTO_ID.fullmatch(a) for a in artifacts) or len(set(artifacts)) != len(artifacts):
+                raise ValueError('artifact_ids must be distinct registered IDs')
+            cap = payload.get('provider_attempt_cap', 0)
+            if type(cap) is not int or not 0 <= cap <= 3:
+                raise ValueError('provider_attempt_cap must be an integer between 0 and 3')
+            note = payload.get('approval_note', '')
+            if not isinstance(note, str) or len(note) > 2000:
+                raise ValueError('approval_note must be at most 2000 characters')
+            return self.comparisons.approve(category_id, payload['stage'], digest, artifacts, cap, note, **targeting)
+        aid = payload['attribute_id']
+        category = next(c for c in self.catalog.library['categories'] if c['id'] == category_id)
+        if not isinstance(aid, str) or aid not in {a['id'] for a in category['attributes']}:
+            raise ValueError('attribute_id must belong to this comparison category')
+        if action == 'mask':
+            return self.comparisons.set_mask(category_id, aid, payload['polygon'], group=payload.get('group'))
+        vid = payload['value_id']
+        if not isinstance(vid, str) or vid not in {v['id'] for v in self.catalog.attributes[aid]['values']}:
+            raise ValueError('value_id must belong to attribute_id')
+        method, params, key = payload['method'], payload.get('params', {}), payload['request_key']
+        if not isinstance(method, str) or not PREVIEW_ID.fullmatch(method) or len(method) > 100:
+            raise ValueError('invalid preview method')
+        if not isinstance(params, dict):
+            raise ValueError('params must be an object')
+        forbidden_sources = {'url', 'path', 'filename', 'source', 'source_url', 'source_path', 'image_url',
+                             'image_path', 'image_bytes', 'image_id', 'base_url', 'base_path', 'base_asset_id',
+                             'mask', 'mask_url', 'mask_path', 'mask_asset_id', 'polygon', 'output_size', 'resize', 'prompt'}
+        def owned_params(value, depth=0):
+            if depth > 12:
+                raise ValueError('comparison parameters are too deeply nested')
+            if isinstance(value, dict):
+                if any(key.lower() in forbidden_sources for key in value):
+                    raise ValueError('comparison sources, masks and prompts are server-owned')
+                for item in value.values():
+                    owned_params(item, depth + 1)
+            elif isinstance(value, list):
+                for item in value:
+                    owned_params(item, depth + 1)
+        owned_params(params)
+        if not isinstance(key, str) or not 1 <= len(key) <= 128 or not PREVIEW_ID.fullmatch(key):
+            raise ValueError('invalid request_key')
+        def provider(prompt, raw, mime, aspect):
+            return invoke_edit_provider(prompt, raw, mime, aspect, self.edit_provider)
+        assert self.bundle is not None
+        return self.comparisons.render(category_id, aid, vid, method, params, key, self.bundle['library'], provider=provider, group=payload.get('group'))
+
+    def _v2_thumbnail_sources(self, library, progress):
+        """Pending is empty; old photographs are labeled independent; publication is explicit."""
+        if not self.bundle:
+            return library
+        reviews = {}
+        if self.comparisons:
+            for cat in library['categories']:
+                reviews[cat['id']] = self.comparisons.review(cat['id'])
+        for cat in library['categories']:
+            review = reviews.get(cat['id'], {})
+            group_views = [view for view in review.get('groups', {}).values() if view.get('baseline')]
+            views = ([review] if review.get('compatibility_view') else []) + group_views or [review]
+            targeted_attributes = {attr['id'] for view in group_views for attr in view.get('attributes', [])}
+            accepted, withheld = {}, set()
+            for view in views:
+                for artifact in view.get('artifacts', []):
+                    if view.get('state') != 'published' or artifact['id'] not in view.get('published_artifact_ids', []):
+                        continue
+                    if view is review and artifact['attribute_id'] in targeted_attributes:
+                        continue
+                    target = (artifact['attribute_id'], artifact['value_id'])
+                    if self.comparisons.publication_valid(cat['id'], artifact['id'], group=view.get('group')):
+                        accepted[target] = artifact
+                    else:
+                        withheld.add(target)
+            for attr in cat['attributes']:
+                aid = attr['id']
+                legacy = self.legacy_catalog.attributes.get(aid, {})
+                old_values = {v['id']: v for v in legacy.get('values', [])}
+                unchanged = len(old_values) == len(attr['values'])
+                for value in attr['values']:
+                    old = old_values.get(value['id'])
+                    same = bool(old and old.get('steers') == value.get('steers') and value.get('legacy_semantic_match', True))
+                    unchanged = unchanged and same
+                    controlled = accepted.get((aid, value['id']))
+                    control_only = attr.get('control') == 'range' or aid in {'age', 'gender'} or attr.get('preview_method') == 'control_only'
+                    swatch = attr.get('control') == 'swatch' or attr.get('preview_method') == 'fabric_swatch'
+                    if controlled and not control_only:
+                        value.update(thumbnail_url=controlled['url'], example_url=controlled['url'],
+                                     thumbnail_kind='comparison', thumbnail_status='ready', thumbnail_source='approved_comparison')
+                    elif (aid, value['id']) in withheld:
+                        value.update(thumbnail_url='', thumbnail_kind='pending', thumbnail_status='review_required',
+                                     thumbnail_source='withheld_provenance')
+                        for pointer in ('example_url', 'thumbnail'):
+                            value.pop(pointer, None)
+                    elif same and value.get('thumbnail_kind') == 'photographic' and not control_only and not swatch:
+                        value['thumbnail_source'] = 'legacy_independent'
+                    else:
+                        illustration = value.get('illustration_url') or value.get('thumbnail_url')
+                        if illustration and illustration in self.catalog.thumbnail_paths:
+                            value['illustration_url'] = illustration
+                        value.update(thumbnail_url='', thumbnail_kind='control_only' if control_only else 'swatch' if swatch else 'pending',
+                                     thumbnail_status='control_only' if control_only else 'swatch' if swatch else 'pending',
+                                     thumbnail_source='control_only' if control_only else 'palette' if swatch else 'pending')
+                        value.pop('example_url', None)
+                        value.pop('thumbnail', None)
+                if not unchanged or attr.get('control') in {'range', 'swatch'} or aid == 'gender' or attr.get('thumbnail_kind') != 'contact_sheet':
+                    attr.update(thumbnail_url='', thumbnail_kind='pending', thumbnail_status='pending')
+                    attr.pop('thumbnail', None)
+                else:
+                    attr['thumbnail_source'] = 'legacy_independent'
+                attr['comparison_state'] = review.get('groups', {}).get(attr.get('comparison_group'), review).get('state', 'draft')
+        progress['value_completed'] = sum(v.get('thumbnail_status') == 'ready' for c in library['categories'] for a in c['attributes'] for v in a['values'])
+        progress['attribute_completed'] = sum(bool(a.get('thumbnail_url')) for c in library['categories'] for a in c['attributes'])
+        progress['control_only'] = sum(v.get('thumbnail_status') == 'control_only' for c in library['categories'] for a in c['attributes'] for v in a['values'])
+        progress['swatches'] = sum(v.get('thumbnail_status') == 'swatch' for c in library['categories'] for a in c['attributes'] for v in a['values'])
+        progress['review_required'] = any(v.get('thumbnail_status') in ('pending', 'review_required') for c in library['categories'] for a in c['attributes'] for v in a['values'])
+        if progress['review_required']:
+            progress['status'] = 'paused'
+        library.update(catalog_version=2, thumbnail_mode='mixed', historical_library=self.historical_catalog.library,
+                       historical_categories=self.historical_catalog.library['categories'],
+                       retired=self.bundle.get('retired', {}), thumbnail_progress=progress)
+        return library
 
     def _preview_file(self, path, limit):
         """Open a regular file without following a symlink in either local component."""
@@ -443,6 +825,23 @@ class Application:
             handle.close()
             raise ValueError('invalid preview file')
         return handle, metadata
+
+    @staticmethod
+    def _validated_comparison_png(raw):
+        try:
+            if not raw.startswith(b'\x89PNG\r\n\x1a\n'):
+                return False
+            with warnings.catch_warnings():
+                warnings.simplefilter('error', Image.DecompressionBombWarning)
+                with Image.open(io.BytesIO(raw)) as image:
+                    if image.format != 'PNG' or not 0 < image.width * image.height <= MAX_IMAGE_PIXELS:
+                        return False
+                    image.verify()
+                with Image.open(io.BytesIO(raw)) as image:
+                    image.load()
+            return True
+        except (ValueError, OSError, UnidentifiedImageError, Image.DecompressionBombError, Image.DecompressionBombWarning):
+            return False
 
     def _preview_jpeg(self, path, max_side=None, raw=False):
         """Validate pixels once per file revision; never trust an extension or MIME claim."""
@@ -532,7 +931,8 @@ class Application:
                 for attribute in self.catalog.attributes.values() for value in attribute['values'])
             progress['attribute_completed'] = sum(bool(attribute.get('thumbnail_url'))
                 for attribute in self.catalog.attributes.values())
-            return library, 'illustrative', progress
+            library = self._v2_thumbnail_sources(library, progress)
+            return library, 'mixed' if self.bundle else 'illustrative', progress
         manifest = manifest or {}
         attributes = manifest.get('attributes', {})
         version = manifest.get('version')
@@ -617,7 +1017,8 @@ class Application:
                 or progress['attribute_completed'] != len(self.catalog.attributes)):
             progress['status'] = 'running'
         library.update(thumbnail_mode='photographic', thumbnail_progress=progress)
-        return library, 'photographic', progress
+        library = self._v2_thumbnail_sources(library, progress)
+        return library, 'mixed' if self.bundle else 'photographic', progress
 
     def close(self):
         self.jobs.close()
@@ -723,12 +1124,27 @@ class AppHandler(BaseHTTPRequestHandler):
         return payload
 
     def do_POST(self):
-        path = urlparse(self.path).path
+        parsed = urlparse(self.path)
+        path = parsed.path
         try:
-            self._guard(paid=path in {'/api/jobs', '/api/generate'}, mutation=path in {'/api/presets', '/api/presets/import'})
-            if path not in {'/api/preview', '/api/jobs', '/api/generate', '/api/presets', '/api/presets/import'}:
+            comparison = re.fullmatch(r'/api/comparisons/([a-zA-Z0-9_-]+)/(base|mask|approve|preview|reopen)', path)
+            self._guard(paid=path in {'/api/jobs', '/api/generate'},
+                        mutation=path in {'/api/presets', '/api/presets/import', '/api/catalog/resolve'}
+                        or path.startswith('/api/comparisons/')
+                        or bool(self.app.bundle) and path in {'/api/jobs', '/api/generate'})
+            if parsed.query and (comparison or path == '/api/catalog/resolve'):
+                raise ValueError('query parameters are not supported for catalog/comparison mutations')
+            if path not in {'/api/preview', '/api/jobs', '/api/generate', '/api/presets', '/api/presets/import', '/api/catalog/resolve'} and not comparison:
                 raise APIError(404, 'not found')
             payload = self._body()
+            if path == '/api/catalog/resolve':
+                if set(payload) != {'draft'}:
+                    raise ValueError('request must contain only draft')
+                self._json(200, self.app.resolve_draft(payload['draft']))
+                return
+            if comparison:
+                self._json(200, self.app.comparison_post(comparison[1], comparison[2], payload))
+                return
             if path == '/api/presets':
                 preset, created = self.app.presets.create(payload)
                 self._json(201 if created else 200, preset)
@@ -751,7 +1167,8 @@ class AppHandler(BaseHTTPRequestHandler):
         except PresetError as exc:
             self._json(exc.status, {'error': str(exc)})
         except ValueError as exc:
-            self._json(400, {'error': str(exc)})
+            # Engine uses ValueError for contract/budget guards; never leak provider exceptions.
+            self._json(409 if type(exc).__name__ == 'ComparisonConflict' else 400, {'error': str(exc)})
         except QueueFull as exc:
             self._json(429, {'error': str(exc)})
         except Exception:
@@ -794,6 +1211,36 @@ class AppHandler(BaseHTTPRequestHandler):
             if path == '/api/library':
                 self._json(200, self.app.thumbnail_library()[0])
                 return
+            if path == '/api/catalog/versions':
+                self._json(200, self.app.catalog_versions())
+                return
+            if path == '/api/comparisons/categories':
+                categories = self.app.comparisons.list_categories(self.app.bundle['library']) if self.app.comparisons else []
+                self._json(200, {'categories': categories})
+                return
+            asset_match = re.fullmatch(r'/api/comparisons/assets/([0-9a-f]{32})\.png', path)
+            if asset_match:
+                try:
+                    def bounded_read(target):
+                        handle, _ = self.app._preview_file(target, MAX_IMAGE_BYTES)
+                        with handle:
+                            return handle.read(MAX_IMAGE_BYTES + 1)
+                    raw = self.app.comparisons.read_bytes(asset_match[1], reader=bounded_read) if self.app.comparisons else None
+                    if raw is None or len(raw) > MAX_IMAGE_BYTES or self.app._validated_comparison_png(raw) is False:
+                        raise ValueError('invalid comparison image')
+                except (ValueError, OSError):
+                    raise APIError(404, 'comparison asset unavailable')
+                self._send(200, raw, 'image/png')
+                return
+            review_match = re.fullmatch(r'/api/comparisons/([a-zA-Z0-9_-]+)', path)
+            if review_match:
+                if self.app.comparisons is None or review_match[1] not in {c['id'] for c in self.app.catalog.library['categories']}:
+                    raise APIError(404, 'comparison category not found')
+                params = parse_qs(parsed.query, keep_blank_values=True, max_num_fields=2)
+                if set(params) - {'attribute_id', 'group'} or any(len(v) != 1 or not v[0] or len(v[0]) > 200 for v in params.values()):
+                    raise ValueError('invalid comparison review query')
+                self._json(200, self.app.comparisons.review(review_match[1], **{k: v[0] for k, v in params.items()}))
+                return
             if path == '/api/thumbnail-status':
                 _, mode, progress = self.app.thumbnail_library()
                 self._json(200, dict(mode=mode, **progress))
@@ -815,7 +1262,7 @@ class AppHandler(BaseHTTPRequestHandler):
                     filters = json.loads(get('filters', '{}'))
                 except (ValueError, RecursionError):
                     raise ValueError('filters must be a JSON object')
-                filters = self.app.catalog.validate_map(filters, 'filters')
+                filters = self.app.historical_catalog.validate_map(filters, 'filters')
                 aspect = get('aspect_ratio', '')
                 if aspect and aspect not in XAI_ASPECT_RATIOS:
                     raise ValueError('unsupported aspect_ratio')
@@ -823,7 +1270,9 @@ class AppHandler(BaseHTTPRequestHandler):
                     page, size = int(get('page', '1')), int(get('page_size', '24'))
                 except ValueError:
                     raise ValueError('page and page_size must be integers')
-                self._json(200, self.app.store.query(get('q', ''), page, size, filters, aspect))
+                result = self.app.store.query(get('q', ''), page, size, filters, aspect)
+                result['items'] = [self.app.gallery_labels(item) for item in result['items']]
+                self._json(200, result)
                 return
             for prefix, lookup in (('/api/jobs/', self.app.store.job), ('/api/images/', self.app.store.image)):
                 if path.startswith(prefix):
@@ -833,6 +1282,8 @@ class AppHandler(BaseHTTPRequestHandler):
                     result = lookup(image_id)
                     if not result:
                         raise APIError(404, 'not found')
+                    if prefix == '/api/images/':
+                        result = self.app.gallery_labels(result)
                     self._json(200, result)
                     return
             target = None
