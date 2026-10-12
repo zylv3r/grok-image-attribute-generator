@@ -1,6 +1,6 @@
 # Atelier — Anchored Comparison v2 Image Studio
 
-A local, server-backed visual composition and comparison studio for adult, nonexplicit fashion/editorial images. Provider credentials remain on the server. This documents implemented software, not final integrated verification or a deployed release.
+A local, server-backed visual composition and comparison studio for adult, nonexplicit fashion/editorial images. Provider credentials remain on the server. The commands below launch the local application and an authenticated temporary tunnel; publication of controlled comparison photos still requires explicit operator review.
 
 ## What it does
 
@@ -59,14 +59,40 @@ The library labels approved comparisons, compatible legacy independent photos, s
 
 ## Requirements and startup
 
-Use the existing Hermes Python environment with Pillow and requests, plus Node/npm for the UI build:
+Use the existing Hermes Python environment with Pillow and requests, plus Node/npm for the UI build. From a WSL/Linux terminal:
 
 ```bash
-npm run build
-/home/renriquez/.hermes/hermes-agent/venv/bin/python server.py
+cd ~/projects/grok-image-attribute-generator
+./scripts/run-server.sh
 ```
 
-Build/start commands are for a separately authorized local run, not a claim that an existing service was restarted. Open **http://localhost:8123**. The server binds to loopback. Source files, Git internals and databases are not public routes.
+Open **http://localhost:8123**. On the existing installation the launcher starts the matching `atelier-image-studio.service` idempotently and checks health; it does not kill another listener or restart running jobs. On a checkout without a matching installed service it runs in the foreground and builds a missing/stale UI. `./scripts/run-server.sh --check` checks prerequisites without starting or installing anything. `--foreground` explicitly selects foreground mode. Run only one backend per checkout/database; stop an existing backend before replacing it. `PYTHON_BIN` can select another Python executable with Pillow and requests, and `PORT` selects a loopback port.
+
+### Private temporary tunnel
+
+With the server running, use a second terminal:
+
+```bash
+cd ~/projects/grok-image-attribute-generator
+./scripts/run-tunnel.sh
+```
+
+The tunnel launcher requires `cloudflared` on PATH or in `~/bin`, checks the local server, and creates its **own** ephemeral loopback authentication gateway and Cloudflare quick tunnel. It does not replace other phone proxies/tunnels. In an interactive terminal it prints a private access link; opening it installs a Secure, HttpOnly access cookie. The bare public URL rejects anonymous gallery/API access. Keep the private link to yourself: anyone with it can access your gallery and the app's paid-generation controls.
+
+The original app remains loopback-only. The gateway validates authentication, the exact external Host/Origin, body limits and expiration before rewriting the trusted local hop. This preserves POST/DELETE protection for generation, comparison reviews and presets. No generation or category approval is started by either launcher.
+
+```bash
+# One-hour tunnel (seconds; maximum/default lease is 86400):
+./scripts/run-tunnel.sh --ttl 3600
+# Use a different local app port:
+./scripts/run-tunnel.sh --app-port 8130
+# For captured automation output, never print the private access URL:
+./scripts/run-tunnel.sh --no-print-private
+```
+
+The tunnel stays attached to that terminal. Ctrl+C, SIGTERM, expiration or an early cloudflared exit shuts down only the launcher's own tunnel/gateway. WSL and the host must remain running. Quick-tunnel addresses change on each launch. State and the private link are stored in a unique owner-only directory under ignored `runtime/tunnels/`, never committed. Non-interactive output omits the private link; do not publish/redirect interactive output containing it. Run either script with `--help` for options.
+
+Source files, Git internals and databases are not public app routes.
 
 Hermes must already be authenticated for xAI OAuth image generation. Credentials are resolved exclusively on the server. Consult the Hermes documentation for authentication/configuration; do not paste secrets into this app.
 
