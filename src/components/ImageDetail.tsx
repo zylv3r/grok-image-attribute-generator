@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Download, RotateCcw, X } from "../icons";
-import { api, attributes, errorMessage, imageDescription } from "../lib";
+import { api, attributes, errorMessage, imageDescription, historyLibrary } from "../lib";
 import { ImageRecord, Library } from "../types";
 import { ErrorNotice } from "./UI";
 export function ImageDetail({
@@ -126,15 +126,15 @@ export function ImageDetail({
                 <h3>Locked attributes</h3>
                 <dl className="metadata">
                   {Object.entries(record.selections || {}).map(([id, ids]) => {
-                    const attr = attributes(library).find((a) => a.id === id);
+                    const attr = attributes(historyLibrary(library)).find((a) => a.id === id);
                     return (
                       <div key={id}>
-                        <dt>{attr?.name || id}</dt>
+                        <dt>{(record.selection_labels || record.label_snapshot)?.[id]?.name || attr?.name || id}</dt>
                         <dd>
                           {(Array.isArray(ids) ? ids : [ids])
                             .map(
                               (v) =>
-                                attr?.values.find((x) => x.id === v)?.name || v,
+                                (record.selection_labels || record.label_snapshot)?.[id]?.values?.[v] || attr?.values.find((x) => x.id === v)?.name || v,
                             )
                             .join(", ")}
                         </dd>

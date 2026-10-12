@@ -1,0 +1,185 @@
+{
+  "version": 2,
+  "categories": {
+    "hair": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "face_expression_makeup": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "eyes": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "skin_pigmentation": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "body_avatar": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "wardrobe": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "poses": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "identity_controls": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "photography": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "editorial_recipes": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "lighting_composition": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    },
+    "environment_props": {
+      "controls": {
+        "version": 2,
+        "source": "catalog/v2/library.json",
+        "status": "active"
+      },
+      "comparison_previews": {
+        "status": "awaiting_operator_review",
+        "source": null
+      },
+      "previous": {
+        "version": 1,
+        "source": "catalog/v1/library.json"
+      }
+    }
+  }
+}

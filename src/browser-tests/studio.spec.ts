@@ -101,8 +101,10 @@ test.describe("SIMULATED API — browser behavior (no paid generation)", () => {
     const saved = await page.evaluate(() =>
       JSON.parse(localStorage.getItem("atelier.draft.v1")!),
     );
-    expect(saved.selections.removed).toBeUndefined();
-    expect(saved.whitelist.skin_tone).toBeUndefined();
+    // Raw cached compositions must survive unsupported-ID discovery until the
+    // operator explicitly applies a migration; presets apply to the editor only.
+    expect(saved.selections.removed).toEqual(["old"]);
+    expect(saved.whitelist.skin_tone).toEqual(["porcelain"]);
   });
 
   test("corrupt draft does not break startup", async ({ page }) => {

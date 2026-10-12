@@ -16,6 +16,12 @@ import {
   cleanDraft,
   errorMessage,
   matchingValues,
+  historyLibrary,
+  historicalLibrary,
+  presetApplication,
+  validComparison,
+  validateComparisonAnchor,
+  generationDefaults,
   readLegacyPresets,
   readStorage,
   storageKey,
@@ -28,6 +34,8 @@ import { Gallery } from "./components/Gallery";
 import { ImageDetail } from "./components/ImageDetail";
 import { ErrorNotice } from "./components/UI";
 import { Presets } from "./components/Presets";
+import { ComparisonReview } from "./components/Comparisons";
+import { MigrationReview } from "./components/MigrationReview";
 function PhotographicProgress({ library }: { library: Library }) {
   const progress = library.thumbnail_progress;
   const attrs = library.categories.flatMap((category) => category.attributes);
@@ -38,25 +46,38 @@ function PhotographicProgress({ library }: { library: Library }) {
   return <section className="photographic-progress" aria-label="Photographic preview progress">
     <p role="status">Real photo values {completed}/{total} · Contact sheets {sheets}/{attrs.length}<span className="preview-generation-state">{state === "running" ? "Generating" : state === "completed" ? "Completed" : state === "paused" ? "Paused" : "Generation needs attention"}{progress?.failed ? ` · ${progress.failed} failed` : ""}</span></p>
     <progress value={completed} max={total} aria-label="Photographic value preview progress" />
-    <p>Within each attribute, examples use a fixed photographic prompt baseline; only the target value steer changes. Provider variability can change the subject and other details between examples. Generated examples are searchable in Gallery.</p>
+    <p>Legacy exploratory samples are independent generations. Provider variability can change subjects and other details. Controlled comparisons require a reviewed baseline, masks, receipts and category publication.</p>
   </section>;
 }
 export default function App() {
   const [legacyPresets] = useState(readLegacyPresets);
   const [library, setLibrary] = useState<Library>();
+  const [historical, setHistorical] = useState<Library>();
+  const [versionError, setVersionError] = useState("");
+  const [versionRetry, setVersionRetry] = useState(0);
+  const [versions, setVersions] = useState<{active_version?: number; legacy_version?: number; library_hash?: string; source_control_mode?: string}>();
+  const [catalogRefreshError, setCatalogRefreshError] = useState("");
   const libraryRef = useRef<Library | undefined>(undefined);
+  const [anchorError, setAnchorError] = useState('');
   const [draft, setDraft] = useState<Draft>({ ...emptyDraft });
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
   const [categoryId, setCategoryId] = useState("");
   const [query, setQuery] = useState("");
-  const [tab, setTab] = useState(() => new URLSearchParams(window.location.search).get("workspace") === "gallery" ? "gallery" : "studio");
+  const [tab, setTab] = useState(() => {
+    const workspace = new URLSearchParams(window.location.search).get("workspace");
+    return workspace === "gallery" || workspace === "comparisons" ? workspace : "studio";
+  });
   const [mobileNav, setMobileNav] = useState(false);
+  const [reviewVisited, setReviewVisited] = useState(tab === "comparisons");
   const [image, setImage] = useState<ImageRecord | null>(null);
   const [galleryRevision, setGalleryRevision] = useState(0);
   const [reuseUndo, setReuseUndo] = useState<Draft>();
   const [thumbnailError, setThumbnailError] = useState(false);
   const [thumbnailRetry, setThumbnailRetry] = useState(0);
+  const [migrationSource, setMigrationSource] = useState<{name: string; draft: Record<string, unknown>; schemaVersion?: number} | null>(null);
+  const [storedArchive, setStoredArchive] = useState<Record<string, unknown> | null>(null);
+  const [migrationPurpose, setMigrationPurpose] = useState<"reuse" | "restore">("reuse");
   useEffect(() => {
     const controller = new AbortController();
     setError("");
@@ -65,7 +86,18 @@ export default function App() {
         if (controller.signal.aborted) return;
         if (!Array.isArray(data.categories) || !data.categories.length)
           throw new Error("The attribute library is empty.");
-        setDraft(cleanDraft(readStorage(storageKey), data));
+        const raw = readStorage(storageKey);
+        const restored = cleanDraft(raw, data);
+        if (restored.comparison) {
+          void validateComparisonAnchor(restored.comparison, data).then(valid => {
+            if (controller.signal.aborted) return;
+            if (valid) setDraft(restored);
+            else { const {comparison: _anchor, ...rest} = restored; setDraft(rest); setAnchorError('Stored comparison metadata is stale or unavailable. Review the current group before reapplying it.'); }
+          });
+        } else setDraft(restored);
+        if (raw && typeof raw === "object" && !Array.isArray(raw) && presetApplication(raw as Record<string, unknown>, data).unresolved.length) {
+          setStoredArchive(raw as Record<string, unknown>);
+        }
         libraryRef.current = data;
         setLibrary(data);
         setCategoryId(data.categories[0].id);
@@ -79,6 +111,24 @@ export default function App() {
   useEffect(() => {
     if (!libraryLoaded) return;
     const controller = new AbortController();
+    setVersionError("");
+    api<{ active_version?: number; legacy_version?: number; library_hash?: string; source_control_mode?: string; library?: Library; legacy_library?: Library; historical_library?: Library }>("/api/catalog/versions", {signal: controller.signal})
+      .then(versions => {
+        if (controller.signal.aborted || !libraryRef.current) return;
+        const legacy = versions.historical_library || versions.legacy_library;
+        if (legacy && !Array.isArray(legacy.categories)) throw new Error("Invalid historical catalog vocabulary.");
+        setHistorical(legacy ? historicalLibrary(libraryRef.current, legacy) : historyLibrary(libraryRef.current));
+        setVersions(versions);
+      })
+      .catch(e => {
+        if (controller.signal.aborted) return;
+        if (!(e instanceof ApiError && e.status === 404)) setVersionError(errorMessage(e));
+      });
+    return () => controller.abort();
+  }, [libraryLoaded, versionRetry]);
+  useEffect(() => {
+    if (!libraryLoaded) return;
+    const controller = new AbortController();
     let timer: ReturnType<typeof setTimeout> | undefined;
     let observedVersion = libraryRef.current?.thumbnail_progress?.version;
     async function poll() {
@@ -89,12 +139,12 @@ export default function App() {
         if (!Number.isInteger(status.version) || status.version < 0) throw new Error("Invalid preview status");
         const current = libraryRef.current!;
         const mode = status.mode || (status.status ? "photographic" : "illustrative");
-        if (status.version !== observedVersion || mode !== (current.thumbnail_mode || "illustrative")) {
+        if (status.version !== observedVersion || (current.thumbnail_mode !== "mixed" && mode !== (current.thumbnail_mode || "illustrative"))) {
           const data = await api<Library>("/api/library", { signal: controller.signal, cache: "no-store" });
           if (controller.signal.aborted) return;
           if (!Array.isArray(data.categories) || !data.categories.length) throw new Error("Empty preview library");
           // Preview refreshes replace only the library; the user's draft and navigation stay in place.
-          const next = { ...data, thumbnail_mode: mode, thumbnail_progress: mode === "photographic" ? status : undefined };
+          const next = { ...data, thumbnail_mode: data.thumbnail_mode || mode, thumbnail_progress: mode === "photographic" ? status : undefined };
           libraryRef.current = next;
           setLibrary(next);
         } else if (mode === "photographic") {
@@ -118,8 +168,16 @@ export default function App() {
     return () => { controller.abort(); clearTimeout(timer); };
   }, [libraryLoaded, thumbnailRetry]);
   useEffect(() => {
-    if (library) writeStorage(storageKey, draft);
-  }, [draft, library]);
+    if (library && !storedArchive) writeStorage(storageKey, draft);
+  }, [draft, library, storedArchive]);
+  async function applyReviewedDraft(next: Draft): Promise<boolean> {
+    if (!library) return false;
+    if (next.comparison && !await validateComparisonAnchor(next.comparison, library)) {
+      setAnchorError('Saved comparison metadata is stale or unavailable. Review its current group baseline before applying this preset.');
+      return false;
+    }
+    setAnchorError(''); setDraft(next); return true;
+  }
   function showImage(i: ImageRecord) {
     document
       .querySelectorAll("[data-detail-origin]")
@@ -127,10 +185,21 @@ export default function App() {
     document.activeElement?.setAttribute("data-detail-origin", "true");
     setImage(i);
   }
+  async function refreshCatalog() {
+    setCatalogRefreshError("");
+    try {
+      const data = await api<Library>("/api/library", {cache: "no-store"});
+      if (!Array.isArray(data.categories) || !data.categories.length) throw new Error("The attribute library is empty.");
+      libraryRef.current = data;
+      setLibrary(data);
+      setHistorical(historyLibrary(data));
+    } catch (e) { setCatalogRefreshError(errorMessage(e)); }
+  }
   function changeTab(value: string) {
+    if (value === "comparisons") setReviewVisited(true);
     setTab(value);
     const url = new URL(window.location.href);
-    if (value === "gallery") url.searchParams.set("workspace", "gallery"); else url.searchParams.delete("workspace");
+    if (value !== "studio") url.searchParams.set("workspace", value); else url.searchParams.delete("workspace");
     window.history.replaceState(null, "", url);
   }
   const normalized = query.trim().toLowerCase();
@@ -180,7 +249,7 @@ export default function App() {
             ? "#startup"
             : tab === "studio"
               ? "#studio-content"
-              : "#gallery-content"
+              : tab === "comparisons" ? "#comparisons-content" : "#gallery-content"
         }
         className="skip-link"
       >
@@ -205,6 +274,7 @@ export default function App() {
               <Layers size={15} />
               Gallery
             </Tabs.Trigger>
+            <Tabs.Trigger value="comparisons">Category review</Tabs.Trigger>
           </Tabs.List>
           <span className="topbar-note">
             <span />
@@ -227,6 +297,7 @@ export default function App() {
         ) : (
           <>
             <main aria-label="Creative workspace">
+            {catalogRefreshError && <ErrorNotice message={`Publication succeeded, but updated catalog previews could not be loaded: ${catalogRefreshError}`} retry={() => { void refreshCatalog(); }} />}
             <Tabs.Content forceMount value="studio" tabIndex={-1} className="studio">
               <aside
                 className={`sidebar ${mobileNav ? "mobile-open" : ""}`}
@@ -312,21 +383,25 @@ export default function App() {
                   <p>
                     Build a visual direction, one thoughtful choice at a time.
                   </p>
+                  <p className="catalog-census" aria-label="Catalog counts">{library.categories.length} categories · {library.categories.reduce((n, c) => n + c.attributes.length, 0)} attributes · {library.categories.reduce((n, c) => n + c.attributes.reduce((total, a) => total + a.values.length, 0), 0)} values{versions?.active_version ? ` · Active v${versions.active_version}` : ""}{versions?.legacy_version ? ` · Archived v${versions.legacy_version}` : ""}</p>
                   <div className="hero-actions">
                     <Presets legacy={legacyPresets}
                       library={library}
                       draft={draft}
-                      change={setDraft}
+                      change={next => { void applyReviewedDraft(next); }}
                     />
                     <button
                       className="text-button"
-                      onClick={() => { setDraft({ ...emptyDraft }); setReuseUndo(undefined); }}
+                      onClick={() => { setDraft(cleanDraft(null, library)); setReuseUndo(undefined); }}
                     >
                       <RotateCcw size={14} />
                       Reset composition
                     </button>
                   </div>
                   {reuseUndo && <div className="reuse-notice" role="status">Image selections loaded. Your previous composition is saved for undo. <button className="text-button" onClick={() => { setDraft(reuseUndo); setReuseUndo(undefined); }}>Undo reuse</button></div>}
+                  {storedArchive && <div className="reuse-notice" role="status">Your stored composition contains archived or unsupported controls. Its original cache is retained until you apply a migration.<button className="text-button" onClick={() => { setMigrationPurpose("restore"); setMigrationSource({name: "Stored composition", draft: storedArchive}); }}>Review stored composition</button></div>}
+                  {anchorError && <ErrorNotice message={anchorError} />}
+                  {draft.comparison && <div className="reuse-notice" role="status">Preset anchor: {draft.comparison.category_id} · {draft.comparison.locked_fields.length} reviewed comparison fields. Reference metadata only; not applied to generation.<button className="text-button" onClick={() => { const {comparison: _anchor, ...rest} = draft; setDraft(rest); }}>Remove preset anchor</button></div>}
                   <div className="hero-decoration" aria-hidden="true">
                     <span />
                     <span />
@@ -338,6 +413,7 @@ export default function App() {
                 {selected ? (
                   <LibraryPanel
                     key={selected.id}
+                    library={library}
                     category={selected}
                     draft={draft}
                     change={setDraft}
@@ -353,6 +429,7 @@ export default function App() {
                   </div>
                 )}
               </div>
+              {generationDefaults(draft, library).length > 0 && <p role="note">Generation defaults for unset controls: {generationDefaults(draft, library).join('; ')}. These are applied by the server, including when you add free text.</p>}
               <Generator
                 library={library}
                 draft={draft}
@@ -370,33 +447,37 @@ export default function App() {
             >
               <div id="gallery-content" tabIndex={-1}>{tab === "gallery" && <Gallery
                 library={library}
+                historicalLibrary={historical || historyLibrary(library)}
                 revision={galleryRevision}
                 onImage={showImage}
               />}</div>
+              {versionError && <ErrorNotice message={`Historical catalog unavailable: ${versionError}`} retry={() => setVersionRetry(v => v + 1)} />}
+            </Tabs.Content>
+            <Tabs.Content forceMount value="comparisons" tabIndex={-1} className="comparisons-main">
+              <div id="comparisons-content" tabIndex={-1}>{reviewVisited && <ComparisonReview library={library} onPublished={() => { void refreshCatalog(); }} onSelectAnchor={anchor => {
+                if (validComparison(anchor, library)) void applyReviewedDraft({...draft, comparison: anchor});
+              }} />}</div>
             </Tabs.Content>
             </main>
             <ImageDetail
               image={image}
-              library={library}
+              library={historical || historyLibrary(library)}
               close={() => setImage(null)}
               reuse={(i) => {
-                setReuseUndo(structuredClone(draft));
-                setDraft(
-                  cleanDraft(
-                    {
-                      ...emptyDraft,
-                      selections: i.selections,
-                      aspect_ratio: i.aspect_ratio,
-                      seed: i.selection_sampling_seed ?? i.seed,
-                    },
-                    library,
-                  ),
-                );
-                changeTab("studio");
-                setQuery("");
+                setMigrationPurpose("reuse");
+                const seed = i.selection_sampling_seed ?? i.seed;
+                setMigrationSource({name: "Image selections", draft: {...emptyDraft, selections: i.selections, aspect_ratio: i.aspect_ratio, ...(seed === undefined || seed === null ? {} : {seed})}});
                 setImage(null);
               }}
             />
+            <MigrationReview source={migrationSource} library={library} onCancel={() => setMigrationSource(null)} onApply={async next => {
+              if (!await applyReviewedDraft(next)) { setMigrationSource(null); changeTab('studio'); return; }
+              setReuseUndo(structuredClone(draft));
+              if (migrationPurpose === "restore") setStoredArchive(null);
+              setMigrationSource(null);
+              changeTab("studio");
+              setQuery("");
+            }} />
           </>
         )}
       </Tabs.Root>

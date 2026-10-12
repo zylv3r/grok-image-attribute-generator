@@ -93,7 +93,7 @@ test.describe("Photographic library — simulated API, no provider calls", () =>
     await expect(main.locator('img[src*="svg"], .thumb-fallback')).toHaveCount(0);
     await expect(tone.getByRole("img", { name: "Skin Tone: representative examples" })).toHaveAttribute("src", "/preview-atlases/skin_tone.jpg?v=1");
     await expect(photo).toHaveAttribute("loading", "eager");
-    await expect(tone.getByText("Representative examples", { exact: true })).toBeVisible();
+    await expect(tone.locator('.representative-label')).toHaveText("Generated example");
     const original = tone.getByRole("link", { name: "Open original generated example: Porcelain" });
     await expect(original).toHaveAttribute("href", `/generated/${imageId}.jpg`);
     await expect(ready.getByRole("link")).toHaveCount(0);
@@ -107,7 +107,7 @@ test.describe("Photographic library — simulated API, no provider calls", () =>
     await page.keyboard.press("ArrowRight");
     await expect(pending).toBeFocused();
     await expect(pending).toBeChecked();
-    await expect(main).toContainText("fixed photographic prompt baseline");
+    await expect(main).toContainText("Legacy exploratory samples are independent generations");
     await expect(main).toContainText("Provider variability");
     const axe = await new AxeBuilder({ page }).analyze();
     expect(axe.violations).toEqual([]);
