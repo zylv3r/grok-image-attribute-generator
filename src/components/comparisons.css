@@ -7,7 +7,7 @@
 .comparison-categories button { text-align: left; padding: 12px; border: 1px solid var(--line, #d8d9cd); border-radius: 8px; background: var(--surface, #fff); color: inherit; cursor: pointer; }
 .comparison-categories button[aria-current] { background: #e8edcf; border-color: #687847; color: #23320c; }
 .comparison-categories span, .comparison-table-wrap small { display: block; font-size: 12px; margin-top: 5px; }
-.comparison-category { min-width: 0; }
+.comparison-category { min-width: 0; overflow-wrap: anywhere; }
 .comparison-category-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .comparison-category-heading h2 { margin: 0; }
 .comparison-state { display: inline-block; background: #e4e9d9; color: #2b3d22; border-radius: 20px; padding: 5px 12px; }
@@ -16,7 +16,7 @@
 .comparison-review summary { cursor: pointer; padding: 7px 0; }
 .comparison-evidence { margin-top: 8px; }
 .comparison-evidence pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 320px; overflow: auto; border-radius: 5px; background: #f1f2ec; color: #27311f; padding: 12px; font-size: 12px; }
-.comparison-table-wrap { overflow: auto; }
+.comparison-table-wrap { min-width: 0; max-width: 100%; overflow: auto; }
 .comparison-table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .comparison-table-wrap th, .comparison-table-wrap td { padding: 12px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid #ddd; }
 .comparison-table-wrap th { font-weight: 600; }
@@ -27,20 +27,24 @@
 .comparison-review label, .comparison-dialog label { font-size: 14px; }
 .comparison-attribute-picker { display: flex; gap: 12px; align-items: center; margin-top: 24px; }
 .comparison-review select, .comparison-review input[type=number], .comparison-dialog input[type=number], .comparison-dialog textarea { border: 1px solid #b9c0ac; border-radius: 6px; background: #fff; color: #27311f; padding: 8px; min-height: 38px; max-width: 100%; }
-.comparison-review select { max-width: 100%; }
+/* Native controls must shrink through their grid/flex labels, including the
+   long reference-edit method. Keep borders and padding inside the available width. */
+.comparison-review select, .comparison-review input:not([type=checkbox]):not([type=radio]) { box-sizing: border-box; min-width: 0; max-width: 100%; }
+.comparison-attribute-picker > *, .comparison-mask-layout > *, .comparison-point > *, .comparison-view-controls > label { min-width: 0; }
+.comparison-attribute-picker > select, .comparison-preview-controls select { width: 100%; }
 .comparison-mask-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(220px,.7fr); gap: 20px; }
 .comparison-mask-canvas { position: relative; width: 100%; max-height: none; background: #ecefe6; }
 .comparison-mask-canvas > img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .comparison-mask-svg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
 .comparison-mask-svg circle { cursor: grab; }
 .comparison-point-editor, .comparison-preview-controls { padding: 12px; border: 1px solid #d5d9cd; border-radius: 8px; min-width: 0; }
-.comparison-point-editor legend, .comparison-preview-controls legend { padding: 0 5px; font-weight: 600; }
+.comparison-point-editor legend, .comparison-preview-controls legend { padding: 0 5px; font-weight: 600; max-width: 100%; }
 .comparison-point-editor > p { font-size: 12px; }
 .comparison-point { display: grid; grid-template-columns: 18px minmax(55px,1fr) minmax(55px,1fr) auto; gap: 8px; align-items: end; margin: 10px 0; }
 .comparison-point label { display: grid; gap: 3px; }
 .comparison-point input { width: 100%; }
 .comparison-preview-controls { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
-.comparison-preview-controls > label { display: grid; gap: 7px; max-width: 100%; }
+.comparison-preview-controls > label { display: grid; gap: 7px; min-width: 0; max-width: 100%; }
 .comparison-preview-controls > p { width: 100%; margin: 0; }
 .comparison-warning { background: #f4ebd5; color: #59451d; border-radius: 6px; padding: 12px; }
 .comparison-status { background: #eaf0dd; padding: 12px; border-radius: 6px; }
