@@ -1,0 +1,595 @@
+{
+  "status": "proposal_only_not_approved",
+  "rows": [
+    {
+      "legacy": "hair_color:golden_blonde",
+      "legacy_name": "Golden Blonde",
+      "legacy_steer": "golden blonde hair pigment with warm honey highlights",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:golden_blonde"
+      ],
+      "disclosure": "Legacy raw meanings retained. Golden Blonde honey-highlight wording is archived; the controlled pigment sample must not silently change its saved generation recipe."
+    },
+    {
+      "legacy": "hair_color:light_auburn_copper",
+      "legacy_name": "Muted Light Auburn Copper",
+      "legacy_steer": "muted light auburn copper hair pigment with warm brown undertones",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:light_auburn_copper"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:platinum",
+      "legacy_name": "Platinum",
+      "legacy_steer": "platinum blonde hair pigment with a cool pale finish",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:platinum"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:ash_blonde",
+      "legacy_name": "Ash Blonde",
+      "legacy_steer": "ash blonde hair pigment with subdued gray beige undertones",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:ash_blonde"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:jet_black",
+      "legacy_name": "Jet Black",
+      "legacy_steer": "jet black hair pigment with neutral reflected highlights",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:jet_black"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:espresso",
+      "legacy_name": "Espresso",
+      "legacy_steer": "deep espresso brown hair pigment",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:espresso"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:chestnut",
+      "legacy_name": "Chestnut",
+      "legacy_steer": "chestnut brown hair pigment with subtle reddish warmth",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:chestnut"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:chocolate",
+      "legacy_name": "Chocolate",
+      "legacy_steer": "medium chocolate brown hair pigment",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:chocolate"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:silver",
+      "legacy_name": "Silver",
+      "legacy_steer": "silver gray hair pigment with varied natural strands",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:silver"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:salt_and_pepper",
+      "legacy_name": "Salt And Pepper",
+      "legacy_steer": "intermixed dark and gray hair strands",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "disclosed_recipe",
+      "targets": [
+        "hair_color_treatment:salt_and_pepper_distribution"
+      ],
+      "disclosure": "Original mixed dark/gray pigment is a distribution recipe, not one uniform color. Secondary tones/fraction require confirmation."
+    },
+    {
+      "legacy": "hair_color:copper_red",
+      "legacy_name": "Copper Red",
+      "legacy_steer": "natural copper red hair pigment",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:copper_red"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_color:dark_auburn",
+      "legacy_name": "Dark Auburn",
+      "legacy_steer": "dark auburn hair pigment with wine brown undertones",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_color:dark_auburn"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_style:messy_waves",
+      "legacy_name": "Messy Waves",
+      "legacy_steer": "loosely tousled waves with irregular bends and soft flyaways",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "disclosed_recipe",
+      "targets": [
+        "hair_texture:gentle_waves",
+        "hair_finish:tousled"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:soft_waves",
+      "legacy_name": "Soft Waves",
+      "legacy_steer": "smooth gentle S-shaped waves with natural movement",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_texture:gentle_waves"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:straight",
+      "legacy_name": "Straight",
+      "legacy_steer": "straight hair with aligned strands and slight natural flyaways",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_texture:straight_natural"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:loose_curls",
+      "legacy_name": "Loose Curls",
+      "legacy_steer": "loose separated ringlets with spring and irregular spacing",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_texture:loose_ringlets"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:tight_coils",
+      "legacy_name": "Tight Coils",
+      "legacy_steer": "compact tight coils with natural clustered volume",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_texture:tight_coils"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:sleek_center_part",
+      "legacy_name": "Sleek Center Part",
+      "legacy_steer": "sleek symmetrical center part with aligned side sections",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "disclosed_recipe",
+      "targets": [
+        "hair_parting:center",
+        "hair_finish:sleek"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:side_part",
+      "legacy_name": "Side Part",
+      "legacy_steer": "a clearly offset side part with hair swept across the crown",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "unresolved",
+      "targets": [],
+      "disclosure": "Old side_part does not specify left/right; operator must choose."
+    },
+    {
+      "legacy": "hair_style:braided_crown",
+      "legacy_name": "Braided Crown",
+      "legacy_steer": "a braid arranged around the crown with visible woven strands",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_arrangement:braided_crown"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:low_bun",
+      "legacy_name": "Low Bun",
+      "legacy_steer": "hair gathered into a low rounded bun at the nape",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_arrangement:low_bun"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:high_bun",
+      "legacy_name": "High Bun",
+      "legacy_steer": "hair gathered into a high rounded bun on the crown",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_arrangement:high_bun"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:low_ponytail",
+      "legacy_name": "Low Ponytail",
+      "legacy_steer": "hair gathered into a low ponytail behind the nape",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_arrangement:low_ponytail"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:high_ponytail",
+      "legacy_name": "High Ponytail",
+      "legacy_steer": "hair gathered into a high ponytail with a lifted crown",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_arrangement:high_ponytail"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_style:twin_braids",
+      "legacy_name": "Twin Braids",
+      "legacy_steer": "two balanced woven braids with visible segmented strands",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "move",
+      "targets": [
+        "hair_arrangement:twin_braids"
+      ],
+      "disclosure": "Style components split into canonical controls; original raw preset and gallery meaning are retained."
+    },
+    {
+      "legacy": "hair_length:shaved",
+      "legacy_name": "Shaved",
+      "legacy_steer": "closely shaved scalp with a visible fine hair shadow",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:shaved"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_length:buzz_cut",
+      "legacy_name": "Buzz Cut",
+      "legacy_steer": "very short evenly clipped hair following the skull",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:buzz_cut"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_length:ear_length",
+      "legacy_name": "Ear Length",
+      "legacy_steer": "hair ending at the ears with visible neck",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:ear_length"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_length:chin_length",
+      "legacy_name": "Chin Length",
+      "legacy_steer": "hair ending at the jawline",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:chin_length"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_length:shoulder_length",
+      "legacy_name": "Shoulder Length",
+      "legacy_steer": "hair ending at the shoulder line",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:shoulder_length"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_length:collarbone_length",
+      "legacy_name": "Collarbone Length",
+      "legacy_steer": "hair ending at the collarbones",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:collarbone_length"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_length:mid_back",
+      "legacy_name": "Mid Back",
+      "legacy_steer": "hair extending to the middle of the back",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:mid_back"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_length:waist_length",
+      "legacy_name": "Waist Length",
+      "legacy_steer": "hair extending to the waist with believable weight",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_length:waist_length"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:open_forehead",
+      "legacy_name": "Open Forehead",
+      "legacy_steer": "exposed forehead with hair directed away from the face",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:open_forehead"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:blunt_bangs",
+      "legacy_name": "Blunt Bangs",
+      "legacy_steer": "straight horizontal bangs ending near the eyebrows",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:blunt_bangs"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:curtain_bangs",
+      "legacy_name": "Curtain Bangs",
+      "legacy_steer": "divided curtain bangs curving toward both cheekbones",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:curtain_bangs"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:side_swept_fringe",
+      "legacy_name": "Side Swept Fringe",
+      "legacy_steer": "diagonal side swept fringe across part of the forehead",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:side_swept_fringe"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:wispy_fringe",
+      "legacy_name": "Wispy Fringe",
+      "legacy_steer": "fine separated wisps over the forehead",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:wispy_fringe"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:micro_bangs",
+      "legacy_name": "Micro Bangs",
+      "legacy_steer": "short fringe ending high above the brows",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:micro_bangs"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:curved_fringe",
+      "legacy_name": "Curved Fringe",
+      "legacy_steer": "softly arched fringe following the forehead",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:curved_fringe"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_fringe:face_framing_strands",
+      "legacy_name": "Face Framing Strands",
+      "legacy_steer": "two loose front strands falling beside the cheeks",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_fringe:face_framing_strands"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:none",
+      "legacy_name": "None",
+      "legacy_steer": "hair without decorative accessories",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:none"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:silk_ribbon",
+      "legacy_name": "Silk Ribbon",
+      "legacy_steer": "a narrow opaque silk ribbon tied around the gathered hair",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:silk_ribbon"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:metal_barrette",
+      "legacy_name": "Metal Barrette",
+      "legacy_steer": "a slim brushed metal barrette securing one side section",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:metal_barrette"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:wide_headband",
+      "legacy_name": "Wide Headband",
+      "legacy_steer": "a broad fabric headband across the crown",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:wide_headband"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:small_clips",
+      "legacy_name": "Small Clips",
+      "legacy_steer": "a pair of small geometric hair clips near the temple",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:small_clips"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:scrunchie",
+      "legacy_name": "Scrunchie",
+      "legacy_steer": "a soft gathered fabric scrunchie holding the hair",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:scrunchie"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:decorative_comb",
+      "legacy_name": "Decorative Comb",
+      "legacy_steer": "a small ornamental comb anchored into the hairstyle",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:decorative_comb"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    },
+    {
+      "legacy": "hair_accessory:flower_pin",
+      "legacy_name": "Flower Pin",
+      "legacy_steer": "one restrained flower pin tucked into the hair",
+      "status": "proposal_requires_category_approval",
+      "historical_filter_retained": true,
+      "action": "keep",
+      "targets": [
+        "hair_accessory:flower_pin"
+      ],
+      "disclosure": "No automatic deletion or lossy rewriting."
+    }
+  ],
+  "legacy_value_count": 49,
+  "publication_gate": "All aliases/recipes compatibility-tested before switching Hair catalog pointer; no new IDs active now."
+}

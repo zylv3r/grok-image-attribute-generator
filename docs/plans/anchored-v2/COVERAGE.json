@@ -1,0 +1,686 @@
+{
+  "source_commit": "8d56e43",
+  "current_categories": 22,
+  "current_attributes": 97,
+  "coverage": {
+    "skin_tone": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "freckles": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "micro_texture": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "skin_undertone": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "skin_finish": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "skin",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "hair_color": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "hair_style": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "hair_length": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "hair_fringe": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "hair_accessory": {
+      "owner_category": "hair",
+      "current_category": "hair",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "fabric_color": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "drape_effect": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "high_slit": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "dress_style": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "fabric_material": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "garment_pattern": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "hem_length": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "seam_detail": {
+      "owner_category": "wardrobe",
+      "current_category": "outfit",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "pose": {
+      "owner_category": "poses",
+      "current_category": "pose",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "body_orientation": {
+      "owner_category": "poses",
+      "current_category": "pose",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "head_tilt": {
+      "owner_category": "poses",
+      "current_category": "pose",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "scenery": {
+      "owner_category": "environment_props",
+      "current_category": "scenery",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "ethnic_inspiration": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "phenotype",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "complexion_detail": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "phenotype",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "cheekbones": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "phenotype",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "eye_color": {
+      "owner_category": "eyes",
+      "current_category": "phenotype",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "eyelashes": {
+      "owner_category": "eyes",
+      "current_category": "phenotype",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "facial_balance": {
+      "owner_category": "skin_pigmentation",
+      "current_category": "phenotype",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "silhouette": {
+      "owner_category": "body_avatar",
+      "current_category": "editorial",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "face_direction": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "editorial",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "editorial_mood": {
+      "owner_category": "editorial_recipes",
+      "current_category": "editorial",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "narrative": {
+      "owner_category": "editorial_recipes",
+      "current_category": "editorial",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "camera": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "age": {
+      "owner_category": "identity_controls",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "focal_length": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "aperture": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "shutter_motion": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "grain": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "focus_target": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "white_balance": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "highlight_rolloff": {
+      "owner_category": "photography",
+      "current_category": "technical",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "face_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "brow_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "eye_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "nose_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "lip_shape": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "expression": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "gaze_direction": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "face",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "makeup_finish": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "lip_color": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "eye_makeup": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "blush_placement": {
+      "owner_category": "face_expression_makeup",
+      "current_category": "makeup",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "top_style": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "neckline": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "sleeve_length": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "sleeve_shape": {
+      "owner_category": "wardrobe",
+      "current_category": "tops",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "trouser_cut": {
+      "owner_category": "wardrobe",
+      "current_category": "bottoms",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "skirt_cut": {
+      "owner_category": "wardrobe",
+      "current_category": "bottoms",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "waist_position": {
+      "owner_category": "wardrobe",
+      "current_category": "bottoms",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "outerwear_style": {
+      "owner_category": "wardrobe",
+      "current_category": "outerwear",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "outerwear_length": {
+      "owner_category": "wardrobe",
+      "current_category": "outerwear",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "shoe_style": {
+      "owner_category": "wardrobe",
+      "current_category": "footwear",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "shoe_material": {
+      "owner_category": "wardrobe",
+      "current_category": "footwear",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "jewelry_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "metal_finish": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "bag_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "belt_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "scarf_style": {
+      "owner_category": "wardrobe",
+      "current_category": "accessories",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "body_build": {
+      "owner_category": "body_avatar",
+      "current_category": "body",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "shoulder_shape": {
+      "owner_category": "body_avatar",
+      "current_category": "body",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "light_direction": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "light_quality": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "lighting_pattern": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "fill_ratio": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "practical_light": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "light_temperature": {
+      "owner_category": "lighting_composition",
+      "current_category": "lighting",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "shot_size": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "camera_height": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "subject_placement": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "leading_lines": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "foreground": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "horizon_height": {
+      "owner_category": "lighting_composition",
+      "current_category": "composition",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "ground_surface": {
+      "owner_category": "environment_props",
+      "current_category": "location",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "wall_surface": {
+      "owner_category": "environment_props",
+      "current_category": "location",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "vegetation": {
+      "owner_category": "environment_props",
+      "current_category": "location",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "weather": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "time_of_day": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "wind": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "season": {
+      "owner_category": "environment_props",
+      "current_category": "weather",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "hand_prop": {
+      "owner_category": "environment_props",
+      "current_category": "props",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "seating_prop": {
+      "owner_category": "environment_props",
+      "current_category": "props",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "background_prop": {
+      "owner_category": "environment_props",
+      "current_category": "props",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "eyewear": {
+      "owner_category": "wardrobe",
+      "current_category": "props",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "photo_genre": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "color_grade": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "contrast": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    },
+    "palette": {
+      "owner_category": "photography",
+      "current_category": "style",
+      "status": "unapproved_proposal",
+      "preview_status": "legacy_independent_v1",
+      "requires_operator_confirmation": true
+    }
+  }
+}

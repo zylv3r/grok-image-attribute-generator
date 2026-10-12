@@ -1,0 +1,196 @@
+{
+  "status": "proposal_only_not_approved",
+  "base_color_values": {
+    "blondes": [
+      "platinum",
+      "icy_silver_blonde",
+      "pearl_blonde",
+      "very_light_cream_blonde",
+      "pale_butter_blonde",
+      "pale_champagne_blonde",
+      "rose_champagne_blonde",
+      "light_beige_blonde",
+      "ash_blonde",
+      "sandy_beige_blonde",
+      "light_golden_blonde",
+      "golden_blonde",
+      "medium_honey_blonde",
+      "dark_neutral_blonde",
+      "dark_ash_blonde",
+      "caramel_blonde",
+      "golden_bronde"
+    ],
+    "reds_coppers": [
+      "light_peach_strawberry_blonde",
+      "strawberry_blonde",
+      "dark_strawberry_blonde",
+      "apricot_copper_blonde",
+      "honey_copper_blonde",
+      "bright_ginger",
+      "natural_copper",
+      "deep_copper",
+      "light_auburn_copper",
+      "medium_auburn",
+      "dark_auburn",
+      "copper_red",
+      "mahogany_red",
+      "garnet_red"
+    ],
+    "browns": [
+      "light_brown",
+      "ash_brown",
+      "mushroom_brown",
+      "mocha_brown",
+      "warm_golden_brown",
+      "chestnut",
+      "chocolate",
+      "espresso"
+    ],
+    "blacks": [
+      "soft_black",
+      "jet_black"
+    ],
+    "grays": [
+      "white",
+      "silver",
+      "steel_gray"
+    ]
+  },
+  "counts": {
+    "blondes": 17,
+    "reds_coppers": 14,
+    "browns": 8,
+    "blacks": 2,
+    "grays": 3
+  },
+  "base_color_total": 44,
+  "controls": {
+    "hair_color": {
+      "kind": "exclusive",
+      "preview": "masked_photo_color_transfer",
+      "lock": "hair geometry + all non-hair pixels; hair luminance/chroma may change"
+    },
+    "hair_cut": {
+      "kind": "exclusive",
+      "values": [
+        "one_length",
+        "blunt_bob",
+        "graduated_bob",
+        "stacked_bob",
+        "long_bob",
+        "long_layers",
+        "short_layers",
+        "shag",
+        "wolf_cut",
+        "butterfly_cut",
+        "pixie",
+        "bixie",
+        "hush_cut",
+        "hime_cut",
+        "v_cut",
+        "u_cut",
+        "tapered_cut",
+        "undercut",
+        "mullet",
+        "buzz_cut"
+      ]
+    },
+    "hair_texture": {
+      "kind": "exclusive",
+      "values": [
+        "pin_straight",
+        "straight_natural",
+        "gentle_waves",
+        "pronounced_waves",
+        "beach_waves",
+        "loose_ringlets",
+        "defined_curls",
+        "tight_curls",
+        "tight_coils"
+      ]
+    },
+    "hair_arrangement": {
+      "kind": "exclusive",
+      "values": [
+        "worn_down",
+        "half_up",
+        "half_up_bun",
+        "low_bun",
+        "high_bun",
+        "messy_bun",
+        "low_ponytail",
+        "high_ponytail",
+        "side_ponytail",
+        "bubble_ponytail",
+        "single_braid",
+        "twin_braids",
+        "fishtail_braid",
+        "dutch_braids",
+        "braided_crown",
+        "halo_braid",
+        "french_twist",
+        "chignon",
+        "pinned_updo"
+      ]
+    },
+    "hair_parting": {
+      "kind": "exclusive",
+      "values": [
+        "center",
+        "left",
+        "right",
+        "deep_side",
+        "no_visible_part"
+      ]
+    },
+    "hair_finish": {
+      "kind": "exclusive",
+      "values": [
+        "natural",
+        "sleek",
+        "glossy",
+        "tousled",
+        "airy_volume",
+        "defined_separation"
+      ]
+    },
+    "hair_length": {
+      "kind": "exclusive",
+      "keep_current_ids": true
+    },
+    "hair_fringe": {
+      "kind": "exclusive",
+      "keep_current_ids": true
+    },
+    "hair_accessory": {
+      "kind": "exclusive",
+      "keep_current_ids": true
+    },
+    "hair_color_treatment": {
+      "kind": "recipe",
+      "values": [
+        "uniform",
+        "highlights",
+        "babylights",
+        "lowlights",
+        "balayage",
+        "ombre",
+        "root_shadow",
+        "face_frame_brightening",
+        "salt_and_pepper_distribution"
+      ]
+    }
+  },
+  "legacy_migration_policy": "Retain raw IDs/history; decompose styles only with disclosed recipes; salt_and_pepper remains historical and migrates only to an approved two-tone distribution. Near-duplicate palette candidates must pass pilot separation before publication.",
+  "female_baselines": {
+    "color": "same approved woman, straight collarbone hair, center part, neutral face/gaze, ivory opaque crewneck, gray studio, fixed diffuse light/camera/crop",
+    "geometry": "same approved woman, neutral medium-brown hair, fixed wider crop, same top/scene/lighting; group-specific approved starting cut and old/new hair footprint"
+  },
+  "pilot": {
+    "paid_reference_edit_cap": 3,
+    "deterministic_colour_samples": 6,
+    "no_bulk_generation_before_pilot_acceptance": true,
+    "mask_overlay_review": true,
+    "fork_every_value_from_original_base": true
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "status": "proposal_only_category_unapproved",
+  "expression_source_scope": "Visible movement naming informed by source21, not emotion detection or Action Unit number claims. Steers will define mouth/brow/lid/cheek movement; fixed gaze/head/crop, iris/color and other controls.",
+  "expression_candidates": [
+    "neutral_relaxed",
+    "poised_neutral",
+    "gentle_closed_lip_smile",
+    "warm_closed_lip_smile",
+    "broad_smile",
+    "open_lip_smile",
+    "teeth_visible_smile",
+    "dimpled_smile",
+    "smiling_eyes",
+    "asymmetric_smile",
+    "left_smirk",
+    "right_smirk",
+    "playful_grin",
+    "soft_laugh",
+    "open_laugh",
+    "eyes_closed_laugh",
+    "serene_closed_eyes",
+    "softened_lids",
+    "focused_squint",
+    "smiling_squint",
+    "wide_eyes",
+    "both_brows_raised",
+    "left_brow_raised",
+    "right_brow_raised",
+    "brows_knit",
+    "brow_concentration",
+    "lips_lightly_pressed",
+    "lips_firmly_pressed",
+    "pursed_lips",
+    "slight_pout",
+    "parted_lips",
+    "lower_lip_tucked",
+    "mouth_corners_down",
+    "surprised_open_mouth",
+    "soft_awe",
+    "concerned_brow_mouth",
+    "determined_press",
+    "skeptical_brow",
+    "weary_lids",
+    "melancholic_soft",
+    "hesitant_smile",
+    "left_wink",
+    "right_wink"
+  ],
+  "expression_count": 43,
+  "body_controls": {
+    "frame": [
+      "small",
+      "medium",
+      "broad"
+    ],
+    "stature": [
+      "petite",
+      "average",
+      "tall"
+    ],
+    "fullness": [
+      "slender",
+      "lean",
+      "balanced",
+      "soft_full",
+      "curved_full"
+    ],
+    "muscle_definition": [
+      "smooth",
+      "lightly_toned",
+      "athletically_defined",
+      "strongly_defined",
+      "muscular"
+    ],
+    "shoulder_width": [
+      "narrow",
+      "balanced",
+      "broad"
+    ],
+    "shoulder_slope": [
+      "gentle",
+      "average",
+      "square"
+    ],
+    "waist_definition": [
+      "soft",
+      "moderate",
+      "defined",
+      "strong"
+    ],
+    "hip_breadth": [
+      "narrow",
+      "balanced",
+      "wide"
+    ],
+    "bust_volume": [
+      "very_small",
+      "small",
+      "medium",
+      "moderately_full",
+      "full"
+    ],
+    "thigh_volume": [
+      "slender",
+      "lean",
+      "balanced",
+      "full",
+      "muscular"
+    ],
+    "calf_volume": [
+      "slim",
+      "balanced",
+      "full"
+    ],
+    "leg_torso_balance": [
+      "shorter_legs",
+      "balanced",
+      "longer_legs"
+    ],
+    "torso_length": [
+      "short",
+      "balanced",
+      "long"
+    ],
+    "glute_hip_fullness": [
+      "subtle",
+      "balanced",
+      "full"
+    ]
+  },
+  "body_control_count": 14,
+  "body_values_total": 51,
+  "body_policy": "Same adult woman, opaque fitted neutral outfit and stance; body-caused fit/shadow/occlusion changes explicitly approved. No health/ability/BMI inference, no nude/sexualized comparison frames. Figure/silhouette are disclosed recipes referencing these controls; fitness labels map only to visible muscle appearance."
+}
