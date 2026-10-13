@@ -23,6 +23,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
 from PIL import Image, UnidentifiedImageError
+from prompt_policy import ADULT_AESTHETIC_DIRECTION
 
 from gallery import Gallery, MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, QueueFull, SAFE_PROVIDER_ERROR, save_image
 from presets import Presets, PresetError
@@ -212,7 +213,7 @@ class Catalog:
             for value in attribute['values']:
                 if value['id'] in selections.get(aid, []):
                     parts.append(value['steers'])
-        parts.extend([self.library.get('always_on', ''), extra_prompt])
+        parts.extend([self.library.get('always_on', ''), extra_prompt, ADULT_AESTHETIC_DIRECTION])
         return '. '.join(part.strip().rstrip('.') for part in parts if part.strip())
 
     def preview(self, payload):

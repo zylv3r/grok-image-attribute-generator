@@ -60,6 +60,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from PIL import Image, ImageCms, ImageDraw, ImageFilter, ImageOps
+from prompt_policy import REFERENCE_AESTHETIC_LOCK
 
 
 MAX_BYTES = 32 * 1024 * 1024
@@ -1491,6 +1492,7 @@ class ComparisonStore:
                           '. Keep original dimensions and alpha; modify only approved target footprint. ' +
                           'Footprint normalized polygon: ' + _json(mask_entry['polygon']) +
                           '. Reference SHA256: ' + baseline['sha256'] + '; mask SHA256: ' + mask_entry['sha256'])
+                prompt += '. ' + REFERENCE_AESTHETIC_LOCK
                 receipt['provider_prompt_sha256'] = _hash(prompt.encode())
                 divisor = math.gcd(base.width, base.height)
                 try:

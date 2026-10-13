@@ -260,6 +260,11 @@ class ComparisonTests(unittest.TestCase):
         self.assertEqual(calls[0][1], base)
         self.assertEqual(calls[0][2], 'image/png')
         self.assertIn('bob', calls[0][0].lower())
+        for word in ('cute', 'beautiful', 'gorgeous'):
+            self.assertRegex(calls[0][0], rf'\b{word}\b')
+        self.assertIn('do not reshape or beautify the approved face', calls[0][0])
+        import hashlib
+        self.assertEqual(artifact['receipt']['provider_prompt_sha256'], hashlib.sha256(calls[0][0].encode()).hexdigest())
         self.assertEqual(artifact['receipt']['outside_mask_changed_pixels'], 0)
         self.assertGreater(artifact['receipt']['provider_outside_mask_changed_pixels'], 0)
         self.assertEqual(self.store.review('hair')['budget'], {'cap': 1, 'used': 1})
