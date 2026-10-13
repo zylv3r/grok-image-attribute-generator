@@ -1,5 +1,7 @@
 # Generated photographic library previews
 
+> **Historical V1 rollout, not current V2 coverage.** The 893/893 checkpoint below refers to the frozen V1 catalog. Active Atelier V2 has 1,596 values and remains incomplete: 591 ready legacy photographs, 919 pending, 16 swatches and 70 control-only values. See [the V2 census and approval plan](preview-coverage/PLAN.md). The old worker/run instructions below do not authorize a new batch.
+
 The operator approved generating all **893** value photographs in resumable batches. **97 attribute contact sheets** are derived locally from those photographs, not charged as extra provider generations. Runtime photos and manifests are private local data and excluded from Git.
 
 ## What is real, what is not
