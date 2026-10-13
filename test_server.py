@@ -57,7 +57,8 @@ class PlannerTests(unittest.TestCase):
         self.assertEqual(result['combination_count'], 1)
         plan = result['plans'][0]
         self.assertEqual(plan['selections'], {'color': ['red'], 'lock': ['off'], 'pose': ['a', 'b']})
-        self.assertEqual(plan['prompt'], 'Authoritative realism. red garment. soft skin. standing. smiling. opaque fabric. garden')
+        from prompt_policy import ADULT_AESTHETIC_DIRECTION
+        self.assertEqual(plan['prompt'], 'Authoritative realism. red garment. soft skin. standing. smiling. opaque fabric. garden. ' + ADULT_AESTHETIC_DIRECTION)
 
     def test_seeded_distinct_variations_honor_locks_and_whitelist_subsets(self):
         payload = {'mode': 'variations', 'n': 12, 'seed': 42, 'selections': {'lock': ['on']},
