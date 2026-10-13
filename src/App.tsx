@@ -39,13 +39,18 @@ import { MigrationReview } from "./components/MigrationReview";
 function PhotographicProgress({ library }: { library: Library }) {
   const progress = library.thumbnail_progress;
   const attrs = library.categories.flatMap((category) => category.attributes);
-  const sheets = progress?.attribute_completed ?? attrs.filter((attr) => attr.thumbnail_status === "ready" && /^\/preview-atlases\/[a-zA-Z0-9_-]+\.jpg$/.test(attr.thumbnail_url || "")).length;
-  const total = progress?.total ?? 893;
-  const completed = progress?.value_completed ?? 0;
+  const values = attrs.flatMap(attr => attr.values);
+  const sheets = progress?.attribute_completed ?? attrs.filter((attr) => attr.thumbnail_status === "ready" && /^\/preview-atlases\/[a-zA-Z0-9_-]+\.jpg(?:\?v=\d+)?$/.test(attr.thumbnail_url || "")).length;
+  const total = progress?.total ?? values.length;
+  const completed = progress?.value_completed ?? values.filter(value => value.thumbnail_status === "ready").length;
+  const pending = values.filter(value => value.thumbnail_status === "pending").length;
+  const swatches = values.filter(value => value.thumbnail_status === "swatch").length;
+  const controlOnly = values.filter(value => value.thumbnail_status === "control_only").length;
   const state = progress?.status || "running";
   return <section className="photographic-progress" aria-label="Photographic preview progress">
     <p role="status">Real photo values {completed}/{total} · Contact sheets {sheets}/{attrs.length}<span className="preview-generation-state">{state === "running" ? "Generating" : state === "completed" ? "Completed" : state === "paused" ? "Paused" : "Generation needs attention"}{progress?.failed ? ` · ${progress.failed} failed` : ""}</span></p>
     <progress value={completed} max={total} aria-label="Photographic value preview progress" />
+    {library.thumbnail_mode === "mixed" && <p>{pending} pending · {swatches} swatches · {controlOnly} control-only</p>}
     <p>Legacy exploratory samples are independent generations. Provider variability can change subjects and other details. Controlled comparisons require a reviewed baseline, masks, receipts and category publication.</p>
   </section>;
 }
@@ -408,7 +413,7 @@ export default function App() {
                     <span />
                   </div>
                 </div>
-                {library.thumbnail_mode === "photographic" && <PhotographicProgress library={library} />}
+                {(library.thumbnail_mode === "photographic" || library.thumbnail_mode === "mixed") && <PhotographicProgress library={library} />}
                 {thumbnailError && <div className="preview-update-notice" role="status"><span>Preview updates are temporarily unavailable. You can keep composing.</span><button className="text-button" onClick={() => setThumbnailRetry((value) => value + 1)}>Reload previews</button></div>}
                 {selected ? (
                   <LibraryPanel
@@ -418,7 +423,7 @@ export default function App() {
                     draft={draft}
                     change={setDraft}
                     query={categoryOnlyMatch ? "" : query}
-                    photographic={library.thumbnail_mode === "photographic"}
+                    photographic={library.thumbnail_mode === "photographic" || library.thumbnail_mode === "mixed"}
                   />
                 ) : (
                   <div className="empty-state">

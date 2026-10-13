@@ -68,7 +68,7 @@ export function rangeValueId(attr: Attribute, value: number): string | undefined
   return attr.values.find(v => v.id === `${attr.id}_${value}`)?.id;
 }
 export function previewLabel(fields: ThumbnailFields): string {
-  if (fields.thumbnail_source === "legacy_independent" || fields.preview_method === "legacy_independent_photo") return "Independent generated example";
+  if (fields.thumbnail_source === "legacy_independent" || fields.preview_method === "legacy_independent_photo") return "Legacy independent example";
   if (fields.preview_method?.includes("simulat") || fields.preview_method?.includes("optical") || fields.preview_method?.includes("crop")) return "Simulated comparison";
   if (fields.thumbnail_source === "approved_comparison" || fields.preview_method === "approved_comparison") return "Approved controlled comparison";
   return "Generated example";
