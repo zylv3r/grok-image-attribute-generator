@@ -5,13 +5,13 @@
   "status": "working_set_not_locked",
   "identity_reference_selected": true,
   "future_image_model": "grok-imagine-image-2.0",
-  "keywords": ["age 21", "cute", "beautiful", "gorgeous", "delicate", "elegant", "basic"],
+  "keywords": ["age 21", "cute", "sweet", "beautiful", "gorgeous", "stunning", "lovely", "delicate", "elegant", "refined", "graceful", "luminous", "fine-boned", "poised", "basic"],
   "canonical_face": "face_front.jpg",
   "canonical_body": "body_front.jpg",
   "overview": "sheet.jpg",
   "caveats": [
     "Working set, not locked. Overwrite this latest folder until the character is locked.",
-    "Adult 21. Face direction is very attractive, delicate, and elegant.",
+    "Adult 21. Face direction is cute, sweet, beautiful, gorgeous, stunning, delicate, elegant, refined, and fine-boned.",
     "Head angles are reference edits on grok-imagine-image-quality. Imagine 2.0 is text-to-image only in Hermes.",
     "The full-body face follows the portrait by description. It is not a pixel lock."
   ],
