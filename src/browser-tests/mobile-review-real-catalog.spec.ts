@@ -48,6 +48,7 @@ async function setup(page: Page) {
     if (url.pathname === '/api/catalog/versions') return route.fulfill({ json: {
       active_version: 2, legacy_version: 1, library: catalog, historical_library: legacyLibrary,
     } });
+    if (url.pathname === '/api/base-persona') return route.fulfill({ json: { available: false } });
     if (url.pathname === '/api/presets') return route.fulfill({ json: { presets: [] } });
     if (url.pathname === '/api/gallery') return route.fulfill({ json: { items: [], page: 1, page_size: 24, total: 0, pages: 0 } });
     if (url.pathname === '/api/thumbnail-status') return route.fulfill({ status: 404, json: { error: 'No photographic preview worker in this fixture' } });

@@ -57,6 +57,18 @@ Receipts disclose optics assumptions: FoV is fixed-camera crop/resample without 
 
 The library labels approved comparisons, compatible legacy independent photos, swatches, control-only values and pending/review-required thumbnails. Independent generations can change identity and other details and are never relabeled controlled. Publication projects only selected valid group attribute/value targets; tampered provenance is withheld. Legacy photographic manifests/contact sheets remain historical sources, not permission to regenerate v2. See [legacy photographic previews](docs/PHOTOGRAPHIC_PREVIEWS.md).
 
+## Saved persona reference and image policy
+
+The Studio displays the user-selected **Persona B reference v1**, with its reference-sheet PDF, canonical face/body originals and explicit limitations. `base-personas/current.json` pins the versioned manifest hash; assets are allowlisted, hash-checked and decoded before serving. The retained pack contains 35 assets and 17 selected views. New iterations must use a new version rather than overwrite originals.
+
+- `GET /api/base-persona` returns the selected reference metadata and asset URLs.
+- `GET /base-personas/<id>/v<revision>/<asset>` serves only allowlisted assets from the selected version.
+- `GET /api/image-policy` reports the enforced `grok-imagine-image-2.0` generation and reference-edit model, with no legacy fallback. Historical assets retain their actual source-model metadata.
+- Saving a persona does not automatically supply it to ordinary text-to-image generation. Reference edits explicitly supply original bytes; group masks, pilots and publication still need their own approvals.
+- The exact right-facing profile remains unresolved, some poses/angles are approximate and macro views are reconstructions. These limitations remain visible in the app.
+
+Read-only desktop/mobile acceptance: `node acceptance/saved_base_live.mjs`. It checks the real running app at 1440, 390 and 320 pixels, all asset responses, decoded/visible reference-sheet pixels, policy metadata, visible caveats and page overflow. It makes no provider calls or approval writes.
+
 ## Requirements and startup
 
 Use the existing Hermes Python environment with Pillow and requests, plus Node/npm for the UI build. From a WSL/Linux terminal:

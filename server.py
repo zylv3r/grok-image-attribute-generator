@@ -24,6 +24,8 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 from PIL import Image, UnidentifiedImageError
 from prompt_policy import ADULT_AESTHETIC_DIRECTION
+from image_policy import IMAGE_MODEL, image_policy
+import persona_base
 
 from gallery import Gallery, MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, QueueFull, SAFE_PROVIDER_ERROR, save_image
 from presets import Presets, PresetError
@@ -359,7 +361,7 @@ def generate_native_image(prompt: str, aspect_ratio: str) -> tuple[str, str]:
     if not bearer:
         raise RuntimeError('No Hermes xAI OAuth credentials are available')
     config = load_config().get('image_gen', {}).get('xai', {})
-    model = str(config.get('model') or 'grok-imagine-image-quality')
+    model = IMAGE_MODEL
     resolution = str(config.get('resolution') or '1k')
     response = requests.post(
         f"{str(credentials.get('base_url') or 'https://api.x.ai/v1').rstrip('/')}/images/generations",
@@ -427,7 +429,7 @@ def edit_native_image(prompt: str, image_bytes: bytes, mime: str, aspect_ratio: 
         bearer = str(credentials.get('api_key') or '').strip()
         if not bearer:
             raise ValueError('credentials unavailable')
-        model = str(load_config().get('image_gen', {}).get('xai', {}).get('edit_model') or 'grok-imagine-image-2.0')
+        model = IMAGE_MODEL
         body = {'model': model, 'prompt': prompt, 'response_format': 'b64_json',
                 'image': {'url': 'data:' + actual_mime + ';base64,' + base64.b64encode(image_bytes).decode('ascii'),
                           'type': 'image_url'}}
@@ -1203,6 +1205,19 @@ class AppHandler(BaseHTTPRequestHandler):
             self._guard()
             parsed = urlparse(self.path)
             path = unquote(parsed.path)
+            if path == '/api/base-persona':
+                self._json(200, persona_base.summary(self.app.root))
+                return
+            if path == '/api/image-policy':
+                self._json(200, image_policy())
+                return
+            if path.startswith('/base-personas/'):
+                try:
+                    raw, media_type = persona_base.asset(self.app.root, path[len('/base-personas/'):])
+                except (ValueError, OSError):
+                    raise APIError(404, 'persona asset unavailable')
+                self._send(200, raw, media_type)
+                return
             if path == '/api/presets':
                 self._json(200, {'presets': self.app.presets.list()})
                 return

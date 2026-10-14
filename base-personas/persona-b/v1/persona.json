@@ -1,0 +1,430 @@
+{
+  "id": "persona-b",
+  "revision": 1,
+  "title": "Persona B \u2014 selected iterative reference base",
+  "selected_at": "2026-10-14T02:32:28.066247+00:00",
+  "selection_note": "User: Save this as the base (we will keep iterating); always use Imagine 2.0, not old.",
+  "status": "user_selected_reference_set_for_iteration",
+  "identity_reference_selected": true,
+  "controlled_masks_approved": false,
+  "comparison_publication_approved": false,
+  "future_image_model": "grok-imagine-image-2.0",
+  "keywords": [
+    "beautiful",
+    "gorgeous",
+    "stunning",
+    "lean",
+    "cute"
+  ],
+  "canonical_face": "originals/v2-front_master.jpg",
+  "canonical_face_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+  "canonical_body": "originals/r2-body_front_A.jpg",
+  "canonical_body_sha256": "b1c120151822a0210f1bb7dd5b583d61fc130f3cea4cea3a32d44453155df957",
+  "overview": "sheets/01-master-sheet.jpg",
+  "pdf": "Persona-B-comprehensive-reference-sheet.pdf",
+  "selected_views": {
+    "front": "originals/r2-body_front_A.jpg",
+    "left_body": "originals/v3-body_side_left.jpg",
+    "right_body": "originals/image2-body_side_right.jpg",
+    "back": "originals/v3-body_back.jpg",
+    "rear_oblique": "originals/r2-body_rear_three_quarter.jpg",
+    "face_front": "originals/v2-front_master.jpg",
+    "face_left_three_quarter": "originals/v2-three_quarter_left.jpg",
+    "face_right_three_quarter": "originals/v2-three_quarter_right.jpg",
+    "face_left_profile": "originals/v2-profile_left.jpg",
+    "face_right_near_profile": "originals/r2-face_profile_right_true.jpg",
+    "smile": "originals/v3-expression_soft_smile.jpg",
+    "happy": "originals/v3-expression_happy.jpg",
+    "focused": "originals/v3-expression_focused.jpg",
+    "concerned": "originals/v3-expression_concerned.jpg",
+    "eye": "originals/v3-detail_eye.jpg",
+    "hand": "originals/v3-detail_hand.jpg",
+    "shoes": "originals/v3-detail_shoes.jpg"
+  },
+  "caveats": [
+    "Exact high-detail right-facing head profile remains held; near-profile is not 90 degrees.",
+    "Front A-stance and rear-oblique angles are approximate; toes remain slightly splayed.",
+    "Macro and hidden-side details are reference-conditioned reconstructions, not recovered original pixels.",
+    "Existing source models are preserved honestly; selecting this base does not relabel old assets Imagine 2.0.",
+    "No group crop/mask/contract/pilot/expansion/publication approval is inferred from reference selection."
+  ],
+  "iteration_rule": "Never overwrite v1 originals. New iterations get a new version and explicit selection.",
+  "source_reference_rule": "Future persona/group views must actually supply selected original bytes as reference; later controlled values fork from approved immutable group originals, not prior variants.",
+  "assets": {
+    "originals/v2-front_master.jpg": {
+      "sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": null,
+      "method": "initial_text_to_image",
+      "asset_key": "v2-front_master"
+    },
+    "originals/v2-three_quarter_left.jpg": {
+      "sha256": "1c05a8ce16b70c8b358385abe6f170507a7e22867a202a642cc899b17b5c5c28",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v2-three_quarter_left"
+    },
+    "originals/v2-three_quarter_right.jpg": {
+      "sha256": "f390dad8a30899a9a91372ae883b9277b96819da84d2e069f601d4439cf6459e",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v2-three_quarter_right"
+    },
+    "originals/v2-profile_left.jpg": {
+      "sha256": "dc0aac531d1d6339c620eb8d410e2010d149a3c8b4e160f62046327dec1e283c",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v2-profile_left"
+    },
+    "originals/v2-profile_right.jpg": {
+      "sha256": "4ded01541b6ddf59196086d594b08c1d36037aac01e4fd08ae52ea31872425a5",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v2-profile_right"
+    },
+    "originals/v2-full_body.jpg": {
+      "sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v2-full_body"
+    },
+    "originals/v3-body_back.jpg": {
+      "sha256": "d8b0f50b4bcfeafcaf274174a9861e7c2687eccdcbfa0286b52c604a9ca9012a",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-body_back"
+    },
+    "originals/v3-body_front_A.jpg": {
+      "sha256": "b29e404cf7db802da06663f2b50b582de3ace0d9826e165060ad28004caef06e",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-body_front_A"
+    },
+    "originals/v3-body_rear_three_quarter.jpg": {
+      "sha256": "e978ceccdb3a53f57ea7e0316766a0ac9d5d6893def61519f269873ee8e4de2c",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-body_rear_three_quarter"
+    },
+    "originals/v3-body_side_left.jpg": {
+      "sha256": "5f0397accf6ed3d640483fb7868b7b8fe0ba6ba06ef4ee68751739ff91abbeff",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-body_side_left"
+    },
+    "originals/v3-body_side_right.jpg": {
+      "sha256": "b1631ce65693ecc4f3af4e90b6ed710f3d21f3a29aa9c1e9887f4a17f225b29c",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-body_side_right"
+    },
+    "originals/v3-detail_eye.jpg": {
+      "sha256": "d0ee612d57fae7f73b6c8da5908702fbdae7dc490a5d132a7c62c5f117fd0c52",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-detail_eye"
+    },
+    "originals/v3-detail_hand.jpg": {
+      "sha256": "cc750f099b685a1bd6d7c225e00de1bbd6694d86e4745a82c672a025960bf0f7",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-detail_hand"
+    },
+    "originals/v3-detail_shoes.jpg": {
+      "sha256": "31c15c0f1a6df33e63ae6b5b2a34cefc776a2d1629f65efa5512f57c14fca06c",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-detail_shoes"
+    },
+    "originals/v3-expression_concerned.jpg": {
+      "sha256": "e81ae4f79e344bb2746fdb0a694c9c42420da09573cbb89e1ad0710064c8ed54",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-expression_concerned"
+    },
+    "originals/v3-expression_focused.jpg": {
+      "sha256": "1099fee1c3aba135e470b498137bc92eb9651f17ee68e9b090198c1915613454",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-expression_focused"
+    },
+    "originals/v3-expression_happy.jpg": {
+      "sha256": "f7b9fdfd9789b44f57ba882eb73c45baa2570f082eb8f46cb5d2f7dab343a969",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-expression_happy"
+    },
+    "originals/v3-expression_soft_smile.jpg": {
+      "sha256": "8677b5a4a60d163aa1a7ec0ae7067640953088c3229a291e5e602197aae18134",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-expression_soft_smile"
+    },
+    "originals/v3-face_profile_right_true.jpg": {
+      "sha256": "d5f6a4e230a02be9f6b268f380296093cf1a6b002def22b5bcd247b13ae0cf08",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "v3-face_profile_right_true"
+    },
+    "originals/r2-body_front_A.jpg": {
+      "sha256": "b1c120151822a0210f1bb7dd5b583d61fc130f3cea4cea3a32d44453155df957",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "r2-body_front_A"
+    },
+    "originals/r2-body_rear_three_quarter.jpg": {
+      "sha256": "465d22ff8ae974c3a061aaddbfa5a7fb085e19999b3b1a06af8548fb5c38cb60",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "r2-body_rear_three_quarter"
+    },
+    "originals/r2-body_side_right.jpg": {
+      "sha256": "236cb6c7c47f8b9350a849ea7abd63bd8a613352606765e033550e5b204dc7e2",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "r2-body_side_right"
+    },
+    "originals/r2-face_profile_right_true.jpg": {
+      "sha256": "c3cdd3bddf08293272c8101908619d3a2296297a24a3af0eacbb9749853d1300",
+      "kind": "original",
+      "source_model": "grok-imagine-image",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "r2-face_profile_right_true"
+    },
+    "originals/image2-body_side_right.jpg": {
+      "sha256": "4e9617c3e5656c223acc969466a4676ba35e11a76d485abc7e981396579439ff",
+      "kind": "original",
+      "source_model": "grok-imagine-image-2.0",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": true,
+      "reference_sha256": "ebfacffcc148b65f1f37377dc8ed8e5632ad50ad1f0e107a02e52c5bbc89b2da",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "image2-body_side_right"
+    },
+    "originals/image2-face_profile_right_true.jpg": {
+      "sha256": "b1bddfb187616e63a8173e80b51f5d8d66534b4422831c65620d4bb1663488f1",
+      "kind": "original",
+      "source_model": "grok-imagine-image-2.0",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "selected_view": false,
+      "reference_sha256": "435fc5e8760d9b06c972b0e564e90359725fc39918535fbac25f7c183c7b3d3f",
+      "method": "reference_conditioned_candidate",
+      "asset_key": "image2-face_profile_right_true"
+    },
+    "sheets/01-master-sheet.jpg": {
+      "sha256": "400ccfb079e47cdc0a71933ad85d4bfe3f2562f77056359e3008b13c8d4fa756",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "sheets/02-body-turnaround.jpg": {
+      "sha256": "d195601d288caf3f48052b5da12048b6dcfd70d60d5ad5416aeba797bf835251",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "sheets/03-head-face-reference.jpg": {
+      "sha256": "373b1f592f1339d274ebee929661cc9b4380939b4f304e176717f7afc236e5f2",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "sheets/04-expression-sheet.jpg": {
+      "sha256": "2d6386e2c66965aa3e860df38d98466552034a07ef315c69e08c99c61e358108",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "sheets/05-detail-surface-studies.jpg": {
+      "sha256": "8ced32c0d6f001af83257afdf0b25f337ce78bca6323627081352207c6e272dc",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "sheets/06-outfit-color-reference.jpg": {
+      "sha256": "cbe5f82e627b7d1dabafc96edabe8d143cff782d02141164a6333f0f72a81ff3",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "sheets/07-held-render-appendix.jpg": {
+      "sha256": "05d7042475c7d7b056c7389899c61dd55fd347ae2c72c9ae31d3380251c07747",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "sheets/08-usage-provenance.jpg": {
+      "sha256": "0ae30fee15e7a8071dfffcaec7459e3d7761f584bc6b80d2e1e20b34e72a2a15",
+      "kind": "locally_composed_sheet",
+      "source_model": null
+    },
+    "Persona-B-comprehensive-reference-sheet.pdf": {
+      "sha256": "4165648504983d94b53da184b60996b57d4cd94fc5ef5f670e713c58e3852547",
+      "kind": "reference_document",
+      "source_model": null
+    },
+    "review.json": {
+      "sha256": "a75f0e1f22b6f757cb5a7e127b8614bd0f5f0c9292667c897a7828925538b95d",
+      "kind": "qa_record",
+      "source_model": null
+    }
+  }
+}
