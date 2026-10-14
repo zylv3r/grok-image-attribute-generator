@@ -5,15 +5,15 @@
   "status": "working_set_not_locked",
   "identity_reference_selected": true,
   "future_image_model": "grok-imagine-image-2.0",
-  "keywords": ["age 21", "catwalk", "sensual", "alluring", "flirty", "attractive", "elegant", "beautiful", "gorgeous", "stunning", "hourglass", "lifted nose", "slight smile", "basic"],
+  "keywords": ["age 21", "fair skin", "attractive", "beautiful", "gorgeous", "elegant", "slim", "natural bust", "thin waist", "wider hips", "lifted nose", "basic"],
   "canonical_face": "face_front.jpg",
   "canonical_body": "body_front.jpg",
   "overview": "sheet.jpg",
   "caveats": [
     "Working set, not locked. Overwrite this latest folder until the character is locked.",
-    "Adult 21. Catwalk-model presence: sensual, alluring, and flirty, with a lifted nose, a slight smile, and a noticeable hourglass. Plain studio clothes, no jewelry.",
-    "Head angles are reference edits on grok-imagine-image-quality. Imagine 2.0 is text-to-image only in Hermes.",
-    "The full-body face follows the portrait by description. It is not a pixel lock."
+    "Adult 21. Fair skin, the same face, a resting expression. Slim figure with a natural bust, a thinner waist, and slightly wider hips. Fitted ivory tee and charcoal trousers.",
+    "The front face, body, and head angles are reference edits on grok-imagine-image-quality so the skin tone stays the same.",
+    "Imagine 2.0 remains the text-to-image model. This pass used reference edits so the skin would not drift."
   ],
   "iteration_rule": "Keep a single latest set and overwrite it until lock. The sheet URL renders from the current view files.",
   "selected_views": {
@@ -25,8 +25,8 @@
     "face_right_profile": "face_right_profile.jpg"
   },
   "assets": {
-    "face_front.jpg": {"kind": "original", "source_model": "grok-imagine-image-2.0"},
-    "body_front.jpg": {"kind": "original", "source_model": "grok-imagine-image-2.0"},
+    "face_front.jpg": {"kind": "original", "source_model": "grok-imagine-image-quality"},
+    "body_front.jpg": {"kind": "original", "source_model": "grok-imagine-image-quality"},
     "face_left_three_quarter.jpg": {"kind": "original", "source_model": "grok-imagine-image-quality"},
     "face_right_three_quarter.jpg": {"kind": "original", "source_model": "grok-imagine-image-quality"},
     "face_left_profile.jpg": {"kind": "original", "source_model": "grok-imagine-image-quality"},
