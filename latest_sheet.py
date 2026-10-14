@@ -21,18 +21,18 @@ CARD = (255, 252, 247)
 FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 FONT_BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 SWATCHES = (
-    ('face_front.jpg', (0.44, 0.38), 'Skin'),
-    ('face_front.jpg', (0.34, 0.34), 'Hair'),
-    ('face_front.jpg', (0.40, 0.42), 'Iris'),
-    ('face_front.jpg', (0.50, 0.90), 'Ivory'),
-    ('body_front.jpg', (0.54, 0.70), 'Charcoal'),
-    ('body_front.jpg', (0.42, 0.92), 'Flats'),
+    ('face_front.jpg', (0.48, 0.38), 'Skin'),
+    ('face_front.jpg', (0.32, 0.32), 'Hair'),
+    ('face_front.jpg', (0.38, 0.42), 'Iris'),
+    ('face_front.jpg', (0.48, 0.90), 'Ivory'),
+    ('body_front.jpg', (0.56, 0.68), 'Charcoal'),
+    ('body_front.jpg', (0.52, 0.93), 'Flats'),
     ('face_front.jpg', (0.08, 0.08), 'Studio'),
 )
 LOCKS = (
-    '21-year-old adult',
+    '21-year-old adult catwalk model',
     'Center-part chestnut bob, warm brown eyes, light freckles',
-    'Slight closed-mouth smile, lifted nose, fine-boned face',
+    'Slight smile, lifted nose, direct gaze',
     'Ivory crew tee, charcoal trousers, dark closed flats',
     'No jewelry. Light gray studio. Noticeable hourglass.',
 )
@@ -131,8 +131,8 @@ def render_latest_sheet(folder):
     draw.text((28, 24), 'PERSONA B', fill=INK, font=title)
     status = 'LATEST   ·   NOT LOCKED'
     draw.text((WIDTH - 28 - draw.textlength(status, font=eyebrow), 32), status, fill=MUTED, font=eyebrow)
-    draw.text((28, 58), 'Elegant, beautiful, gorgeous, stunning, refined, lovely', fill=MUTED, font=sub)
-    draw.text((28, 78), 'Slight smile, lifted nose, delicate, fine-boned, hourglass', fill=MUTED, font=sub)
+    draw.text((28, 58), 'Sensual, alluring, flirty, gorgeous, stunning, elegant', fill=MUTED, font=sub)
+    draw.text((28, 78), 'Catwalk model, slight smile, lifted nose, hourglass', fill=MUTED, font=sub)
     draw.line((28, 104, WIDTH - 28, 104), fill=RULE, width=1)
 
     body_fill = _sample(sources['body_front.jpg'], (0.06, 0.06))
