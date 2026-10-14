@@ -1,0 +1,2 @@
+# Preserve generated reference documents byte-for-byte; PDFs are not source text.
+*.pdf binary
