@@ -36,6 +36,7 @@ import { ErrorNotice } from "./components/UI";
 import { Presets } from "./components/Presets";
 import { ComparisonReview } from "./components/Comparisons";
 import { MigrationReview } from "./components/MigrationReview";
+import { SavedBasePersona } from "./components/SavedBasePersona";
 function PhotographicProgress({ library }: { library: Library }) {
   const progress = library.thumbnail_progress;
   const attrs = library.categories.flatMap((category) => category.attributes);
@@ -413,6 +414,7 @@ export default function App() {
                     <span />
                   </div>
                 </div>
+                <SavedBasePersona />
                 {(library.thumbnail_mode === "photographic" || library.thumbnail_mode === "mixed") && <PhotographicProgress library={library} />}
                 {thumbnailError && <div className="preview-update-notice" role="status"><span>Preview updates are temporarily unavailable. You can keep composing.</span><button className="text-button" onClick={() => setThumbnailRetry((value) => value + 1)}>Reload previews</button></div>}
                 {selected ? (
