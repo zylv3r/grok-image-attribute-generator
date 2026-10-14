@@ -59,13 +59,14 @@ The library labels approved comparisons, compatible legacy independent photos, s
 
 ## Saved persona reference and image policy
 
-The Studio displays the user-selected **Persona B reference v1**, with its reference-sheet PDF, canonical face/body originals and explicit limitations. `base-personas/current.json` pins the versioned manifest hash; assets are allowlisted, hash-checked and decoded before serving. The retained pack contains 35 assets and 17 selected views. New iterations must use a new version rather than overwrite originals.
+The Studio displays **Persona B latest**, one overwriteable working set. `base-personas/current.json` points at `persona-b/latest/persona.json`. View files in that folder are served live. `sheet.jpg` is rendered from those views on each request, so the same URL shows the current character after a refresh. Numbered packs such as v1 stay on disk and are not the served set. A numbered pack, if selected again, remains hash-pinned.
 
 - `GET /api/base-persona` returns the selected reference metadata and asset URLs.
-- `GET /base-personas/<id>/v<revision>/<asset>` serves only allowlisted assets from the selected version.
+- `GET /base-personas/persona-b/latest/sheet.jpg` is the stable sheet to keep open.
+- `GET /base-personas/<id>/latest/<asset>` serves allowlisted files from the working set. `GET /base-personas/<id>/v<revision>/<asset>` still serves a hash-pinned pack when that pack is the selection.
 - `GET /api/image-policy` reports the enforced `grok-imagine-image-2.0` generation and reference-edit model, with no legacy fallback. Historical assets retain their actual source-model metadata.
 - Saving a persona does not automatically supply it to ordinary text-to-image generation. Reference edits explicitly supply original bytes; group masks, pilots and publication still need their own approvals.
-- The exact right-facing profile remains unresolved, some poses/angles are approximate and macro views are reconstructions. These limitations remain visible in the app.
+- The latest sheet states its own limits: the set is not locked, angles are quality-model edits, and the body face is not a pixel lock to the portrait.
 
 Read-only desktop/mobile acceptance: `node acceptance/saved_base_live.mjs`. It checks the real running app at 1440, 390 and 320 pixels, all asset responses, decoded/visible reference-sheet pixels, policy metadata, visible caveats and page overflow. It makes no provider calls or approval writes.
 

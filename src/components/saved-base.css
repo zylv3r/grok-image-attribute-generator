@@ -5,7 +5,7 @@
   border-radius: 12px;
   background: #f6f3ed;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 240px);
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
   color: #30352f;
 }
@@ -19,7 +19,7 @@
 .saved-base ul { padding-left: 20px; }
 .saved-base-mode { border-top: 1px solid #d6d1c7; padding-top: 12px; }
 .saved-base-preview { display: block; align-self: start; }
-.saved-base-preview img { display: block; width: 100%; height: auto; object-fit: contain; border-radius: 6px; }
+.saved-base-preview img { display: block; width: 100%; max-width: 1100px; height: auto; object-fit: contain; border-radius: 6px; }
 @media (max-width: 700px) {
   .saved-base { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 16px; }
   .saved-base-preview { width: 100%; max-width: 360px; justify-self: center; }

@@ -1,6 +1,5 @@
 {
   "id": "persona-b",
-  "revision": 1,
-  "manifest": "persona-b/v1/persona.json",
-  "manifest_sha256": "a01370fe85c4390b7c03229f77c1135e4bc4ee1c2420aacbbfa404974da95834"
+  "slot": "latest",
+  "manifest": "persona-b/latest/persona.json"
 }

@@ -1042,14 +1042,16 @@ class AppHandler(BaseHTTPRequestHandler):
         # Avoid logging user prompts/query strings or provider exception details.
         pass
 
-    def _send(self, status, raw, content_type):
+    def _send(self, status, raw, content_type, cache_control=None):
         self.send_response(status)
         self.send_header('Content-Type', content_type)
         self.send_header('Content-Length', str(len(raw)))
         self.send_header('X-Content-Type-Options', 'nosniff')
         if content_type == 'image/svg+xml':
             self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'none'; sandbox")
-        self.send_header('Cache-Control', 'no-store' if content_type.startswith('application/json') else 'no-cache')
+        if cache_control is None:
+            cache_control = 'no-store' if content_type.startswith('application/json') else 'no-cache'
+        self.send_header('Cache-Control', cache_control)
         self.end_headers()
         if self.command != 'HEAD':
             self.wfile.write(raw)
@@ -1216,7 +1218,7 @@ class AppHandler(BaseHTTPRequestHandler):
                     raw, media_type = persona_base.asset(self.app.root, path[len('/base-personas/'):])
                 except (ValueError, OSError):
                     raise APIError(404, 'persona asset unavailable')
-                self._send(200, raw, media_type)
+                self._send(200, raw, media_type, 'no-store')
                 return
             if path == '/api/presets':
                 self._json(200, {'presets': self.app.presets.list()})
